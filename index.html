@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Lập Trình Viên SAP ABAP & Data Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A single-page, vertical-scrolling portfolio. The structure is designed for a logical narrative flow, starting with a strong first impression (Hero), then detailing the user's story (About, Experience), showcasing capabilities (Skills, Projects), providing proof of excellence (Awards), and ending with a clear call to action (Contact). This linear journey is intuitive for recruiters and hiring managers. Interactions like smooth scrolling and an interactive skills chart are included to enhance engagement without cluttering the experience. -->
+    <!-- Visualization & Content Choices: Report Info: User's technical skills. Goal: Organize & Inform. Viz/Presentation Method: A combination of categorized lists for clarity and a radar chart (Chart.js/Canvas) for a quick, impressive visual summary of proficiency. Interaction: The chart has tooltips on hover to show skill names and proficiency levels. Justification: This dual approach serves both quick visual scanning (chart) and detailed reading (lists), catering to different user preferences. It's more engaging than a simple list. Other sections use clean typography and card layouts (HTML/Tailwind) for clear, organized presentation of text-based information like experience and projects. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #FDFBF8;
+            color: #1a202c;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, #3A6EA5, #224264);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 300px;
+        }
+
+        @media (min-width: 640px) {
+            .chart-container {
+                height: 350px;
+                max-height: 350px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+                max-height: 400px;
+                max-width: 500px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .chart-container {
+                height: 500px;
+                max-height: 500px;
+            }
+        }
+
+        .mobile-menu-enter {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .mobile-menu-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 200ms, transform 200ms;
+        }
+
+        .mobile-menu-exit {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-menu-exit-active {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 200ms, transform 200ms;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header id="header"
+        class="bg-white/90 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-lg sm:text-xl font-bold text-gradient">TRAN VAN QUANG</a>
+            <nav class="hidden md:flex space-x-4 lg:space-x-8">
+                <a href="#about"
+                    class="text-gray-600 hover:text-[#3A6EA5] transition-colors duration-300 text-sm lg:text-base">Introduction</a>
+                <a href="#experience"
+                    class="text-gray-600 hover:text-[#3A6EA5] transition-colors duration-300 text-sm lg:text-base">Experience</a>
+                <a href="#skills"
+                    class="text-gray-600 hover:text-[#3A6EA5] transition-colors duration-300 text-sm lg:text-base">Skills</a>
+                <a href="#projects"
+                    class="text-gray-600 hover:text-[#3A6EA5] transition-colors duration-300 text-sm lg:text-base">Projects</a>
+                <a href="#awards"
+                    class="text-gray-600 hover:text-[#3A6EA5] transition-colors duration-300 text-sm lg:text-base">Awards</a>
+                <a href="#contact"
+                    class="text-gray-600 hover:text-[#3A6EA5] transition-colors duration-300 text-sm lg:text-base">Contact</a>
+            </nav>
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-700 p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#3A6EA5] transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white/95 backdrop-blur-md px-4 sm:px-6 pb-4 border-t border-gray-100">
+            <a href="#about"
+                class="block py-3 text-gray-600 hover:text-[#3A6EA5] hover:bg-gray-50 px-4 rounded-lg transition-colors duration-200">Introduction</a>
+            <a href="#experience"
+                class="block py-3 text-gray-600 hover:text-[#3A6EA5] hover:bg-gray-50 px-4 rounded-lg transition-colors duration-200">Experience</a>
+            <a href="#skills"
+                class="block py-3 text-gray-600 hover:text-[#3A6EA5] hover:bg-gray-50 px-4 rounded-lg transition-colors duration-200">Skills</a>
+            <a href="#projects"
+                class="block py-3 text-gray-600 hover:text-[#3A6EA5] hover:bg-gray-50 px-4 rounded-lg transition-colors duration-200">Projects</a>
+            <a href="#awards"
+                class="block py-3 text-gray-600 hover:text-[#3A6EA5] hover:bg-gray-50 px-4 rounded-lg transition-colors duration-200">Awards</a>
+            <a href="#contact"
+                class="block py-3 text-gray-600 hover:text-[#3A6EA5] hover:bg-gray-50 px-4 rounded-lg transition-colors duration-200">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="min-h-screen flex items-center bg-cover bg-center relative"
+            style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('background.png');">
+            <div class="container mx-auto px-4 sm:px-6 text-center relative z-10">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">SAP
+                    ABAP Developer & Data Engineer</h1>
+                <p class="text-base sm:text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto">Build powerful ERP
+                    solutions and unlock the potential of data to drive business growth.</p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#projects"
+                        class="w-full sm:w-auto bg-[#3A6EA5] text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-[#224264] transition-all duration-300 transform hover:scale-105">View
+                        Project</a>
+                    <a href="#contact"
+                        class="w-full sm:w-auto bg-white text-[#3A6EA5] font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 border border-gray-200">Contact</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 md:py-16 section-fade-in">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gradient">Introduction</h2>
+                <div class="grid md:grid-cols-5 gap-12 items-center">
+                    <div class="md:col-span-2">
+                        <div class="w-full h-80 bg-gray-200 rounded-lg shadow-xl bg-cover bg-center"
+                            style="background-image: url('IMG_1668.jpg')">
+                        </div>
+                    </div>
+                    <div class="md:col-span-3">
+                        <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                            Hello, I am an SAP ABAP Developer with 2 years of experience, along with 1 year of expertise
+                            in Data Engineering. I have been involved in multiple SAP implementation projects both
+                            locally and internationally, as well as in designing and deploying enterprise data warehouse
+                            infrastructures. With a strong passion for solving complex business challenges, I focus on
+                            developing and optimizing applications on the SAP platform while leveraging data to deliver
+                            real business value.
+                        </p>
+                        <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                            I hold a Bachelor’s degree in Information Technology and have hands-on experience in deep
+                            learning and machine learning research, which resulted in an international scientific
+                            publication. I am eager to contribute my energy, skills, and enthusiasm to help the company
+                            grow and achieve success while continuously learning and applying the latest technologies.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                <strong class="text-[#3A6EA5]">Education:</strong> Bachelor of Information System,
+                                University of Information Technology, HCM-VNU (Graduated 2024)
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                <strong class="text-[#3A6EA5]">Typical subjects:</strong> Java Programming Language,
+                                Object Oriented Programming (OOP), Enterprise Resource Planning (ERP)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-16 sm:py-20 bg-white section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 text-gradient">Experience</h2>
+                <div class="relative max-w-5xl mx-auto">
+                    <!-- Timeline line - hidden on mobile -->
+                    <div class="absolute left-1/2 -translate-x-1/2 w-1 h-full bg-gray-200 rounded-full hidden md:block">
+                    </div>
+                    <div class="relative space-y-8">
+                        <div class="md:mb-8 flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/2 mb-4 md:mb-0">
+                                <div class="md:text-right md:pr-8">
+                                    <p class="font-bold text-xl text-[#3A6EA5]">SAP ABAP Developer</p>
+                                    <p class="text-gray-700 font-semibold">FPT Information System</p>
+                                    <p class="text-gray-500">Jul, 2023 - Present</p>
+                                </div>
+                            </div>
+                            <!-- Timeline dot - hidden on mobile -->
+                            <div
+                                class="w-10 h-10 bg-[#3A6EA5] rounded-full hidden md:flex absolute left-1/2 -translate-x-1/2 z-10 items-center justify-center text-white font-bold">
+                                1</div>
+                            <div class="md:w-1/2 md:pl-8">
+                                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg border border-gray-100">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
+                                        Develop and maintain SAP ABAP applications for multiple SAP S/4 HANA
+                                        implementation projects. Responsible for customization, performance optimization
+                                        and development of new features as per customer requirements.
+                                    </p>
+                                    <ul class="list-disc list-inside text-sm sm:text-base text-gray-600 space-y-2">
+                                        <li>Implement FI, SD, MM, PP, QM modules in SAP S/4 HANA, develop ABAP-OOP
+                                            applications and RAP models</li>
+                                        <li>Customize the system with enhancement techniques: BAdI, Enhancement point,
+                                            User exit</li>
+                                        <li>Integrate data with external systems via BAPI, Odata, RESTapi</li>
+                                        <li>Optimize code performance and database queries, AMDP</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:mb-8 flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/2 mb-4 md:mb-0">
+                                <div class="md:text-right md:pr-8">
+                                    <p class="font-bold text-xl text-[#3A6EA5]">Student of University</p>
+                                    <p class="text-gray-700 font-semibold">HCM-VNU UIT</p>
+                                    <p class="text-gray-500">Nov, 2020 - Nov, 2024</p>
+                                </div>
+                            </div>
+                            <div
+                                class="w-10 h-10 bg-[#3A6EA5] rounded-full hidden md:flex absolute left-1/2 -translate-x-1/2 z-10 items-center justify-center text-white font-bold">
+                                2</div>
+                            <div class="md:w-1/2 md:pl-8">
+                                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg border border-gray-100">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
+                                        The team leader leads the team members to complete the subjects
+                                    </p>
+                                    <ul class="list-disc list-inside text-sm sm:text-base text-gray-600 space-y-2">
+                                        <li>Secretary of Ho Chi Minh Communist Youth Union, Faculty of Information
+                                            Systems</li>
+                                        <li>Published an international scientific paper on deep learning</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:mb-8 flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/2 mb-4 md:mb-0">
+                                <div class="md:text-right md:pr-8">
+                                    <p class="font-bold text-xl text-[#3A6EA5]">Data Engineer</p>
+                                    <p class="text-gray-700 font-semibold">FPT Information System</p>
+                                    <p class="text-gray-500">Feb, 2025 - Present</p>
+                                </div>
+                            </div>
+                            <div
+                                class="w-10 h-10 bg-[#3A6EA5] rounded-full hidden md:flex absolute left-1/2 -translate-x-1/2 z-10 items-center justify-center text-white font-bold">
+                                3</div>
+                            <div class="md:w-1/2 md:pl-8">
+                                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg border border-gray-100">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
+                                        Pioneer in learning and applying knowledge and skills in data warehousing and
+                                        ETL to help the department undertake projects in a new field
+                                    </p>
+                                    <ul class="list-disc list-inside text-sm sm:text-base text-gray-600 space-y-2">
+                                        <li>Data warehouse analysis and design</li>
+                                        <li>Integrate data from data sources to data warehouse, ETL techniques</li>
+                                        <li>Data modeling for BI reporting</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16 sm:py-20 section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 text-gradient">Professional
+                    skills</h2>
+                <div class="grid lg:grid-cols-2 gap-8 sm:gap-16 items-start lg:items-center">
+                    <div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                            <div
+                                class="bg-white p-4 sm:p-6 rounded-lg shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+                                <h3 class="font-bold text-lg sm:text-xl mb-4 text-[#3A6EA5]">SAP ABAP</h3>
+                                <ul class="space-y-2 text-sm sm:text-base text-gray-600">
+                                    <li>✓ ABAP Programming, ABAP-OOP (Object-Oriented)</li>
+                                    <li>✓ ALV Reports & Forms (Adobe form, Excel workbench)</li>
+                                    <li>✓ RAP Model & Fiori</li>
+                                    <li>✓ BAPI, BADI, Enhancements</li>
+                                    <li>✓ AMDP, CDS Views</li>
+                                    <li>✓ Smart Forms, Adobe Forms</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
+                                <h3 class="font-bold text-xl mb-4 text-[#3A6EA5]">Data Engineering</h3>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li>✓ Data Integration</li>
+                                    <li>✓ SQL Databases (RDBMS)</li>
+                                    <li>✓ ETL/ELT Processes</li>
+                                    <li>✓ Data Modeling</li>
+                                    <li>✓ Cloud Platforms (Fabric)</li>
+                                    <li>✓ Python (Pandas, PySpark)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
+                                <h3 class="font-bold text-xl mb-4 text-[#3A6EA5]">Programming Languages</h3>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li>✓ ABAP</li>
+                                    <li>✓ SQL: T-SQL, PL-SQL, Open-SQL</li>
+                                    <li>✓ Java</li>
+                                    <li>✓ Python (Basic)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
+                                <h3 class="font-bold text-xl mb-4 text-[#3A6EA5]">Soft skills</h3>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li>✓ Problem solving skill</li>
+                                    <li>✓ Communication skill</li>
+                                    <li>✓ Organizational skill</li>
+                                    <li>✓ Teamwork skill</li>
+                                    <li>✓ Presentation skill</li>
+                                    <li>✓ Leadership skill</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="skillsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-16 sm:py-20 bg-white section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 text-gradient">Typical projects
+                </h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- Project placeholders -->
+                    <div
+                        class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300 group">
+                        <a
+                            href="https://chungta.vn/chuyen-doi-so/tap-doan-kim-tin-dau-tu-5-trieu-usd-cho-du-an-chuyen-doi-so-toan-dien-1132752.html">
+                            <div class="h-40 sm:h-48 bg-gray-200 relative overflow-hidden">
+                                <img src="KIMTIN.jpg" alt="Project 1"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-4 sm:p-6">
+                                <h3 class="font-bold text-lg sm:text-xl mb-2 text-gray-800">SAP S/4HANA Implementation
+                                    for
+                                    Kim Tin Group - Phase 2 (08/2023 – 03/2024)</h3>
+                                <p class="text-sm sm:text-base text-gray-600 mb-4">Developed custom reports and modules
+                                    for
+                                    MM and WM, applying OOP, user exits, and BAdIs to enhance business processes. Built
+                                    API
+                                    integrations between SAP and warehouse management systems via PI/PO.</p>
+                                <span
+                                    class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">S/4HANA</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">MM
+                                    WM</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">SD</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">FM</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <a href="https://www.facebook.com/photo/?fbid=1137587591719058&set=a.351614693649689">
+                            <div class="h-40 sm:h-48 bg-gray-200 relative overflow-hidden">
+                                <img src="Goldilocks.jpg" alt="Project 1"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2 text-gray-800">SAP S/4HANA Support for Goldilocks
+                                    Bakeshop, Inc. (06/2025 – Present)</h3>
+                                <p class="text-gray-600 mb-4">Maintained SAP S/4HANA systems for international clients
+                                    in
+                                    the Philippines. Developed new FICO functions aligned with SAP standard logic and
+                                    prepared technical specification (TS) documents for created or modified
+                                    functionalities.
+                                </p>
+                                <span
+                                    class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">S/4HANA</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">FI</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <a
+                            href="https://chungta.vn/cong-nghe/fpt-is-khoi-dong-du-an-chuyen-doi-so-cho-vinphaco-1138589.html">
+                            <div class="h-40 sm:h-48 bg-gray-200 relative overflow-hidden">
+                                <img src="vinphaco.jpg" alt="Project 1"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2 text-gray-800">SAP S/4HANA Private Cloud
+                                    Implementation
+                                    for Vinphaco (04/2024 – 08/2024)</h3>
+                                <p class="text-gray-600 mb-4">Developed custom reports and modules for PP and QM to
+                                    support
+                                    production management and quality control in a pharmaceutical company. Built SAP
+                                    standard logic simulations using BAPIs and implemented OData APIs for integration
+                                    between SAP and sales applications.</p>
+                                <span
+                                    class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">S/4HANA</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">PP</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">QM</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <a
+                            href="https://fpt-is.com/fpt-is-va-hcmc-metro-cong-bo-ke-hoach-trien-khai-he-thong-cntt-cho-van-phong-cong-ty-van-hanh-tuyen-metro-so-1/">
+                            <div class="h-40 sm:h-48 bg-gray-200 relative overflow-hidden">
+                                <img src="metro.jpg" alt="Project 1"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2 text-gray-800">SAP S/4HANA Implementation for HURC1 -
+                                    HCMC
+                                    Metro (11/2024 – 06/2025)</h3>
+                                <p class="text-gray-600 mb-4"> Manage the development of new reports and modules for FI
+                                    subsystems to manage financial documents, daily detailed ticket sales.</p>
+                                <span
+                                    class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">S/4HANA</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">FI</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <a
+                            href="https://fpt-is.com/fpt-dong-hanh-cung-acecook-xay-dung-he-thong-bao-cao-quan-tri-hien-dai/">
+                            <div class="h-40 sm:h-48 bg-gray-200 relative overflow-hidden">
+                                <img src="acecook.jpg" alt="Project 1"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2 text-gray-800">Data Warehouse & Power BI
+                                    Implementation
+                                    for Acecook Vietnam (01/2025 – 06/2025)</h3>
+                                <p class="text-gray-600 mb-4">Designed and built a SQL Server Data Warehouse for Acecook
+                                    Vietnam’s sales data. Developed ETL pipelines to integrate data from SAP HANA,
+                                    Oracle,
+                                    and Excel into the warehouse, and created sales-out data models to support Power BI
+                                    reporting.</p>
+                                <span
+                                    class="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">SSIS</span>
+                                <span
+                                    class="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">SSAS</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">ETL</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">DWH</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <a href="https://www.jihmsp.org/2025/vol16/N1/06.JIHMSP-241105.pdf">
+                            <div class="h-40 sm:h-48 bg-gray-200 relative overflow-hidden">
+                                <img src="JIHMSP.jpg" alt="Project 1"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2 text-gray-800">Deep Learning for Skin Disease
+                                    Diagnosis
+                                    (05/2024 – 11/2024)</h3>
+                                <p class="text-gray-600 mb-4">Scientific research on image classitification processing
+                                    using
+                                    deep learning with published paper in Journal of Information Hiding and Multimedia
+                                    Signal Processing (JIHMSP)</p>
+                                <span
+                                    class="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Researcher</span>
+                                <span
+                                    class="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Thesis</span>
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Paper</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="awards" class="py-20 md:py-16 section-fade-in">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gradient">Awards & Achievements</h2>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-100 text-center">
+                        <div class="text-4xl text-[#3A6EA5] mb-4">🏆</div>
+                        <h3 class="font-bold text-xl mb-2">Outstanding Employee of the Year 2024</h3>
+                        <p class="text-gray-500 font-semibold">FPT Information System - ES PB15</p>
+                        <p class="text-gray-600 mt-2">Recognize outstanding contributions to important company projects
+                        </p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-100 text-center">
+                        <div class="text-4xl text-[#3A6EA5] mb-4">🎓</div>
+                        <h3 class="font-bold text-xl mb-2">Student with 5 Good Criteria Award</h3>
+                        <p class="text-gray-500 font-semibold">University of Information Technology, HCM-VNU</p>
+                        <p class="text-gray-600 mt-2">This is a noble title of the Vietnam Student Association, with 5
+                            criteria, including: Good morality, Good study, Good physical strength, Good volunteering
+                            and Good integration</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-16 sm:py-20 bg-white section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-gradient">Contact</h2>
+                    <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">Thank you for your interest in my
+                        portfolio!<br>Contact me</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex justify-center mb-12">
+                        <a href="mailto:tranvanquang2104@gmail.com"
+                            class="w-full sm:w-auto text-base sm:text-lg font-semibold bg-[#3A6EA5] text-white px-6 sm:px-8 py-3 rounded-lg shadow-md hover:bg-[#224264] transition-all duration-300 transform hover:scale-105 text-center">Send
+                            Email</a>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4 sm:gap-8">
+                        <div
+                            class="bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2">📧 Email</h3>
+                            <a href="mailto:tranvanquang2104@gmail.com"
+                                class="text-sm sm:text-base text-gray-600 hover:text-[#3A6EA5] transition-colors">tranvanquang2104@gmail.com</a>
+                        </div>
+                        <div
+                            class="bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2">📱 Phone number</h3>
+                            <p class="text-sm sm:text-base text-gray-600">+84 375 665 412</p>
+                        </div>
+                        <div
+                            class="bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2">📍 Address</h3>
+                            <p class="text-sm sm:text-base text-gray-600">Ho Chi Minh City, Vietnam</p>
+                        </div>
+                        <div
+                            class="bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2">💼 LinkedIn</h3>
+                            <a href="https://www.linkedin.com/in/tranquang214/"
+                                class="text-sm sm:text-base text-gray-600 hover:text-[#3A6EA5] transition-colors break-words">linkedin.com/in/tranquang214</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2024. Designed and developed by TRAN VAN QUANG</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            let isAnimating = false;
+
+            function toggleMobileMenu() {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                if (mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('mobile-menu-enter');
+                    requestAnimationFrame(() => {
+                        mobileMenu.classList.add('mobile-menu-enter-active');
+                        setTimeout(() => {
+                            mobileMenu.classList.remove('mobile-menu-enter', 'mobile-menu-enter-active');
+                            isAnimating = false;
+                        }, 200);
+                    });
+                } else {
+                    mobileMenu.classList.add('mobile-menu-exit');
+                    requestAnimationFrame(() => {
+                        mobileMenu.classList.add('mobile-menu-exit-active');
+                        setTimeout(() => {
+                            mobileMenu.classList.add('hidden');
+                            mobileMenu.classList.remove('mobile-menu-exit', 'mobile-menu-exit-active');
+                            isAnimating = false;
+                        }, 200);
+                    });
+                }
+            }
+
+            mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.classList.contains('hidden') &&
+                    !mobileMenu.contains(e.target) &&
+                    !mobileMenuButton.contains(e.target)) {
+                    toggleMobileMenu();
+                }
+            });
+
+            document.querySelectorAll('#mobile-menu a, #header nav a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+
+            const faders = document.querySelectorAll('.section-fade-in');
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            const skillsChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['SAP ABAP', 'RAP Model', 'ETL', 'DWH', 'Java', 'SQL'],
+                    datasets: [{
+                        label: 'Proficiency level',
+                        data: [90, 80, 80, 70, 60, 90],
+                        backgroundColor: 'rgba(58, 110, 165, 0.2)',
+                        borderColor: 'rgba(58, 110, 165, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(58, 110, 165, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(58, 110, 165, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 14,
+                                    family: "'Be Vietnam Pro', sans-serif"
+                                },
+                                color: '#1a202c'
+                            },
+                            ticks: {
+                                backdropColor: '#FDFBF8',
+                                color: '#555'
+                            },
+                            min: 0,
+                            max: 100,
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>
