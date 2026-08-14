@@ -1,0 +1,85 @@
+{
+  "name": "Tran Van Quang",
+  "shortName": "Quang Tran",
+  "role": "SAP Technical Consultant",
+  "roleLong": "SAP Technical Consultant · ABAP / RAP / Data Integration",
+  "tagline": "I build custom SAP S/4HANA solutions and the data pipelines around them — from ABAP objects and RAP business objects to warehouses that feed the reports leadership actually reads.",
+  "summary": [
+    "SAP ABAP Developer with 3 years of hands-on experience in SAP S/4HANA, specializing in custom development, system integration, and performance optimization. I have delivered 60+ reports and enhancements across MM, SD, FI, FM, WM, PP and QM, and contributed to large-scale S/4HANA implementation projects for manufacturing, pharmaceutical, retail and public-transport clients.",
+    "Alongside ABAP, I work on the data side: designing warehouses, building ETL pipelines with SSIS and SAP CI-DS, and modelling data for BI. That combination lets me carry a requirement end to end — from the business process inside SAP all the way to the number on a dashboard."
+  ],
+  "location": "Ho Chi Minh City, Vietnam",
+  "email": "tranvanquang2104@gmail.com",
+  "phone": "+84 375 665 412",
+  "phoneHref": "+84375665412",
+  "linkedin": "https://www.linkedin.com/in/tranquang214/",
+  "linkedinLabel": "linkedin.com/in/tranquang214",
+  "photo": "assets/img/portrait.jpg",
+  "heroImage": "assets/img/background.png",
+  "lastUpdated": "June 2026",
+  "stats": [
+    { "value": "3+", "label": "Years in SAP S/4HANA" },
+    { "value": "60+", "label": "Custom objects delivered" },
+    { "value": "10+", "label": "Implementation projects" },
+    { "value": "2", "label": "SAP certifications" }
+  ],
+  "education": {
+    "degree": "Bachelor's Degree in Information Systems",
+    "school": "University of Information Technology, VNU-HCM",
+    "period": "11/2020 – 11/2024",
+    "location": "Ho Chi Minh City, Vietnam",
+    "focus": "Enterprise Resource Planning, Databases, Object-Oriented Programming, Deep Learning"
+  },
+  "certifications": [
+    {
+      "name": "SAP Certified Associate — Back-End Developer, ABAP Cloud",
+      "code": "C_ABAPD",
+      "issuer": "SAP",
+      "date": "16 April 2026"
+    },
+    {
+      "name": "SAP Certified Associate — Data Analyst, SAP Analytics Cloud",
+      "code": "C_SAC",
+      "issuer": "SAP",
+      "date": "17 April 2026"
+    }
+  ],
+  "publication": {
+    "title": "A Classification Method based on Concatenation Features for Diagnosing Skin Diseases",
+    "journal": "Journal of Information Hiding and Multimedia Signal Processing (JIHMSP)",
+    "authors": "Tran Van Quang, MSc. Duong Phi Long, Eng. Pham Nguyen Thanh Binh",
+    "year": "2025",
+    "volume": "Vol. 16, No. 1",
+    "url": "https://bit.kuas.edu.tw/2025/vol16/N1/06.JIHMSP-241105.pdf"
+  },
+  "languages": [
+    { "name": "Vietnamese", "level": "Native" },
+    { "name": "English", "level": "Professional working proficiency" }
+  ],
+  "organizations": [
+    {
+      "id": "laidon",
+      "name": "Laidon Group",
+      "short": "LAIDON",
+      "kind": "Company",
+      "period": "05/2026 – Present",
+      "blurb": "SAP Technical Consultant. Master data governance, RAP business objects and integration between SAP BTP and SAP ERP."
+    },
+    {
+      "id": "fis",
+      "name": "FPT Information System",
+      "short": "FPT IS",
+      "kind": "Company",
+      "period": "07/2023 – 04/2026",
+      "blurb": "SAP ABAP Developer, then Data Engineer. Ten S/4HANA implementation and maintenance projects across manufacturing, pharma, retail and public transport."
+    },
+    {
+      "id": "uit",
+      "name": "University of Information Technology, VNU-HCM",
+      "short": "UIT",
+      "kind": "University",
+      "period": "11/2020 – 11/2024",
+      "blurb": "Information Systems undergraduate. Deep-learning research with an international publication, plus student-union leadership."
+    }
+  ]
+}
