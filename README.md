@@ -5,13 +5,17 @@ dependencies, no build tooling beyond Python 3.
 
 Live: <https://tranquanguit.github.io/portfolio>
 
+Deploying it — including on your own domain — is covered in [DEPLOY.md](DEPLOY.md).
+No server is required.
+
 ## How it works
 
 All content lives in `content/`. A single script turns it into the HTML pages
 at the repository root.
 
 ```
-content/site.json          profile, contact, stats, education, certifications, organizations
+content/site.json          profile, contact, stats, education, certifications, organizations,
+                           and the public URL (siteUrl / customDomain)
 content/experience/*.md    one file per role      → /experience/<slug>.html
 content/projects/*.md      one file per project   → /projects/<slug>.html
 content/skills/*.md        one file per skill     → /skills/<slug>.html

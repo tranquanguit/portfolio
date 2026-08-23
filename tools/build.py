@@ -24,10 +24,16 @@ import sys
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
+# Public location of the site. Both are set from content/site.json at build
+# time — `siteUrl` drives canonical links and the sitemap, `ROOT_PATH` is the
+# path the site is served under ("/" on a custom domain, "/portfolio/" on a
+# github.io project page).
 SITE_URL = "https://tranquanguit.github.io/portfolio"
+ROOT_PATH = "/portfolio/"
 
 SECTIONS = {
     "projects": {"title": "Projects", "blurb": "Client work, grouped by where it was delivered."},
@@ -1072,7 +1078,7 @@ def build_404(site: dict) -> str:
     <p class="eyebrow" style="justify-content:center">Error 404</p>
     <h1>This page does not exist</h1>
     <p class="text-muted" style="margin:1rem 0 2rem">The link may be out of date, or the story has not been published yet.</p>
-    <a class="btn btn--primary" href="/portfolio/">Back to the portfolio {ICONS['arrow']}</a>
+    <a class="btn btn--primary" href="{ROOT_PATH}">Back to the portfolio {ICONS['arrow']}</a>
   </div>
 </section>"""
     return page(site, title=f"Not found — {site['name']}", description="Page not found.", body=body)
@@ -1091,8 +1097,15 @@ def build_sitemap(urls: list[str]) -> str:
 # ---------------------------------------------------------------------------
 
 def main() -> int:
+    global SITE_URL, ROOT_PATH
+
     site = json.loads((CONTENT / "site.json").read_text(encoding="utf-8"))
     orgs = {o["id"]: o for o in site["organizations"]}
+
+    domain = str(site.get("customDomain", "")).strip().strip("/")
+    SITE_URL = f"https://{domain}" if domain else str(site.get("siteUrl", SITE_URL)).rstrip("/")
+    path = urlsplit(SITE_URL).path.rstrip("/")
+    ROOT_PATH = f"{path}/" if path else "/"
 
     data = {section: load_entries(section) for section in SECTIONS}
 
@@ -1120,6 +1133,14 @@ def main() -> int:
     write("404.html", build_404(site))
     write("sitemap.xml", build_sitemap([p for p in written if p.endswith(".html") and p != "404.html"]))
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+
+    # GitHub Pages reads CNAME to serve the site from a custom domain. Keeping it
+    # generated means the domain lives in site.json rather than only in settings.
+    if domain:
+        write("CNAME", domain + "\n")
+    elif (ROOT / "CNAME").exists():
+        (ROOT / "CNAME").unlink()
+
     (ROOT / ".nojekyll").touch()
 
     print(f"Built {len(written)} files:")
