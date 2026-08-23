@@ -1,5 +1,7 @@
 {
   "name": "Tran Van Quang",
+  "siteUrl": "https://quangtv.com",
+  "customDomain": "quangtv.com",
   "shortName": "Quang Tran",
   "role": "SAP Technical Consultant",
   "roleLong": "SAP Technical Consultant · ABAP / RAP / Data Integration",
@@ -18,10 +20,22 @@
   "heroImage": "assets/img/background.png",
   "lastUpdated": "June 2026",
   "stats": [
-    { "value": "3+", "label": "Years in SAP S/4HANA" },
-    { "value": "60+", "label": "Custom objects delivered" },
-    { "value": "10+", "label": "Implementation projects" },
-    { "value": "2", "label": "SAP certifications" }
+    {
+      "value": "3+",
+      "label": "Years in SAP S/4HANA"
+    },
+    {
+      "value": "60+",
+      "label": "Custom objects delivered"
+    },
+    {
+      "value": "10+",
+      "label": "Implementation projects"
+    },
+    {
+      "value": "2",
+      "label": "SAP certifications"
+    }
   ],
   "education": {
     "degree": "Bachelor's Degree in Information Systems",
@@ -53,8 +67,14 @@
     "url": "https://bit.kuas.edu.tw/2025/vol16/N1/06.JIHMSP-241105.pdf"
   },
   "languages": [
-    { "name": "Vietnamese", "level": "Native" },
-    { "name": "English", "level": "Professional working proficiency" }
+    {
+      "name": "Vietnamese",
+      "level": "Native"
+    },
+    {
+      "name": "English",
+      "level": "Professional working proficiency"
+    }
   ],
   "organizations": [
     {

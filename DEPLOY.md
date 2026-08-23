@@ -1,0 +1,174 @@
+# Deploy
+
+The site is plain static HTML. It needs **no server, no Node, no database** —
+only a host that serves files. GitHub Pages does this for free, including HTTPS
+on a custom domain.
+
+Current setup: repository `tranquanguit/portfolio` → GitHub Pages →
+**https://quangtv.com**
+
+---
+
+## Part 1 — GitHub side (already done in this repo)
+
+`content/site.json` carries the domain:
+
+```json
+"siteUrl": "https://quangtv.com",
+"customDomain": "quangtv.com",
+```
+
+`python3 tools/build.py` uses those to generate the `CNAME` file, the canonical
+links, `robots.txt` and `sitemap.xml`. All of it is committed.
+
+The only manual step left on GitHub:
+
+1. Repository → **Settings** → **Pages**
+2. **Source**: `Deploy from a branch` · Branch `main` · folder `/ (root)` → **Save**
+3. **Custom domain**: type `quangtv.com` → **Save**
+   (GitHub will show *"DNS check in progress"* — that is expected until Part 2 is done)
+
+Leave **Enforce HTTPS** alone for now. It only becomes tickable after DNS
+resolves and the certificate is issued.
+
+---
+
+## Part 2 — Cloudflare, step by step
+
+### Step 0 — is Cloudflare actually your DNS?
+
+Cloudflare only controls DNS if your domain's **nameservers** point at it.
+
+- **Bought the domain at Cloudflare?** Already done, skip to Step 1.
+- **Bought it elsewhere?** In Cloudflare: **Add a site** → `quangtv.com` → choose
+  the **Free** plan → Cloudflare shows two nameservers like
+  `xxx.ns.cloudflare.com`. Go to your registrar, replace the existing
+  nameservers with those two, and wait for Cloudflare to report the domain as
+  **Active** (minutes to a few hours).
+
+### Step 1 — open the DNS editor
+
+Cloudflare dashboard → select **quangtv.com** → left sidebar **DNS** → **Records**.
+
+### Step 2 — delete conflicting records
+
+Cloudflare usually creates placeholder records when a site is added. **Delete
+any existing `A`, `AAAA` or `CNAME` record whose Name is `quangtv.com` (`@`) or
+`www`.**
+
+Leave `MX` and `TXT` records alone — those are email and verification, unrelated
+to the website.
+
+### Step 3 — add the four A records
+
+Click **Add record** four times. Same Name, four different IPs:
+
+| Type | Name | IPv4 address | Proxy status | TTL |
+| --- | --- | --- | --- | --- |
+| A | `@` | `185.199.108.153` | **DNS only** (grey cloud) | Auto |
+| A | `@` | `185.199.109.153` | **DNS only** (grey cloud) | Auto |
+| A | `@` | `185.199.110.153` | **DNS only** (grey cloud) | Auto |
+| A | `@` | `185.199.111.153` | **DNS only** (grey cloud) | Auto |
+
+> **The proxy toggle is the single most important setting on this page.** It
+> defaults to *Proxied* (orange cloud). Click it so it reads **DNS only** and
+> turns grey. If it stays orange, GitHub cannot validate the domain and the
+> HTTPS certificate is never issued.
+
+These four IPs are GitHub's published Pages addresses. Verify at
+<https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site>
+if anything looks off.
+
+### Step 4 — add the www record
+
+| Type | Name | Target | Proxy status | TTL |
+| --- | --- | --- | --- | --- |
+| CNAME | `www` | `tranquanguit.github.io` | **DNS only** (grey cloud) | Auto |
+
+GitHub redirects `www.quangtv.com` → `quangtv.com` automatically once this
+exists, so visitors typing either form land on the same site.
+
+### Step 5 — set the SSL mode
+
+Left sidebar → **SSL/TLS** → **Overview** → select **Full (strict)**.
+
+This does nothing while the records are *DNS only*, but if you ever switch the
+proxy on, the default **Flexible** mode plus GitHub's *Enforce HTTPS* produces
+an infinite redirect loop. Setting it correctly now avoids that trap entirely.
+
+### Step 6 — wait, then verify
+
+Give it 5–30 minutes, then check from a terminal:
+
+```bash
+dig +short quangtv.com
+# expect the four 185.199.x.153 addresses
+
+dig +short www.quangtv.com
+# expect tranquanguit.github.io.
+
+curl -sI https://quangtv.com | head -1
+# expect: HTTP/2 200
+```
+
+### Step 7 — turn on HTTPS
+
+Back in GitHub → Settings → Pages. The DNS check should now show a green tick.
+Tick **Enforce HTTPS**.
+
+The certificate comes free from Let's Encrypt and renews itself. It can take up
+to an hour to be issued after the DNS check passes.
+
+---
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| GitHub says *"Domain does not resolve to the GitHub Pages server"* | DNS not propagated yet, or proxy is on | Wait; confirm the cloud icons are **grey** |
+| Browser shows a Cloudflare error page, not the site | Records are proxied | Switch all five records to **DNS only** |
+| `ERR_TOO_MANY_REDIRECTS` | Cloudflare SSL set to *Flexible* while proxied | SSL/TLS → **Full (strict)**, or turn the proxy off |
+| Certificate warning after everything looks right | Certificate not issued yet | Wait up to an hour; then un-tick and re-tick the custom domain in GitHub Pages |
+| Site loads but CSS is missing | `.nojekyll` was deleted | It is generated by the build — re-run `python3 tools/build.py` |
+| `www` works, apex does not | The four A records are missing or wrong | Re-check Step 3 |
+
+---
+
+## Should the proxy ever be turned on?
+
+Optional, and only after HTTPS is working. Proxying gives you Cloudflare's CDN
+and analytics, but it also hides the origin from GitHub's certificate renewal,
+which occasionally breaks. For a portfolio site the benefit is small — **DNS
+only is the recommendation**.
+
+---
+
+## Changing the domain later
+
+Edit `content/site.json`, rebuild, push:
+
+```bash
+# point somewhere else
+"customDomain": "newdomain.com"
+
+# or go back to the github.io URL
+"customDomain": ""
+```
+
+The build rewrites `CNAME`, the canonical links and the sitemap to match, and
+deletes `CNAME` when the field is empty.
+
+---
+
+## Other hosts
+
+The same files work anywhere static:
+
+| Host | How | Notes |
+| --- | --- | --- |
+| **Cloudflare Pages** | Connect the repo | Free; leave the build command empty since the HTML is committed |
+| **Netlify** / **Vercel** | Connect the repo | Free tier, custom domain + HTTPS |
+| **Shared hosting / VPS** | Upload by FTP | Point the web root at the repository root |
+
+If you move, update `siteUrl` / `customDomain` and rebuild so the canonical
+links and sitemap stay correct.
