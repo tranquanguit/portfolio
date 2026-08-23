@@ -397,7 +397,9 @@ def footer_html(site: dict, base: str) -> str:
 
 def page(site: dict, *, title: str, description: str, body: str, base: str = "",
          home: bool = False, canonical: str = "") -> str:
-    canonical_tag = f'\n  <link rel="canonical" href="{e(SITE_URL)}/{e(canonical)}">' if canonical else ""
+    canonical_tag = (
+        f'\n  <link rel="canonical" href="{e(SITE_URL)}/{e(public_url(canonical))}">' if canonical else ""
+    )
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1084,10 +1086,19 @@ def build_404(site: dict) -> str:
     return page(site, title=f"Not found — {site['name']}", description="Page not found.", body=body)
 
 
+def public_url(path: str) -> str:
+    """Canonical form of a page path — `a/index.html` is advertised as `a/`."""
+    if path == "index.html":
+        return ""
+    if path.endswith("/index.html"):
+        return path[: -len("index.html")]
+    return path
+
+
 def build_sitemap(urls: list[str]) -> str:
     today = date.today().isoformat()
     items = "".join(
-        f"  <url><loc>{SITE_URL}/{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls
+        f"  <url><loc>{SITE_URL}/{public_url(u)}</loc><lastmod>{today}</lastmod></url>\n" for u in urls
     )
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}</urlset>\n'
 

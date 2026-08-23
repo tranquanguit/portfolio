@@ -3,7 +3,7 @@
 Static portfolio site for an SAP Technical Consultant. No frameworks, no CDN
 dependencies, no build tooling beyond Python 3.
 
-Live: <https://tranquanguit.github.io/portfolio>
+Live: <https://quangtv.com>
 
 Deploying it — including on your own domain — is covered in [DEPLOY.md](DEPLOY.md).
 No server is required.
