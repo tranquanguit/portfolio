@@ -62,7 +62,8 @@
       <h1>sapwm3d — Warehouse Visualisation Platform</h1>
       <p class="article-head__lede">A SaaS platform that turns warehouse data into a spatial cockpit — a block-based 2.5D model of the warehouse showing occupancy, overload, blocked bins and data mismatches, built on a canonical model that is not tied to SAP.</p>
       <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Monorepo</span><span class="tag">Warehouse</span><span class="tag">2.5D Visualisation</span><span class="tag">SAP EWM</span><span class="tag">Multi-Tenant</span><span class="tag">Excel Import</span></div></div>
-      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">SAP Platform &amp; Visualisation</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">TypeScript monorepo · canonical warehouse model · 2.5D viewer</div></div></div>
+      <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt is-active" href="../products/sapwm3d.html" aria-current="page">English</a><a class="langswitch__opt" href="../products/sapwm3d.vi.html">Tiếng Việt</a></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">SAP Platform &amp; Visualisation</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">TypeScript monorepo · canonical warehouse model · 2.5D viewer</div></div><div class="fact"><div class="fact__k">Built for</div><div class="fact__v">Warehouse supervisors, inventory controllers, operations managers</div></div></div>
       <div style="margin-top:22px"><a class="btn btn--ghost" href="https://github.com/tranquanguit/warehouse-3d-4erp" target="_blank" rel="noopener noreferrer">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
   </header>
@@ -71,6 +72,65 @@
     <div class="wrap wrap--narrow">
       
       <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Design-time mode for configuring warehouse structure, layout, render settings and mapping rules; run-time mode for visualising stock, capacity and discrepancies.</li><li>A canonical warehouse hierarchy independent of SAP-specific structures, so the same core serves customers at different levels of data maturity.</li><li>Excel and API ingestion first, with SAP, S/4HANA, EWM and BTP as planned integration paths rather than hard dependencies.</li><li>Monorepo with separate web and API apps over five shared packages — canonical model, import schemas, template schema, viewer contracts and UI tokens.</li></ul></div>
+      <section class="pblock reveal">
+    <h2 class="pblock__h">The problem</h2>
+    <p class="pblock__lede">Warehouse data lives in ERP systems, WMS tools, spreadsheets and custom APIs. All of it is accurate and almost none of it is spatial.</p>
+    <div class="pain-grid"><div class="pain">
+        <h3 class="pain__title">Tables cannot show a warehouse</h3>
+        <p class="pain__text">A supervisor asking "where is the capacity problem" gets bin codes and quantities, and has to hold the physical layout in their head.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Every customer&#x27;s warehouse is different</h3>
+        <p class="pain__text">Structures, naming and data maturity vary so much that bespoke visualisations never get reused.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Data disagrees with itself</h3>
+        <p class="pain__text">Stock recorded in one place and absent in another, blocked bins that nobody flagged, unmapped records sitting outside the model.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">SAP-only tools exclude most warehouses</h3>
+        <p class="pain__text">Plenty of operations run on spreadsheets and a WMS, not on a fully configured EWM.</p>
+      </div></div>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">Design once, then watch it run</h2>
+    <ol class="steps"><li class="step">
+        <span class="step__n">1</span>
+        <span class="step__body"><strong>Model the warehouse</strong><span>Configure the structure and lay out the blocks in design-time mode.</span></span>
+      </li><li class="step">
+        <span class="step__n">2</span>
+        <span class="step__body"><strong>Map the data</strong><span>Define how incoming records map onto the canonical model.</span></span>
+      </li><li class="step">
+        <span class="step__n">3</span>
+        <span class="step__body"><strong>Ingest</strong><span>Excel or API first; SAP, S/4HANA and EWM as planned integration paths.</span></span>
+      </li><li class="step">
+        <span class="step__n">4</span>
+        <span class="step__body"><strong>Visualise</strong><span>Stock positions, occupancy and capacity shown on the layout.</span></span>
+      </li><li class="step">
+        <span class="step__n">5</span>
+        <span class="step__body"><strong>Spot the problems</strong><span>Overload, blocked bins, unmapped data and mismatches surfaced rather than searched for.</span></span>
+      </li><li class="step">
+        <span class="step__n">6</span>
+        <span class="step__body"><strong>Export the template</strong><span>Share or reuse a warehouse configuration.</span></span>
+      </li></ol>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">What it does</h2>
+    <div class="cap-grid"><div class="cap">
+        <h3 class="cap__title">Block-based 2.5D cockpit</h3>
+        <p class="cap__text">Fast to read and fast to render, with no camera to fight and no occlusion.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">A canonical model, not an SAP model</h3>
+        <p class="cap__text">The core is independent of SAP structures, so customers at any level of data maturity can be served.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Configuration instead of a rewrite</h3>
+        <p class="cap__text">A new customer with a different warehouse is a configuration exercise.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Excel and API ingestion first</h3>
+        <p class="cap__text">Because that is honestly where most warehouse data lives.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Mismatch detection</h3>
+        <p class="cap__text">Where the data disagrees with itself is shown, not hidden.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Multi-tenant by design</h3>
+        <p class="cap__text">Built to serve several customers from one platform.</p>
+      </div></div>
+  </section>
       <div class="prose reveal">
 <h2>The problem</h2>
 <p>Warehouse data lives in ERP systems, WMS tools, spreadsheets and custom APIs. All of it is accurate and almost none of it is <em>spatial</em>. A supervisor asking "where is the capacity problem" gets a table of bin codes and quantities, and has to hold the physical warehouse in their head to interpret it.</p>

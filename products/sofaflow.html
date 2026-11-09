@@ -62,7 +62,8 @@
       <h1>SofaFlow — Customer Lifecycle &amp; Document Automation</h1>
       <p class="article-head__lede">A multi-tenant SaaS that runs the full customer lifecycle for sofa repair and manufacturing businesses — quotation to contract to handover to payment — and generates every Vietnamese document along the way.</p>
       <div class="article-head__tags"><div class="tags"><span class="tag">Flask</span><span class="tag">PostgreSQL</span><span class="tag">SQLAlchemy</span><span class="tag">Multi-Tenant</span><span class="tag">DOCX Automation</span><span class="tag">RBAC</span><span class="tag">Bootstrap</span></div></div>
-      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">Private source</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">Flask · PostgreSQL · SQLAlchemy · docxtpl</div></div></div>
+      <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt is-active" href="../products/sofaflow.html" aria-current="page">English</a><a class="langswitch__opt" href="../products/sofaflow.vi.html">Tiếng Việt</a></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">Private source</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">Flask · PostgreSQL · SQLAlchemy · docxtpl</div></div><div class="fact"><div class="fact__k">Built for</div><div class="fact__v">Sofa repair and manufacturing workshops, their sales staff and owners</div></div></div>
       
     </div>
   </header>
@@ -71,6 +72,65 @@
     <div class="wrap wrap--narrow">
       
       <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Multi-tenant architecture with complete data isolation between companies, and multi-store support within each company.</li><li>Order lifecycle tracked on a visual timeline from quotation through contract, handover and final payment.</li><li>DOCX document generation from per-company templates, so each business keeps its own paperwork.</li><li>Role-based access across company admin, store admin and user, with a bilingual Vietnamese/English interface throughout.</li></ul></div>
+      <section class="pblock reveal">
+    <h2 class="pblock__h">The problem</h2>
+    <p class="pblock__lede">Sofa repair and manufacturing is a trade business — skilled work, real margins, and administration that runs almost entirely on paper.</p>
+    <div class="pain-grid"><div class="pain">
+        <h3 class="pain__title">The same details, typed four times</h3>
+        <p class="pain__text">Quotation, contract, handover note and payment record all repeat the customer, the measurements and the price. Every retyping is a chance to get one of them wrong.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Nobody knows where an order stands</h3>
+        <p class="pain__text">Was the contract signed? Has it been handed over? Has the customer paid the balance? The answer lives in someone's memory or a notebook.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Every workshop has its own paperwork</h3>
+        <p class="pain__text">Its letterhead, its terms, its way of itemising. Generic software forces them to abandon documents their customers already recognise.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Several stores, one owner</h3>
+        <p class="pain__text">Each store runs its own jobs, but the owner needs to see all of them without the stores seeing each other.</p>
+      </div></div>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">One record, four documents</h2>
+    <ol class="steps"><li class="step">
+        <span class="step__n">1</span>
+        <span class="step__body"><strong>Take the order</strong><span>Customer, store, measurements, items and price entered once.</span></span>
+      </li><li class="step">
+        <span class="step__n">2</span>
+        <span class="step__body"><strong>Quotation</strong><span>Generated from the order into the workshop's own template.</span></span>
+      </li><li class="step">
+        <span class="step__n">3</span>
+        <span class="step__body"><strong>Contract</strong><span>The same data, the customer's signature, no retyping.</span></span>
+      </li><li class="step">
+        <span class="step__n">4</span>
+        <span class="step__body"><strong>Production and handover</strong><span>The handover note is generated when the work is delivered.</span></span>
+      </li><li class="step">
+        <span class="step__n">5</span>
+        <span class="step__body"><strong>Payment</strong><span>Deposit and balance tracked against the order, not in a separate book.</span></span>
+      </li><li class="step">
+        <span class="step__n">6</span>
+        <span class="step__body"><strong>Timeline</strong><span>Every stage visible on one screen, for every order.</span></span>
+      </li></ol>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">What it does</h2>
+    <div class="cap-grid"><div class="cap">
+        <h3 class="cap__title">Documents in your own format</h3>
+        <p class="cap__text">Each company uploads its own DOCX templates with variables. The output is the paperwork the business already uses, filled in correctly.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Visual order timeline</h3>
+        <p class="cap__text">Quotation to contract to handover to final payment, with the current stage obvious at a glance.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Multi-store under one company</h3>
+        <p class="cap__text">Stores run independently; the company sees across all of them.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Roles that match the shop</h3>
+        <p class="cap__text">Company admin, store admin and staff, each seeing what their job needs.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Bilingual interface</h3>
+        <p class="cap__text">Vietnamese for the shop floor, English where it helps, switchable on every page.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Complete tenant isolation</h3>
+        <p class="cap__text">One company's data is never visible to another.</p>
+      </div></div>
+  </section>
       <div class="prose reveal">
 <h2>Why this exists</h2>
 <p>Sofa repair and manufacturing is a trade business. The work is skilled, the margins are real, and the administration is almost entirely paper: a quotation written by hand, a contract typed in Word, a handover note, then chasing the final payment.</p>

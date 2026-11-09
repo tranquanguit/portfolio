@@ -12,6 +12,33 @@ summary: A shopping assistant you can see inside — text, image and composed se
 tags: [RAG, Elasticsearch, FastAPI, React, SigLIP2, Multimodal Search, Evaluation, PostgreSQL]
 repo: https://github.com/kt1101/shopmind-rag
 featured: true
+audience: Anyone evaluating RAG for a product catalogue — and researchers who want the numbers
+
+problemHeading: The problem with most RAG demos
+problemLede: Getting a model to answer from your documents takes an afternoon. Getting it to answer correctly, cite evidence you can verify, and refuse when it cannot, is the actual engineering.
+problem:
+  - Citations nobody checks :: An answer appears with references attached, and there is no way to tell whether they support the claim or were merely nearby in the retrieved text.
+  - They never say "I don't know" :: Asked something the corpus cannot answer, the system answers anyway — which in a shopping context means inventing a return policy.
+  - You cannot see why :: When a result is wrong, there is no trace showing which step produced it, so debugging is guesswork.
+  - "We improved retrieval" is a feeling :: Without seeded, reproducible benchmarks, no change can be shown to be an improvement.
+
+flowHeading: How a question becomes an answer
+flow:
+  - Understand the query :: Rewrite it to stand alone, detect intent, extract filters.
+  - Retrieve :: BM25 and dense vectors over products, reviews and policies, fused with Reciprocal Rank Fusion.
+  - Build the context :: Select candidates per source and assemble exactly what the model will see.
+  - Generate :: Stream the answer with citations attached.
+  - Validate :: Every cited ID must appear in the context actually sent, or it is rejected.
+  - Trace :: Every step, score and timing recorded and shown in the inspector.
+
+capabilitiesHeading: What it does
+capabilities:
+  - Composed search :: "Like this picture but in black" — an image anchors the shape, text modifies it. The closest thing to how people actually shop.
+  - Verified citations :: A citation that cannot be traced to the evidence the model saw is rejected rather than rendered.
+  - An explicit refusal path :: When evidence is insufficient the answer is `insufficient_evidence`, not a plausible invention.
+  - Glass-box inspector :: Parsed query, BM25 / dense / RRF ranks, matched terms, latency waterfall, the raw query DSL, and the citation check.
+  - Shopping plans with a budget :: Split the need, retrieve per need, optimise against a budget, and explain the result with citations.
+  - Measured, not asserted :: Recall@10, nDCG@10 and MRR@10 at a fixed seed, with ablations, every run written to its own directory.
 highlights:
   - Multimodal retrieval over 1,500 Amazon Berkeley Objects — text, image, and composed search ("like this picture but in black") using BM25 + dense kNN fused with RRF.
   - A RAG assistant answering from products, reviews and store policies, with every citation validated against the context actually sent to the model, and an explicit refusal when evidence is insufficient.

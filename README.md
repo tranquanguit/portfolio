@@ -73,6 +73,27 @@ The story goes here, in markdown.
 Then run the build. The project appears on the home page under its organization
 group, in the projects listing, in the filter counts, and as its own page.
 
+### Translations
+
+A file named `<slug>.vi.md` is the Vietnamese edition of `<slug>.md`. It
+produces `<slug>.vi.html`, the two pages link to each other through a language
+switch, `<html lang>` is set correctly, and the surrounding interface strings
+(fact labels, call to action, pager, back link) are translated too. Listings
+show the English edition with a "Tiếng Việt" link on the card.
+
+Product pages carry `problem`, `flow` and `capabilities` blocks so they read as
+a product portfolio — usable as sales collateral, not only as a portfolio entry.
+Each item is written `Title :: body text`:
+
+```yaml
+problem:
+  - Labels arrive in chat :: Staff open each file and retype by hand.
+flow:
+  - Upload label PDFs :: One file or many, mixed marketplaces.
+capabilities:
+  - Reads PDF labels without a template :: Text is read directly from the PDF.
+```
+
 ### Adding an article
 
 Create `content/blogs/my-article.md`. For something published elsewhere, set
@@ -131,6 +152,9 @@ order they are listed in `site.json`.
 | `status` | products | `live`, `building`, `private` or `concept` — drives the status pill |
 | `stack`, `role` | products | Shown in the fact bar |
 | `repo`, `demo` | products | Optional links; leave `repo` empty for a private one |
+| `audience` | products | Who the product is for; shown in the fact bar |
+| `problem`, `flow`, `capabilities` | products | `Title :: body` lists rendered as designed blocks |
+| `problemHeading`, `flowHeading`, `capabilitiesHeading` | products | Override the block headings (needed for a translation) |
 | `topic` | blogs | Group heading and filter, e.g. `SAP & ERP` |
 | `date` | blogs | Drives ordering, newest first |
 | `external` | blogs | URL of the original post; adds a "read the full article" button |

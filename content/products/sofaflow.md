@@ -12,6 +12,33 @@ summary: A multi-tenant SaaS that runs the full customer lifecycle for sofa repa
 tags: [Flask, PostgreSQL, SQLAlchemy, Multi-Tenant, DOCX Automation, RBAC, Bootstrap]
 repo:
 featured: true
+audience: Sofa repair and manufacturing workshops, their sales staff and owners
+
+problemHeading: The problem
+problemLede: Sofa repair and manufacturing is a trade business — skilled work, real margins, and administration that runs almost entirely on paper.
+problem:
+  - The same details, typed four times :: Quotation, contract, handover note and payment record all repeat the customer, the measurements and the price. Every retyping is a chance to get one of them wrong.
+  - Nobody knows where an order stands :: Was the contract signed? Has it been handed over? Has the customer paid the balance? The answer lives in someone's memory or a notebook.
+  - Every workshop has its own paperwork :: Its letterhead, its terms, its way of itemising. Generic software forces them to abandon documents their customers already recognise.
+  - Several stores, one owner :: Each store runs its own jobs, but the owner needs to see all of them without the stores seeing each other.
+
+flowHeading: One record, four documents
+flow:
+  - Take the order :: Customer, store, measurements, items and price entered once.
+  - Quotation :: Generated from the order into the workshop's own template.
+  - Contract :: The same data, the customer's signature, no retyping.
+  - Production and handover :: The handover note is generated when the work is delivered.
+  - Payment :: Deposit and balance tracked against the order, not in a separate book.
+  - Timeline :: Every stage visible on one screen, for every order.
+
+capabilitiesHeading: What it does
+capabilities:
+  - Documents in your own format :: Each company uploads its own DOCX templates with variables. The output is the paperwork the business already uses, filled in correctly.
+  - Visual order timeline :: Quotation to contract to handover to final payment, with the current stage obvious at a glance.
+  - Multi-store under one company :: Stores run independently; the company sees across all of them.
+  - Roles that match the shop :: Company admin, store admin and staff, each seeing what their job needs.
+  - Bilingual interface :: Vietnamese for the shop floor, English where it helps, switchable on every page.
+  - Complete tenant isolation :: One company's data is never visible to another.
 highlights:
   - Multi-tenant architecture with complete data isolation between companies, and multi-store support within each company.
   - Order lifecycle tracked on a visual timeline from quotation through contract, handover and final payment.

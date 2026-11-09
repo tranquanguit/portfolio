@@ -273,6 +273,7 @@ class Entry:
     meta: dict
     body: str
     source: str = "content"
+    lang: str = "en"
     tags: list = field(default_factory=list)
     highlights: list = field(default_factory=list)
 
@@ -294,7 +295,16 @@ class Entry:
 
     @property
     def url(self) -> str:
-        return f"{self.section}/{self.slug}.html"
+        suffix = "" if self.lang == "en" else f".{self.lang}"
+        return f"{self.section}/{self.slug}{suffix}.html"
+
+    def blocks(self, key: str) -> list[tuple[str, str]]:
+        """Frontmatter list entries written as `Title :: body text`."""
+        out = []
+        for raw in self.meta.get(key, []) or []:
+            head, sep, body = str(raw).partition("::")
+            out.append((head.strip(), body.strip() if sep else ""))
+        return out
 
     @property
     def category_id(self) -> str:
@@ -317,7 +327,11 @@ def load_entries(section: str) -> list[Entry]:
     entries = []
     for path in sorted(directory.glob("*.md")):
         meta, body = parse_frontmatter(path.read_text(encoding="utf-8"))
-        slug = str(meta.get("slug") or path.stem)
+        stem, lang = path.stem, "en"
+        if "." in stem:
+            stem, _, code = stem.rpartition(".")
+            lang = code
+        slug = str(meta.get("slug") or stem)
         entries.append(
             Entry(
                 section=section,
@@ -325,6 +339,7 @@ def load_entries(section: str) -> list[Entry]:
                 meta=meta,
                 body=body,
                 source=str(path.relative_to(ROOT)),
+                lang=lang,
                 tags=[str(t) for t in meta.get("tags", []) if str(t).strip()],
                 highlights=[str(h) for h in meta.get("highlights", []) if str(h).strip()],
             )
@@ -414,12 +429,12 @@ def footer_html(site: dict, base: str) -> str:
 
 
 def page(site: dict, *, title: str, description: str, body: str, base: str = "",
-         home: bool = False, canonical: str = "") -> str:
+         home: bool = False, canonical: str = "", lang: str = "en") -> str:
     canonical_tag = (
         f'\n  <link rel="canonical" href="{e(SITE_URL)}/{e(public_url(canonical))}">' if canonical else ""
     )
     return f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="{e(lang)}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -573,11 +588,14 @@ PRODUCT_STATUS = {
 }
 
 
-def product_card(entry: Entry, base: str = "") -> str:
+def product_card(entry: Entry, base: str = "", translations: set | None = None) -> str:
     status = str(entry.get("status", "building"))
     cls, label = PRODUCT_STATUS.get(status, PRODUCT_STATUS["building"])
 
     links = ""
+    if translations and entry.slug in translations:
+        links += (f'<a class="card__out" href="{e(base + entry.section)}/{e(entry.slug)}.vi.html">'
+                  f'Tiếng Việt</a>')
     if entry.get("repo"):
         links += (f'<a class="card__out" href="{e(entry.get("repo"))}" target="_blank" '
                   f'rel="noopener noreferrer">Source</a>')
@@ -602,7 +620,8 @@ def product_card(entry: Entry, base: str = "") -> str:
 </div>"""
 
 
-def product_groups(entries: list[Entry], base: str = "") -> tuple[str, str]:
+def product_groups(entries: list[Entry], base: str = "",
+                   translations: set | None = None) -> tuple[str, str]:
     """Returns (filter buttons, grouped markup) for the product collection."""
     buckets: dict[str, list[Entry]] = {}
     for item in entries:
@@ -619,7 +638,7 @@ def product_groups(entries: list[Entry], base: str = "") -> tuple[str, str]:
         key = items[0].get("category-id")
         filters += (f'<button class="filter" data-value="{e(key)}" aria-pressed="false">{e(name)}'
                     f'<span class="filter__n">{len(items)}</span></button>')
-        cards = "".join(product_card(i, base) for i in items)
+        cards = "".join(product_card(i, base, translations) for i in items)
         blocks += f"""<div class="org" data-filter-section="products">
       <div class="org__head">
         <span class="org__badge">{e(name)}</span>
@@ -918,7 +937,7 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
     products = sorted(data.get("products", []), key=lambda x: x.sort_key, reverse=True)
     products_section = ""
     if products:
-        p_filters, p_blocks = product_groups(products)
+        p_filters, p_blocks = product_groups(products, "", site.get("_translated", set()))
         products_section = f"""<section class="section" id="products">
   <div class="wrap">
     <div class="section-head">
@@ -1069,7 +1088,7 @@ def build_listing(site: dict, section: str, entries: list[Entry], orgs: dict) ->
         content = f'<div class="filters" data-filter-group="blogs">{b_filters}</div>{b_list}'
 
     elif section == "products":
-        p_filters, p_blocks = product_groups(entries, base)
+        p_filters, p_blocks = product_groups(entries, base, site.get("_translated", set()))
         content = f'<div class="filters" data-filter-group="products">{p_filters}</div>{p_blocks}'
 
     elif section == "skills":
@@ -1114,7 +1133,109 @@ def build_listing(site: dict, section: str, entries: list[Entry], orgs: dict) ->
 # Detail pages
 # ---------------------------------------------------------------------------
 
-def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) -> str:
+LANG_NAMES = {"en": "English", "vi": "Tiếng Việt"}
+
+# UI strings on a detail page, so a translated page is translated throughout.
+UI = {
+    "en": {
+        "home": "Home", "previous": "Previous", "next": "Next", "back": "All {section}",
+        "delivered": "What I delivered", "responsibilities": "Responsibilities",
+        "cta_title": "Want the detail behind this?",
+        "cta_sub": "Happy to walk through the technical decisions in a conversation.",
+        "cta_btn": "Email me",
+        "f_type": "Type", "f_status": "Status", "f_role": "Role", "f_stack": "Stack",
+        "f_client": "Client", "f_org": "Organization", "f_period": "Period",
+        "f_audience": "Built for", "ongoing": "Ongoing",
+    },
+    "vi": {
+        "home": "Trang chủ", "previous": "Bài trước", "next": "Bài sau", "back": "Xem tất cả {section}",
+        "delivered": "Điểm chính", "responsibilities": "Trách nhiệm",
+        "cta_title": "Muốn biết chi tiết phía sau?",
+        "cta_sub": "Rất sẵn lòng trao đổi trực tiếp về các quyết định kỹ thuật.",
+        "cta_btn": "Gửi email",
+        "f_type": "Loại", "f_status": "Trạng thái", "f_role": "Vai trò", "f_stack": "Công nghệ",
+        "f_client": "Khách hàng", "f_org": "Tổ chức", "f_period": "Thời gian",
+        "f_audience": "Dành cho", "ongoing": "Đang chạy",
+    },
+}
+
+SECTION_NAMES_VI = {
+    "products": "sản phẩm", "projects": "dự án", "blogs": "bài viết",
+    "experience": "kinh nghiệm", "skills": "kỹ năng", "awards": "thành tích",
+}
+
+
+def T(lang: str, key: str) -> str:
+    return UI.get(lang, UI["en"]).get(key, UI["en"].get(key, key))
+
+
+def language_switch(entry: Entry, family: list[Entry], base: str) -> str:
+    editions = sorted({x.lang for x in family if x.slug == entry.slug})
+    if len(editions) < 2:
+        return ""
+    links = ""
+    for code in editions:
+        target = next(x for x in family if x.slug == entry.slug and x.lang == code)
+        current = code == entry.lang
+        active = " is-active" if current else ""
+        aria = ' aria-current="page"' if current else ""
+        label = e(LANG_NAMES.get(code, code.upper()))
+        links += f'<a class="langswitch__opt{active}" href="{e(base + target.url)}"{aria}>{label}</a>' 
+    return f'<div class="langswitch" role="group" aria-label="Language">{links}</div>'
+
+
+def portfolio_blocks(entry: Entry, base: str) -> str:
+    """Problem / flow / capability blocks that make a product page sell itself."""
+    out = ""
+
+    problems = entry.blocks("problem")
+    if problems:
+        cards = "".join(
+            f"""<div class="pain">
+        <h3 class="pain__title">{e(head)}</h3>
+        <p class="pain__text">{inline_md(body, base)}</p>
+      </div>"""
+            for head, body in problems
+        )
+        out += f"""<section class="pblock reveal">
+    <h2 class="pblock__h">{e(entry.get('problemHeading', 'The problem'))}</h2>
+    <p class="pblock__lede">{inline_md(str(entry.get('problemLede', '')), base)}</p>
+    <div class="pain-grid">{cards}</div>
+  </section>"""
+
+    flow = entry.blocks("flow")
+    if flow:
+        steps = "".join(
+            f"""<li class="step">
+        <span class="step__n">{i}</span>
+        <span class="step__body"><strong>{e(head)}</strong><span>{inline_md(body, base)}</span></span>
+      </li>"""
+            for i, (head, body) in enumerate(flow, 1)
+        )
+        out += f"""<section class="pblock reveal">
+    <h2 class="pblock__h">{e(entry.get('flowHeading', 'How it works'))}</h2>
+    <ol class="steps">{steps}</ol>
+  </section>"""
+
+    caps = entry.blocks("capabilities")
+    if caps:
+        cards = "".join(
+            f"""<div class="cap">
+        <h3 class="cap__title">{e(head)}</h3>
+        <p class="cap__text">{inline_md(body, base)}</p>
+      </div>"""
+            for head, body in caps
+        )
+        out += f"""<section class="pblock reveal">
+    <h2 class="pblock__h">{e(entry.get('capabilitiesHeading', 'What it does'))}</h2>
+    <div class="cap-grid">{cards}</div>
+  </section>"""
+
+    return out
+
+
+def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict,
+                 family: list[Entry] | None = None) -> str:
     base = "../"
     section = entry.section
     meta = SECTIONS[section]
@@ -1146,11 +1267,13 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
     elif section == "products":
         _, status_label = PRODUCT_STATUS.get(str(entry.get("status", "building")), PRODUCT_STATUS["building"])
         facts = [
-            ("Type", str(entry.get("category", "—"))),
-            ("Status", status_label),
-            ("Role", str(entry.get("role", "Designer & developer"))),
-            ("Stack", str(entry.get("stack", "—"))),
+            (T(entry.lang, "f_type"), str(entry.get("category", "—"))),
+            (T(entry.lang, "f_status"), status_label),
+            (T(entry.lang, "f_role"), str(entry.get("role", "—"))),
+            (T(entry.lang, "f_stack"), str(entry.get("stack", "—"))),
         ]
+        if entry.get("audience"):
+            facts.append((T(entry.lang, "f_audience"), str(entry.get("audience"))))
 
     elif section == "skills":
         facts = [
@@ -1203,7 +1326,7 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
     highlights = ""
     if entry.highlights:
         items = "".join(f"<li>{inline_md(h, base)}</li>" for h in entry.highlights)
-        label = "Responsibilities" if section == "experience" else "What I delivered"
+        label = T(entry.lang, "responsibilities" if section == "experience" else "delivered")
         highlights = f'<div class="highlights reveal"><p class="highlights__title">{label}</p><ul>{items}</ul></div>'
 
     crumb_org = ""
@@ -1222,7 +1345,7 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
         if not target:
             return '<span class="pager__spacer"></span>'
         cls = "pager__link pager__link--next" if direction == "next" else "pager__link"
-        label = "Next" if direction == "next" else "Previous"
+        label = T(entry.lang, "next" if direction == "next" else "previous")
         return (
             f'<a class="{cls}" href="{e(base + target.url)}">'
             f'<span class="pager__k">{label}</span><span class="pager__t">{e(target.title)}</span></a>'
@@ -1230,13 +1353,17 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
 
     pager = f'<div class="pager">{pager_link(prev_entry, "prev")}{pager_link(next_entry, "next")}</div>'
 
-    live = '<span class="pill pill--live">Ongoing</span>' if entry.get("current") else ""
+    live = (f'<span class="pill pill--live">{e(T(entry.lang, "ongoing"))}</span>'
+            if entry.get("current") else "")
+    section_word = (SECTION_NAMES_VI.get(section, section) if entry.lang == "vi"
+                    else meta["title"].lower())
+    back_label = T(entry.lang, "back").format(section=section_word)
 
     body = f"""<article>
   <header class="article-head">
     <div class="wrap wrap--narrow">
       <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="{base}index.html">Home</a><span class="sep">/</span>
+        <a href="{base}index.html">{e(T(entry.lang, "home"))}</a><span class="sep">/</span>
         <a href="{base}{section}/index.html">{e(meta['title'])}</a>{crumb_org}
       </nav>
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:.9rem">
@@ -1246,6 +1373,7 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
       <h1>{e(entry.title)}</h1>
       <p class="article-head__lede">{e(entry.summary)}</p>
       <div class="article-head__tags">{tag_list(entry.tags)}</div>
+      {language_switch(entry, family or [], base)}
       {factbar}
       {'<div style="margin-top:22px">' + external + '</div>' if external else ''}
     </div>
@@ -1255,22 +1383,23 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
     <div class="wrap wrap--narrow">
       {hero_img}
       {highlights}
+      {portfolio_blocks(entry, base)}
       <div class="prose reveal">
 {render_md(entry.body, base)}
       </div>
 
       <div class="cta-strip reveal">
         <div>
-          <p class="cta-strip__title">Want the detail behind this?</p>
-          <p class="cta-strip__sub">Happy to walk through the technical decisions in a conversation.</p>
+          <p class="cta-strip__title">{e(T(entry.lang, "cta_title"))}</p>
+          <p class="cta-strip__sub">{e(T(entry.lang, "cta_sub"))}</p>
         </div>
-        <a class="btn btn--primary" href="mailto:{e(site['email'])}">{ICONS['mail']} Email me</a>
+        <a class="btn btn--primary" href="mailto:{e(site['email'])}">{ICONS['mail']} {e(T(entry.lang, "cta_btn"))}</a>
       </div>
 
       {pager}
 
       <p style="margin-top:28px">
-        <a class="btn btn--quiet" href="{base}{section}/index.html">{ICONS['back']} All {e(meta['title'].lower())}</a>
+        <a class="btn btn--quiet" href="{base}{section}/index.html">{ICONS['back']} {e(back_label)}</a>
       </p>
     </div>
   </div>
@@ -1283,6 +1412,7 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
         body=body,
         base=base,
         canonical=entry.url,
+        lang=entry.lang,
     )
 
 
@@ -1356,9 +1486,12 @@ def main() -> int:
     path = urlsplit(SITE_URL).path.rstrip("/")
     ROOT_PATH = f"{path}/" if path else "/"
 
-    data = {section: load_entries(section) for section in SECTIONS}
+    everything = {section: load_entries(section) for section in SECTIONS}
+    # Listings show the primary edition; translations are reachable from it.
+    data = {s: [x for x in items if x.lang == "en"] for s, items in everything.items()}
+    site["_translated"] = {x.slug for items in everything.values() for x in items if x.lang == "vi"}
 
-    missing = [s for s, items in data.items() if not items]
+    missing = [s for s, items in everything.items() if not items]
     if missing:
         print(f"warning: no content found for {', '.join(missing)}", file=sys.stderr)
 
@@ -1378,8 +1511,9 @@ def main() -> int:
         if not entries:
             continue
         write(f"{section}/index.html", build_listing(site, section, entries, orgs), f"content/{section}")
-        for entry in entries:
-            write(entry.url, build_detail(site, entry, entries, orgs), entry.source)
+        for entry in everything[section]:
+            siblings = [x for x in everything[section] if x.lang == entry.lang]
+            write(entry.url, build_detail(site, entry, siblings, orgs, everything[section]), entry.source)
 
     write("404.html", build_404(site))
     write("sitemap.xml", build_sitemap(

@@ -1112,3 +1112,83 @@ a.card:hover .card__cue svg { transform: translateX(3px); }
 }
 
 @media (max-width: 620px) { .blog-card { padding: 18px; } }
+
+/* --- Language switch ------------------------------------------------------ */
+
+.langswitch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  margin-top: 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-2);
+}
+.langswitch__opt {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.langswitch__opt:hover { color: var(--ink); }
+.langswitch__opt.is-active { background: var(--surface); color: var(--accent-ink); box-shadow: var(--shadow-sm); }
+
+/* --- Product portfolio blocks --------------------------------------------- */
+
+.pblock { margin: 44px 0; }
+.pblock__h {
+  font-size: 1.42rem;
+  margin-bottom: .6rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--border);
+}
+.pblock__lede { color: var(--ink-muted); margin-bottom: 1.4rem; max-width: 70ch; }
+
+.pain-grid, .cap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+
+.pain {
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-left: 3px solid color-mix(in srgb, var(--gold) 70%, transparent);
+}
+.pain__title { font-size: .96rem; font-weight: 700; margin-bottom: .35rem; }
+.pain__text { font-size: .88rem; color: var(--ink-muted); line-height: 1.6; margin: 0; }
+
+.cap {
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-top: 3px solid var(--accent);
+}
+.cap__title { font-size: .96rem; font-weight: 700; margin-bottom: .35rem; }
+.cap__text { font-size: .88rem; color: var(--ink-muted); line-height: 1.6; margin: 0; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: step; }
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  margin: 0;
+}
+.step__n {
+  flex: none;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: .78rem;
+  font-weight: 600;
+}
+.step__body { display: grid; gap: .2rem; }
+.step__body strong { font-size: .95rem; }
+.step__body span { font-size: .88rem; color: var(--ink-muted); line-height: 1.6; }

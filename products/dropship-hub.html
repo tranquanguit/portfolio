@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dropship Hub — Multi-Tenant Dropshipping Platform — Tran Van Quang</title>
-  <meta name="description" content="Warehouse operations software for dropshipping — reads carrier labels straight out of PDFs, explodes combos, scans packing, hands over to carriers and settles agency debt, all in one flow. Built the way an ERP module is built, not the way a store admin panel is.">
+  <title>Dropship Hub — Warehouse Operations for Dropshipping — Tran Van Quang</title>
+  <meta name="description" content="Warehouse operations software for dropshipping. It reads carrier labels straight out of PDFs, explodes combos, drives scan-based packing, hands over to carriers and settles agency debt — one flow from label to money, with a portal the agencies run themselves.">
   <meta name="author" content="Tran Van Quang">
   <meta name="theme-color" content="#faf9f6">
   <link rel="canonical" href="https://quangtv.com/products/dropship-hub.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Dropship Hub — Multi-Tenant Dropshipping Platform — Tran Van Quang">
-  <meta property="og:description" content="Warehouse operations software for dropshipping — reads carrier labels straight out of PDFs, explodes combos, scans packing, hands over to carriers and settles agency debt, all in one flow. Built the way an ERP module is built, not the way a store admin panel is.">
+  <meta property="og:title" content="Dropship Hub — Warehouse Operations for Dropshipping — Tran Van Quang">
+  <meta property="og:description" content="Warehouse operations software for dropshipping. It reads carrier labels straight out of PDFs, explodes combos, drives scan-based packing, hands over to carriers and settles agency debt — one flow from label to money, with a portal the agencies run themselves.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,10 +59,11 @@
         <span class="tag tag--accent">2026 – Present</span>
         <span class="pill pill--live">Ongoing</span>
       </div>
-      <h1>Dropship Hub — Multi-Tenant Dropshipping Platform</h1>
-      <p class="article-head__lede">Warehouse operations software for dropshipping — reads carrier labels straight out of PDFs, explodes combos, scans packing, hands over to carriers and settles agency debt, all in one flow. Built the way an ERP module is built, not the way a store admin panel is.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Fastify</span><span class="tag">React</span><span class="tag">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Metadata-Driven</span><span class="tag">Inventory</span><span class="tag">Workflow Engine</span></div></div>
-      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">React 19 · Fastify 5 · TypeScript · PostgreSQL</div></div></div>
+      <h1>Dropship Hub — Warehouse Operations for Dropshipping</h1>
+      <p class="article-head__lede">Warehouse operations software for dropshipping. It reads carrier labels straight out of PDFs, explodes combos, drives scan-based packing, hands over to carriers and settles agency debt — one flow from label to money, with a portal the agencies run themselves.</p>
+      <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Fastify</span><span class="tag">React</span><span class="tag">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Metadata-Driven</span><span class="tag">Workflow Engine</span><span class="tag">Inventory</span></div></div>
+      <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt is-active" href="../products/dropship-hub.html" aria-current="page">English</a><a class="langswitch__opt" href="../products/dropship-hub.vi.html">Tiếng Việt</a></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Product designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">React 19 · Fastify 5 · TypeScript · PostgreSQL</div></div><div class="fact"><div class="fact__k">Built for</div><div class="fact__v">Dropship warehouses, their agency partners, and the finance team behind both</div></div></div>
       
     </div>
   </header>
@@ -70,24 +71,97 @@
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
       
-      <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Multi-tenant SaaS with isolated data per company and role-based access across super admin, company admin, warehouse manager and staff.</li><li>Transaction-based inventory — stock is derived from an immutable ledger rather than stored as a mutable number.</li><li>Bill of Materials with automatic explosion, so a bundled or assembled product consumes its components correctly.</li><li>Explicit order state machine: draft → confirmed → packed → shipped → delivered.</li><li>RESTful API with Swagger documentation, JWT authentication, and Alembic migrations.</li></ul></div>
+      <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Reads carrier labels directly from PDF text with per-agency parsing rules, blocking duplicate tracking numbers across files, requests and agencies.</li><li>Scan-driven packing with partial progress ("packed 4/10", "delivered 0/10") and per-parcel state, so partial handover is a first-class case.</li><li>Append-only stock ledger with on-hand, reserved and available quantities, row-level locking for concurrent scanning, and a data integrity checker.</li><li>Metadata-driven platform — DocType definitions generate API validation, list queries, form UI, Excel templates and OpenAPI, so customer-specific fields are configuration.</li></ul></div>
+      <section class="pblock reveal">
+    <h2 class="pblock__h">The problem</h2>
+    <p class="pblock__lede">A dropship warehouse handles hundreds of labels a day from dozens of agencies. When that runs on chat groups, spreadsheets and paper, the failures are always in the same six places.</p>
+    <div class="pain-grid"><div class="pain">
+        <h3 class="pain__title">Labels arrive in chat</h3>
+        <p class="pain__text">Every marketplace and every carrier prints a different label. Staff open each file and retype the tracking number and the contents by hand.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Every agency names things differently</h3>
+        <p class="pain__text">The same combo has a different name at every shop. The warehouse guesses, so components go missing or the wrong one goes in.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Cancelled orders still get packed</h3>
+        <p class="pain__text">The buyer cancels after the label is printed. Nobody finds out in time, the parcel ships, and the fee is paid twice.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Handover is counted by hand</h3>
+        <p class="pain__text">Nobody knows which parcel belonged to which agency or which request. Reconciling with the carrier takes the rest of the evening.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Debt lives in a notebook</h3>
+        <p class="pain__text">Goods, service fees, returns and discounts worked out by hand per agency. Month-end reconciliation runs for days.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">Everyone can see the prices</h3>
+        <p class="pain__text">Warehouse staff need to know what goes in the box. They should not also see each agency's selling price, fees and discounts.</p>
+      </div></div>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">One flow, from carrier label to settled debt</h2>
+    <ol class="steps"><li class="step">
+        <span class="step__n">1</span>
+        <span class="step__body"><strong>Upload label PDFs</strong><span>On the portal, one file or many, labels from different marketplaces mixed together.</span></span>
+      </li><li class="step">
+        <span class="step__n">2</span>
+        <span class="step__body"><strong>Read the labels, raise a request</strong><span>Tracking number, carrier and parcel contents are extracted. Duplicate tracking numbers are blocked.</span></span>
+      </li><li class="step">
+        <span class="step__n">3</span>
+        <span class="step__body"><strong>Review and confirm</strong><span>Sales checks it, the agency confirms. Stock is reserved at that moment.</span></span>
+      </li><li class="step">
+        <span class="step__n">4</span>
+        <span class="step__body"><strong>Print, stick, scan</strong><span>Print every label for the request in parcel order. Scanning the tracking number closes that parcel.</span></span>
+      </li><li class="step">
+        <span class="step__n">5</span>
+        <span class="step__body"><strong>Hand over to the carrier</strong><span>One handover note can cover many requests. Signing it issues the goods and raises the debit note.</span></span>
+      </li><li class="step">
+        <span class="step__n">6</span>
+        <span class="step__body"><strong>Settle</strong><span>Statements per agency, debt ageing, receipts. Returns are scanned back into stock.</span></span>
+      </li></ol>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">What it does</h2>
+    <div class="cap-grid"><div class="cap">
+        <h3 class="cap__title">Reads PDF labels without a template</h3>
+        <p class="cap__text">Text is read directly from the PDF — no photographs, no retyping. Shopee (SPX), Lazada, TikTok Shop, Viettel Post and SuperShip are preconfigured; anything else is read by the generic method.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Learns a label once</h3>
+        <p class="cap__text">Drag a box around the field on a sample label. The read area anchors to the nearest printed caption, so a label with an extra line still reads correctly.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Learns how each agency talks</h3>
+        <p class="cap__text">Declare the phrases an agency uses and they can paste "30 combo A, 20 B" into the form and get the right items out.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Explodes combos correctly</h3>
+        <p class="cap__text">Combos hold no stock of their own; how many sets can be built is derived from the scarcest component. The warehouse sees exactly what goes in the parcel.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Catches cancellations at the scanner</h3>
+        <p class="cap__text">An order cancelled on the marketplace raises a red warning when scanned, and the parcel is not counted as packed.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Stock that matches the floor</h3>
+        <p class="cap__text">Nobody edits a quantity. Every change goes through a document and leaves a trace — purchase, handover, transfer, return, stock count.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Separates money from goods</h3>
+        <p class="cap__text">"See prices" is its own permission. Money disappears everywhere — lists, detail, filters, Excel exports, dashboards, notifications — for anyone without it.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Nightly statements, per agency</h3>
+        <p class="cap__text">Each agency gets its own debt report at a time the company chooses, on the portal and by email or Zalo, with a QR code carrying the amount and reference.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Promotions instead of PDFs in a chat group</h3>
+        <p class="cap__text">Publish a channel price list with gifts; agencies opt in, and the gift attaches itself to the right parcel and ships with the goods.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">One thread per agency</h3>
+        <p class="cap__text">Every exchange in one place, with read receipts and an owner, instead of dozens of chat groups.</p>
+      </div></div>
+  </section>
       <div class="prose reveal">
-<h2>The ERP instinct, applied to a small business</h2>
-<p>Most dropshipping tools store stock as a number and update it. It works until two things happen at once, or until somebody asks <em>why</em> the number is what it is — and then there is no answer, because the history was overwritten.</p>
-<p>Three years of SAP left me with a different instinct, and Dropship Hub is built on it.</p>
-<h2>Inventory as a ledger, not a number</h2>
-<p><strong>Stock is never stored. It is derived.</strong> Every movement is a transaction — receipt, issue, adjustment, transfer — and the quantity on hand is the sum of them. This is how accounting works, and it is how SAP's material documents work, for the same reason: you can always answer <em>how did we get here</em>.</p>
-<p>The cost is a join and a sum where a naive design has a single column read. The benefit is that a stock discrepancy becomes a question with an answer instead of an argument.</p>
-<h2>Bill of Materials</h2>
-<p>A BOM with <strong>automatic explosion</strong> — when a product that is assembled or bundled is ordered, its components are consumed in the right quantities. Straight out of the MM/PP playbook, and the piece that distinguishes a system that can handle kits from one that quietly goes wrong the first time somebody sells a bundle.</p>
-<h2>The order state machine</h2>
-<p><strong>Draft → Confirmed → Packed → Shipped → Delivered.</strong> Written as an explicit state machine rather than a status column that any part of the code can set.</p>
-<p>The value is in what it forbids. A state machine makes invalid transitions impossible by construction, which means the rule lives in one place instead of being re-checked — and eventually forgotten — at every call site.</p>
-<h2>Built as a platform</h2>
-<div class="table-scroll"><table><thead><tr><th>Piece</th><th>Choice</th></tr></thead><tbody><tr><td>Front end</td><td>React 19 + Ant Design, one shell serving both the company app and the agency portal</td></tr><tr><td>API</td><td>Node 24 + Fastify 5, TypeScript run directly with no build step</td></tr><tr><td>Metadata</td><td>DocType definitions drive API validation, list queries, form UI, Excel templates and OpenAPI</td></tr><tr><td>Engine</td><td>Shared CRUD, a workflow engine defined in the database, numbering, settings, audit and an outbox</td></tr><tr><td>Integration</td><td>ERP connectors as plugins, plus carrier and marketplace connectors</td></tr><tr><td>Deployment</td><td>Docker, with the worker runnable inside the API or on its own</td></tr></tbody></table></div>
+<h2>Who it is for</h2>
+<p>A dropship warehouse packing and shipping on behalf of many agencies — and the agencies themselves, who get their own portal rather than a chat group.</p>
+<h2>The design idea</h2>
+<p><strong>Everything hangs off one request.</strong> The labels, the parcels, the goods issued, the confirmation messages and the resulting documents all live inside the packing request. There is no second place to look.</p>
+<p>That is what makes the rest possible: progress can be partial and still be accurate ("packed 4/10, delivered 2/10"), every screen can show the same <strong>next action</strong> so whoever opens the request knows who is being waited on, and the debit note at the end is built from what was actually handed over rather than what was ordered.</p>
+<h2>Architecture</h2>
+<div class="table-scroll"><table><thead><tr><th>Piece</th><th>Choice</th></tr></thead><tbody><tr><td>Front end</td><td>React 19 + Ant Design, one shell serving both the company app and the agency portal</td></tr><tr><td>API</td><td>Node 24 + Fastify 5, TypeScript run directly with no build step</td></tr><tr><td>Metadata</td><td>DocType definitions drive API validation, list queries, form UI, Excel templates and OpenAPI</td></tr><tr><td>Engine</td><td>Shared CRUD, a workflow engine defined in the database, numbering, settings, audit and an outbox</td></tr><tr><td>Label reading</td><td>PDF text extraction with per-agency parsing rules, plus generation and page splitting</td></tr><tr><td>Integration</td><td>ERP connectors as plugins, carrier and marketplace connectors, outbox → webhook with HMAC</td></tr></tbody></table></div>
 <p><strong>The metadata layer is the point.</strong> Entity definitions live in the database rather than in code, so the API contract, the list filters, the form layout and the Excel import template are all generated from one definition. A customer-specific field is configuration, not a release.</p>
-<blockquote><p><strong>Note:</strong> v2 is a full rewrite. The original Flask application is kept in <code>legacy/</code> for reference only.</p></blockquote>
-<blockquote><p><strong>In progress.</strong> This one is still being built — I will add the data model and the API contract as it stabilises.</p></blockquote>
+<p><strong>Stock is a ledger, not a number.</strong> On-hand, reserved and available are derived from documents. Reserved is taken the moment the agency confirms. Rows are locked when written, so several people scanning at once still produce the right number. There is an integrity checker that can be run at any time: stock equals the ledger, reserved equals open orders, no negative stock, debt equals the debt ledger.</p>
+<h2>Isolation and safety</h2>
+<p>Each company's and each agency's data is separated <strong>in the database</strong>, not by a filter the application remembers to apply. Buyer details are kept private, every action is logged, and closed accounting periods cannot be edited.</p>
+<blockquote><p><strong>In progress.</strong> v2 is a full rewrite; the original Flask application is kept in <code>legacy/</code> for reference only. I will add the DocType model and the integration contract as they settle.</p></blockquote>
       </div>
 
       <div class="cta-strip reveal">

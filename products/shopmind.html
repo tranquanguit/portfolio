@@ -62,7 +62,8 @@
       <h1>ShopMind — Multimodal Search &amp; Glass-Box RAG</h1>
       <p class="article-head__lede">A shopping assistant you can see inside — text, image and composed search over 1,500 products, a RAG assistant whose every citation is verified, and a glass-box inspector that shows exactly why each result came back.</p>
       <div class="article-head__tags"><div class="tags"><span class="tag">RAG</span><span class="tag">Elasticsearch</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">SigLIP2</span><span class="tag">Multimodal Search</span><span class="tag">Evaluation</span><span class="tag">PostgreSQL</span></div></div>
-      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">AI &amp; Search</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">Live</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">FastAPI · Elasticsearch · React · SigLIP2 · PostgreSQL</div></div></div>
+      <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt is-active" href="../products/shopmind.html" aria-current="page">English</a><a class="langswitch__opt" href="../products/shopmind.vi.html">Tiếng Việt</a></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">AI &amp; Search</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">Live</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">FastAPI · Elasticsearch · React · SigLIP2 · PostgreSQL</div></div><div class="fact"><div class="fact__k">Built for</div><div class="fact__v">Anyone evaluating RAG for a product catalogue — and researchers who want the numbers</div></div></div>
       <div style="margin-top:22px"><a class="btn btn--ghost" href="https://github.com/kt1101/shopmind-rag" target="_blank" rel="noopener noreferrer">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
   </header>
@@ -71,6 +72,65 @@
     <div class="wrap wrap--narrow">
       
       <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Multimodal retrieval over 1,500 Amazon Berkeley Objects — text, image, and composed search ("like this picture but in black") using BM25 + dense kNN fused with RRF.</li><li>A RAG assistant answering from products, reviews and store policies, with every citation validated against the context actually sent to the model, and an explicit refusal when evidence is insufficient.</li><li>A glass-box inspector producing a pipeline trace for every request — each step, its input and output, scores, timings and reasoning.</li><li>Reproducible IR and RAG evaluation — Recall@10, nDCG@10, MRR@10 with fixed seeds, ablations, and every run written to its own directory.</li></ul></div>
+      <section class="pblock reveal">
+    <h2 class="pblock__h">The problem with most RAG demos</h2>
+    <p class="pblock__lede">Getting a model to answer from your documents takes an afternoon. Getting it to answer correctly, cite evidence you can verify, and refuse when it cannot, is the actual engineering.</p>
+    <div class="pain-grid"><div class="pain">
+        <h3 class="pain__title">Citations nobody checks</h3>
+        <p class="pain__text">An answer appears with references attached, and there is no way to tell whether they support the claim or were merely nearby in the retrieved text.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">They never say &quot;I don&#x27;t know&quot;</h3>
+        <p class="pain__text">Asked something the corpus cannot answer, the system answers anyway — which in a shopping context means inventing a return policy.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">You cannot see why</h3>
+        <p class="pain__text">When a result is wrong, there is no trace showing which step produced it, so debugging is guesswork.</p>
+      </div><div class="pain">
+        <h3 class="pain__title">&quot;We improved retrieval&quot; is a feeling</h3>
+        <p class="pain__text">Without seeded, reproducible benchmarks, no change can be shown to be an improvement.</p>
+      </div></div>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">How a question becomes an answer</h2>
+    <ol class="steps"><li class="step">
+        <span class="step__n">1</span>
+        <span class="step__body"><strong>Understand the query</strong><span>Rewrite it to stand alone, detect intent, extract filters.</span></span>
+      </li><li class="step">
+        <span class="step__n">2</span>
+        <span class="step__body"><strong>Retrieve</strong><span>BM25 and dense vectors over products, reviews and policies, fused with Reciprocal Rank Fusion.</span></span>
+      </li><li class="step">
+        <span class="step__n">3</span>
+        <span class="step__body"><strong>Build the context</strong><span>Select candidates per source and assemble exactly what the model will see.</span></span>
+      </li><li class="step">
+        <span class="step__n">4</span>
+        <span class="step__body"><strong>Generate</strong><span>Stream the answer with citations attached.</span></span>
+      </li><li class="step">
+        <span class="step__n">5</span>
+        <span class="step__body"><strong>Validate</strong><span>Every cited ID must appear in the context actually sent, or it is rejected.</span></span>
+      </li><li class="step">
+        <span class="step__n">6</span>
+        <span class="step__body"><strong>Trace</strong><span>Every step, score and timing recorded and shown in the inspector.</span></span>
+      </li></ol>
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">What it does</h2>
+    <div class="cap-grid"><div class="cap">
+        <h3 class="cap__title">Composed search</h3>
+        <p class="cap__text">"Like this picture but in black" — an image anchors the shape, text modifies it. The closest thing to how people actually shop.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Verified citations</h3>
+        <p class="cap__text">A citation that cannot be traced to the evidence the model saw is rejected rather than rendered.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">An explicit refusal path</h3>
+        <p class="cap__text">When evidence is insufficient the answer is <code>insufficient_evidence</code>, not a plausible invention.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Glass-box inspector</h3>
+        <p class="cap__text">Parsed query, BM25 / dense / RRF ranks, matched terms, latency waterfall, the raw query DSL, and the citation check.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Shopping plans with a budget</h3>
+        <p class="cap__text">Split the need, retrieve per need, optimise against a budget, and explain the result with citations.</p>
+      </div><div class="cap">
+        <h3 class="cap__title">Measured, not asserted</h3>
+        <p class="cap__text">Recall@10, nDCG@10 and MRR@10 at a fixed seed, with ablations, every run written to its own directory.</p>
+      </div></div>
+  </section>
       <div class="prose reveal">
 <h2>The idea</h2>
 <p>Two things bother me about most RAG demos.</p>
@@ -105,7 +165,7 @@
         <a class="btn btn--primary" href="mailto:tranvanquang2104@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg> Email me</a>
       </div>
 
-      <div class="pager"><a class="pager__link" href="../products/dropship-hub.html"><span class="pager__k">Previous</span><span class="pager__t">Dropship Hub — Multi-Tenant Dropshipping Platform</span></a><a class="pager__link pager__link--next" href="../products/sapwm3d.html"><span class="pager__k">Next</span><span class="pager__t">sapwm3d — Warehouse Visualisation Platform</span></a></div>
+      <div class="pager"><a class="pager__link" href="../products/dropship-hub.html"><span class="pager__k">Previous</span><span class="pager__t">Dropship Hub — Warehouse Operations for Dropshipping</span></a><a class="pager__link pager__link--next" href="../products/sapwm3d.html"><span class="pager__k">Next</span><span class="pager__t">sapwm3d — Warehouse Visualisation Platform</span></a></div>
 
       <p style="margin-top:28px">
         <a class="btn btn--quiet" href="../products/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> All products</a>
