@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SimpleMDG Implementation for McKesson — SAP Integration Suite — Tran Van Quang</title>
+  <meta name="description" content="Integration design for a US healthcare distributor — flows between SAP S/4HANA, SimpleMDG on BTP and surrounding systems, including an IDoc material inbound with 75 automated checks deployed error-free, and Event Mesh event handling.">
+  <meta name="author" content="Tran Van Quang">
+  <meta name="theme-color" content="#faf9f6">
+  <link rel="canonical" href="https://quangtv.com/projects/mckesson-integration-suite.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SimpleMDG Implementation for McKesson — SAP Integration Suite — Tran Van Quang">
+  <meta property="og:description" content="Integration design for a US healthcare distributor — flows between SAP S/4HANA, SimpleMDG on BTP and surrounding systems, including an IDoc material inbound with 75 automated checks deployed error-free, and Event Mesh event handling.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232c6baf'/><text x='50' y='68' font-family='sans-serif' font-size='46' font-weight='700' fill='white' text-anchor='middle'>Q</text></svg>">
+  <script>
+    (function () {
+      try {
+        document.documentElement.classList.add('js');
+        var t = localStorage.getItem('tvq-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">TV</span>
+      <span class="brand__text">
+        <span class="brand__name">Tran Van Quang</span>
+        <span class="brand__role">SAP Technical Consultant</span>
+      </span>
+    </a>
+    <nav class="nav__links" aria-label="Main"><a href="../index.html">Home</a><a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../awards/index.html">Recognition</a></nav>
+    <div class="nav__tools">
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle colour theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+      <button class="icon-btn nav__burger" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div class="nav__drawer"><div class="wrap"><a href="../index.html">Home</a><a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../awards/index.html">Recognition</a></div></div>
+</header>
+  <main id="main">
+<article>
+  <header class="article-head">
+    <div class="wrap wrap--narrow">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a><span class="sep">/</span>
+        <a href="../projects/index.html">Projects</a><span class="sep">/</span><span>LAIDON</span>
+      </nav>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:.9rem">
+        <span class="tag tag--accent">05/2026 – Present</span>
+        <span class="pill pill--live">Ongoing</span>
+      </div>
+      <h1>SimpleMDG Implementation for McKesson — SAP Integration Suite</h1>
+      <p class="article-head__lede">Integration design for a US healthcare distributor — flows between SAP S/4HANA, SimpleMDG on BTP and surrounding systems, including an IDoc material inbound with 75 automated checks deployed error-free, and Event Mesh event handling.</p>
+      <div class="article-head__tags"><div class="tags"><span class="tag">SAP Integration Suite</span><span class="tag">Event Mesh</span><span class="tag">IDoc</span><span class="tag">SAP BTP</span><span class="tag">Master Data Governance</span><span class="tag">Business Partner</span><span class="tag">Product</span></div></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Client</div><div class="fact__v">McKesson</div></div><div class="fact"><div class="fact__k">Organization</div><div class="fact__v">Laidon Group</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">SAP Technical Consultant</div></div><div class="fact"><div class="fact__k">Period</div><div class="fact__v">05/2026 – Present</div></div></div>
+      
+    </div>
+  </header>
+
+  <div class="section section--tight">
+    <div class="wrap wrap--narrow">
+      
+      <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Designed integration flows on SAP Integration Suite between SAP S/4HANA, SimpleMDG on SAP BTP, McKesson's customers and surrounding systems, including Event Mesh-based event handling.</li><li>Built an IDoc → SimpleMDG material inbound iFlow with 75 automated checks and a standard error passthrough, deployed error-free.</li><li>Implemented and customised key master data object types — Business Partner and Product — on the SimpleMDG platform.</li></ul></div>
+      <div class="prose reveal">
+<h2>Context</h2>
+<p>McKesson is one of the largest healthcare distributors in the United States. In that industry, master data is not an administrative concern — a wrong product record is a clinical and regulatory problem, not a reporting inconvenience.</p>
+<p>My scope is the integration layer: how master data moves between <strong>SAP S/4HANA</strong>, <strong>SimpleMDG on SAP BTP</strong>, McKesson's own customers, and the systems around them.</p>
+<h2>The 75 checks</h2>
+<p>The piece I am most pleased with is the <strong>IDoc → SimpleMDG material inbound iFlow</strong>. Material master records arrive as IDocs and have to land in the governance platform — but not unconditionally.</p>
+<p>The flow runs <strong>75 automated checks</strong> before anything is accepted, with a <strong>standard error passthrough</strong> for what fails. It deployed error-free.</p>
+<p>The design principle is simple and worth stating plainly: <strong>reject bad master data at the door</strong>. The alternative — accept everything, clean it up later — is how master data problems become permanent. Once a bad record is in the governance system, it propagates to every consumer before anyone notices, and the cleanup costs more than the original validation would have.</p>
+<p>The error passthrough matters just as much as the checks. A flow that silently drops what it cannot process is worse than one that fails loudly, because nobody finds out until a downstream system is missing data.</p>
+<h2>Event-driven handling</h2>
+<p>Parts of the landscape use <strong>Event Mesh</strong> rather than request/response. The distinction I apply: a synchronous call when the caller genuinely needs the answer before it can continue, events when something happened that others may care about.</p>
+<p>Master data governance leans towards the second. A business partner being approved is an event — several systems want to know, none of them should block the approval.</p>
+<h2>Object types</h2>
+<p>Alongside the flows, I implemented and customised the key object types on the SimpleMDG platform: <strong>Business Partner</strong> and <strong>Product</strong>. This is where the product's generic governance model meets one customer's actual data — which fields are governed, which are derived, what validation applies, and which of McKesson's existing conventions the model has to accommodate.</p>
+<blockquote><p><strong>In progress.</strong> I will expand this with the interface inventory and the check catalogue as the rollout completes.</p></blockquote>
+      </div>
+
+      <div class="cta-strip reveal">
+        <div>
+          <p class="cta-strip__title">Want the detail behind this?</p>
+          <p class="cta-strip__sub">Happy to walk through the technical decisions in a conversation.</p>
+        </div>
+        <a class="btn btn--primary" href="mailto:tranvanquang2104@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg> Email me</a>
+      </div>
+
+      <div class="pager"><span class="pager__spacer"></span><a class="pager__link pager__link--next" href="../projects/laidon-mdg-rap.html"><span class="pager__k">Next</span><span class="pager__t">Master Data Governance — Custom Business Objects &amp; Integration Flows</span></a></div>
+
+      <p style="margin-top:28px">
+        <a class="btn btn--quiet" href="../projects/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> All projects</a>
+      </p>
+    </div>
+  </div>
+</article>
+  </main>
+  <footer class="footer">
+  <div class="wrap footer__inner">
+    <p class="footer__copy">&copy; <span data-year>2026</span> Tran Van Quang &middot; SAP Technical Consultant</p>
+    <nav class="footer__links" aria-label="Footer">
+      <a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../awards/index.html">Recognition</a>
+      <a href="mailto:tranvanquang2104@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/tranquang214/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </nav>
+  </div>
+</footer>
+  <script src="../assets/js/main.js" defer></script>
+</body>
+</html>

@@ -4,11 +4,11 @@
   "customDomain": "quangtv.com",
   "shortName": "Quang Tran",
   "role": "SAP Technical Consultant",
-  "roleLong": "SAP Technical Consultant · ABAP / RAP / Data Integration",
-  "tagline": "I build custom SAP S/4HANA solutions and the data pipelines around them — from ABAP objects and RAP business objects to warehouses that feed the reports leadership actually reads.",
+  "roleLong": "SAP Technical Consultant · Integration · AI Delivery",
+  "tagline": "I build the ABAP/RAP backend and the integration flows behind SimpleMDG, a master data governance product on SAP BTP — and I make them fast, with OData reads cut by up to 94%.",
   "summary": [
-    "SAP ABAP Developer with 3 years of hands-on experience in SAP S/4HANA, specializing in custom development, system integration, and performance optimization. I have delivered 60+ reports and enhancements across MM, SD, FI, FM, WM, PP and QM, and contributed to large-scale S/4HANA implementation projects for manufacturing, pharmaceutical, retail and public-transport clients.",
-    "Alongside ABAP, I work on the data side: designing warehouses, building ETL pipelines with SSIS and SAP CI-DS, and modelling data for BI. That combination lets me carry a requirement end to end — from the business process inside SAP all the way to the number on a dashboard."
+    "SAP Technical Consultant with 3+ years in SAP S/4HANA, specialising in integration and master data. At Laidon Group I deliver the ABAP/RAP backend and SAP Integration Suite flows for SimpleMDG on SAP BTP across 10 US and EU customer implementations, cutting OData response times by up to 94%.",
+    "Before that, three years at FPT IS gave me the delivery grounding: ABAP development across seven modules, PI/PO and SAP CI-DS integration, and a 300-million-record data warehouse. I run AI coding agents behind human review gates, and hold 4 SAP certifications including Solution Architect – SAP BTP."
   ],
   "location": "Ho Chi Minh City, Vietnam",
   "email": "tranvanquang2104@gmail.com",
@@ -18,22 +18,22 @@
   "linkedinLabel": "linkedin.com/in/tranquang214",
   "photo": "assets/img/portrait.jpg",
   "heroImage": "assets/img/background.png",
-  "lastUpdated": "June 2026",
+  "lastUpdated": "November 2026",
   "stats": [
     {
       "value": "3+",
       "label": "Years in SAP S/4HANA"
     },
     {
-      "value": "60+",
-      "label": "Custom objects delivered"
+      "value": "10",
+      "label": "Customer implementations"
     },
     {
-      "value": "10+",
-      "label": "Implementation projects"
+      "value": "94%",
+      "label": "Peak OData latency cut"
     },
     {
-      "value": "2",
+      "value": "4",
       "label": "SAP certifications"
     }
   ],
@@ -56,6 +56,18 @@
       "code": "C_SAC",
       "issuer": "SAP",
       "date": "17 April 2026"
+    },
+    {
+      "name": "SAP Certified Professional — Solution Architect, SAP BTP",
+      "code": "P_BTPA",
+      "issuer": "SAP",
+      "date": "26 April 2026"
+    },
+    {
+      "name": "SAP Certified Associate — SAP Generative AI Developer",
+      "code": "C_AIDEV",
+      "issuer": "SAP",
+      "date": "30 April 2026"
     }
   ],
   "publication": {
@@ -83,7 +95,7 @@
       "short": "LAIDON",
       "kind": "Company",
       "period": "05/2026 – Present",
-      "blurb": "SAP Technical Consultant. Master data governance, RAP business objects and integration between SAP BTP and SAP ERP."
+      "blurb": "SAP Technical Consultant. ABAP/RAP backend, SAP Integration Suite flows and performance work for SimpleMDG, Laidon's master data governance product on SAP BTP, across 10 US and EU customer implementations."
     },
     {
       "id": "fis",
@@ -91,7 +103,7 @@
       "short": "FPT IS",
       "kind": "Company",
       "period": "07/2023 – 04/2026",
-      "blurb": "SAP ABAP Developer, then Data Engineer. Ten S/4HANA implementation and maintenance projects across manufacturing, pharma, retail and public transport."
+      "blurb": "SAP ABAP Developer, then Data Engineer and team lead. Ten S/4HANA projects across manufacturing, pharma, retail and public transport, plus the Acecook data warehouse and the internal Microsoft Fabric initiative."
     },
     {
       "id": "uit",

@@ -20,9 +20,11 @@ import html
 import json
 import math
 import re
+import subprocess
 import sys
 from dataclasses import dataclass, field
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -268,6 +270,7 @@ class Entry:
     slug: str
     meta: dict
     body: str
+    source: str = "content"
     tags: list = field(default_factory=list)
     highlights: list = field(default_factory=list)
 
@@ -311,6 +314,7 @@ def load_entries(section: str) -> list[Entry]:
                 slug=slug,
                 meta=meta,
                 body=body,
+                source=str(path.relative_to(ROOT)),
                 tags=[str(t) for t in meta.get("tags", []) if str(t).strip()],
                 highlights=[str(h) for h in meta.get("highlights", []) if str(h).strip()],
             )
@@ -707,10 +711,13 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
       <div class="grid grid--2">{cards}</div>
     </div>"""
 
-    radar_skills = sorted(
-        [s for s in skills if s.get("featured") and s.get("short")],
-        key=lambda x: -int(x.get("level", 0) or 0),
-    )[:6]
+    # The radar is a deliberate selection (`radar: true` in a skill's frontmatter),
+    # not whichever six happen to score highest — so it can show what the current
+    # role is actually about. Falls back to the top featured skills if unset.
+    radar_skills = [s for s in skills if s.get("radar") and s.get("short")]
+    if not radar_skills:
+        radar_skills = [s for s in skills if s.get("featured") and s.get("short")]
+    radar_skills = sorted(radar_skills, key=lambda x: -int(x.get("level", 0) or 0))[:6]
     radar = radar_svg(radar_skills)
     radar_panel = f"""<div class="radar-panel reveal">
         <h3 class="radar-panel__title">Proficiency at a glance</h3>
@@ -1095,10 +1102,32 @@ def public_url(path: str) -> str:
     return path
 
 
-def build_sitemap(urls: list[str]) -> str:
-    today = date.today().isoformat()
+@lru_cache(maxsize=None)
+def _git_last_modified(path: str) -> str:
+    """Date of the last commit touching `path`, so the sitemap is reproducible.
+
+    Using today's date would rewrite every <lastmod> on every build, which makes
+    the generated output differ from the committed output for no real reason and
+    breaks the "is the build up to date?" check in CI.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", path],
+            cwd=ROOT, capture_output=True, text=True, timeout=15,
+        )
+        stamp = out.stdout.strip()
+        if out.returncode == 0 and re.fullmatch(r"\d{4}-\d{2}-\d{2}", stamp):
+            return stamp
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return date.today().isoformat()
+
+
+def build_sitemap(entries: list[tuple[str, str]]) -> str:
     items = "".join(
-        f"  <url><loc>{SITE_URL}/{public_url(u)}</loc><lastmod>{today}</lastmod></url>\n" for u in urls
+        f"  <url><loc>{SITE_URL}/{public_url(u)}</loc>"
+        f"<lastmod>{_git_last_modified(src)}</lastmod></url>\n"
+        for u, src in entries
     )
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}</urlset>\n'
 
@@ -1125,24 +1154,28 @@ def main() -> int:
         print(f"warning: no content found for {', '.join(missing)}", file=sys.stderr)
 
     written: list[str] = []
+    sources: dict[str, str] = {}
 
-    def write(path: str, content: str) -> None:
+    def write(path: str, content: str, source: str = "content") -> None:
         target = ROOT / path
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8")
         written.append(path)
+        sources[path] = source
 
     write("index.html", build_home(site, data, orgs))
 
     for section, entries in data.items():
         if not entries:
             continue
-        write(f"{section}/index.html", build_listing(site, section, entries, orgs))
+        write(f"{section}/index.html", build_listing(site, section, entries, orgs), f"content/{section}")
         for entry in entries:
-            write(entry.url, build_detail(site, entry, entries, orgs))
+            write(entry.url, build_detail(site, entry, entries, orgs), entry.source)
 
     write("404.html", build_404(site))
-    write("sitemap.xml", build_sitemap([p for p in written if p.endswith(".html") and p != "404.html"]))
+    write("sitemap.xml", build_sitemap(
+        [(p, sources[p]) for p in written if p.endswith(".html") and p != "404.html"]
+    ))
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
 
     # GitHub Pages reads CNAME to serve the site from a custom domain. Keeping it

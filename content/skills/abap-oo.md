@@ -4,6 +4,7 @@ slug: abap-oo
 category: SAP Development
 icon: ◈
 short: ABAP OO
+radar: true
 level: 90
 years: 3
 summary: Custom development in SAP S/4HANA using ABAP and object-oriented design — roughly 60 reports and functions delivered across seven modules.
