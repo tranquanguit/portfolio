@@ -11,6 +11,8 @@ stack: React 19 · Fastify 5 · TypeScript · PostgreSQL
 audience: Kho dropship, các đại lý gửi hàng, và bộ phận kế toán của cả hai bên
 summary: Nhận nhãn vận đơn của đại lý, đọc thẳng từ file PDF, bung combo, quét đóng hàng, bàn giao đơn vị vận chuyển và theo dõi công nợ trên cùng một hệ thống. Đại lý có portal riêng.
 tags: [TypeScript, Fastify, React, PostgreSQL, Multi-Tenant, Metadata-Driven, Workflow Engine, Tồn kho]
+cover: assets/img/products/dropship-hub/01-tong-quan.jpg
+imageAlt: Màn hình tổng quan của công ty
 repo:
 featured: true
 current: true
@@ -36,17 +38,32 @@ flow:
 
 capabilitiesHeading: Hệ thống làm được gì
 capabilities:
-  - Đọc nhãn PDF không cần mẫu :: Đọc chữ trực tiếp trong file PDF, không chụp ảnh, không nhập tay. Có sẵn quy cách cho Shopee (SPX), Lazada, TikTok Shop, Viettel Post và SuperShip; nhãn khác đọc theo cách chung.
-  - Dạy một lần, lần sau tự nhận ra :: Tải nhãn mẫu, kéo chuột quanh thông tin cần đọc. Vùng đọc bám theo chữ in sẵn gần nhất, nên nhãn có thêm dòng vẫn đọc đúng.
-  - Hiểu cách đại lý gọi tên hàng :: Khai "cách gọi trong tin nhắn" để đại lý dán "30 combo A, 20 B" là hệ thống ra đúng mặt hàng, đúng số lượng.
-  - Bung combo đúng thành phần :: Combo không cần tồn riêng; số bộ ráp được tính từ thành phần ít nhất trong kho. Kho thấy rõ cần cho gì vào kiện.
-  - Bắt đơn hủy ngay tại trạm quét :: Đơn đã hủy trên sàn, quét tới là hiện cảnh báo đỏ và kiện không được tính là đã đóng.
-  - Tồn kho luôn khớp thực tế :: Không ai sửa thẳng con số tồn. Mọi thay đổi đi qua chứng từ và để lại dấu vết — nhập mua, xuất bàn giao, chuyển kho, nhập hoàn, kiểm kê.
-  - Tách tiền khỏi hàng :: Quyền "xem tiền" tách riêng. Tiền được ẩn ở mọi nơi — danh sách, chi tiết, bộ lọc, xuất Excel, tổng quan, thông báo — với người không có quyền.
-  - Mỗi tối mỗi đại lý nhận báo cáo riêng :: Tự gửi vào giờ công ty chọn, trên portal và qua email hoặc Zalo, kèm mã QR có sẵn số tiền và nội dung chuyển khoản.
-  - Khuyến mãi thay cho PDF trong nhóm chat :: Phát hành bảng giá và quà theo kênh bán, đại lý bấm tham gia, quà tự gắn vào đúng kiện và xuất kho cùng hàng.
-  - Mọi trao đổi ở một chỗ :: Mỗi đại lý một luồng trao đổi với công ty, biết bên kia đã đọc chưa, giao được người phụ trách — thay cho hàng chục nhóm chat.
+  - Đọc nhãn PDF không cần mẫu :: Đọc chữ trực tiếp trong file PDF, không chụp ảnh, không nhập tay. Có sẵn quy cách cho Shopee (SPX), Lazada, TikTok Shop, Viettel Post và SuperShip; nhãn khác đọc theo cách chung. :: assets/img/products/dropship-hub/04-nhan-van-don.jpg
+  - Dạy một lần, lần sau tự nhận ra :: Tải nhãn mẫu, kéo chuột quanh thông tin cần đọc. Vùng đọc bám theo chữ in sẵn gần nhất, nên nhãn có thêm dòng vẫn đọc đúng. :: assets/img/products/dropship-hub/07-quy-cach-nhan.jpg
+  - Hiểu cách đại lý gọi tên hàng :: Khai "cách gọi trong tin nhắn" để đại lý dán "30 combo A, 20 B" là hệ thống ra đúng mặt hàng, đúng số lượng. :: assets/img/products/dropship-hub/08-quy-tac-san-pham.jpg
+  - Bung combo đúng thành phần :: Combo không cần tồn riêng; số bộ ráp được tính từ thành phần ít nhất trong kho. Kho thấy rõ cần cho gì vào kiện. :: assets/img/products/dropship-hub/41-combo.jpg
+  - Bắt đơn hủy ngay tại trạm quét :: Đơn đã hủy trên sàn, quét tới là hiện cảnh báo đỏ và kiện không được tính là đã đóng. :: assets/img/products/dropship-hub/22-kho-don-huy.jpg
+  - Tồn kho luôn khớp thực tế :: Không ai sửa thẳng con số tồn. Mọi thay đổi đi qua chứng từ và để lại dấu vết — nhập mua, xuất bàn giao, chuyển kho, nhập hoàn, kiểm kê. :: assets/img/products/dropship-hub/50b-ton-kho-combo.jpg
+  - Tách tiền khỏi hàng :: Quyền "xem tiền" tách riêng. Tiền được ẩn ở mọi nơi — danh sách, chi tiết, bộ lọc, xuất Excel, tổng quan, thông báo — với người không có quyền. :: assets/img/products/dropship-hub/21-kho-chi-tiet.jpg
+  - Mỗi tối mỗi đại lý nhận báo cáo riêng :: Tự gửi vào giờ công ty chọn, trên portal và qua email hoặc Zalo, kèm mã QR có sẵn số tiền và nội dung chuyển khoản. :: assets/img/products/dropship-hub/53-portal-sao-ke.jpg
+  - Khuyến mãi thay cho PDF trong nhóm chat :: Phát hành bảng giá và quà theo kênh bán, đại lý bấm tham gia, quà tự gắn vào đúng kiện và xuất kho cùng hàng. :: assets/img/products/dropship-hub/43-khuyen-mai.jpg
+  - Mọi trao đổi ở một chỗ :: Mỗi đại lý một luồng trao đổi với công ty, biết bên kia đã đọc chưa, giao được người phụ trách — thay cho hàng chục nhóm chat. :: assets/img/products/dropship-hub/45-tin-nhan.jpg
 
+galleryHeading: Thêm màn hình
+gallery:
+  - assets/img/products/dropship-hub/03-chi-tiet-yeu-cau.jpg :: Một yêu cầu đóng hàng — nhãn, kiện, tiến độ và chứng từ ở một chỗ
+  - assets/img/products/dropship-hub/22a-kho-quet.jpg :: Trạm đóng gói sau khi quét
+  - assets/img/products/dropship-hub/52-kiem-cuoi-ca.jpg :: Kiểm cuối ca
+  - assets/img/products/dropship-hub/10-bien-ban.jpg :: Biên bản bàn giao đơn vị vận chuyển cho nhiều yêu cầu
+  - assets/img/products/dropship-hub/11-cong-no.jpg :: Công nợ theo đại lý — số dư, hạn mức, tuổi nợ
+  - assets/img/products/dropship-hub/48-bao-cao-cuoi-ngay.jpg :: Báo cáo công nợ cuối ngày phía công ty
+  - assets/img/products/dropship-hub/30-portal-tong-quan.jpg :: Trang tổng quan của đại lý
+  - assets/img/products/dropship-hub/33-portal-catalog.jpg :: Sản phẩm và giá riêng của đại lý trên portal
+  - assets/img/products/dropship-hub/37-portal-dien-thoai-yc.jpg :: Yêu cầu trên điện thoại
+  - assets/img/products/dropship-hub/44-portal-khuyen-mai.jpg :: Chương trình khuyến mãi trên portal đại lý
+  - assets/img/products/dropship-hub/46-thong-bao.jpg :: Ai đã đọc và xác nhận thông báo
+  - assets/img/products/dropship-hub/47-portal-thong-bao.jpg :: Đại lý đọc và xác nhận thông báo
+  - assets/img/products/dropship-hub/14-thiet-lap.jpg :: Trang thiết lập — công ty tự chỉnh, không cần lập trình
 highlights:
   - Đọc nhãn vận đơn thẳng từ chữ trong PDF theo quy tắc riêng từng đại lý, chặn trùng mã vận đơn giữa các file, các yêu cầu và các đại lý.
   - Đóng hàng theo quét mã, tiến độ từng phần ("đã đóng 4/10", "đã giao 0/10") và trạng thái từng kiện, nên đóng một phần vẫn giao được.

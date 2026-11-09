@@ -59,9 +59,9 @@
         <span class="tag tag--accent">2026</span>
         
       </div>
-      <h1>ShopMind — Tìm kiếm đa phương thức &amp; RAG minh bạch</h1>
+      <div class="article-head__title"><h1>ShopMind — Tìm kiếm đa phương thức &amp; RAG minh bạch</h1></div>
       <p class="article-head__lede">Trợ lý mua sắm nhìn được vào bên trong — tìm bằng chữ, bằng ảnh và kết hợp cả hai trên 1.500 sản phẩm, trợ lý RAG có citation được kiểm tra, và bộ inspector cho thấy vì sao ra kết quả đó.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">RAG</span><span class="tag">Elasticsearch</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">SigLIP2</span><span class="tag">Tìm kiếm đa phương thức</span><span class="tag">Đánh giá</span><span class="tag">PostgreSQL</span></div></div>
+      <div class="article-head__tags"><div class="tags"><span class="tag tag--icon"><img src="../assets/img/tech/openai.svg" alt="" width="12" height="12">RAG</span><span class="tag tag--icon"><img src="../assets/img/tech/elasticsearch.svg" alt="" width="12" height="12">Elasticsearch</span><span class="tag tag--icon"><img src="../assets/img/tech/fastapi.svg" alt="" width="12" height="12">FastAPI</span><span class="tag tag--icon"><img src="../assets/img/tech/react.svg" alt="" width="12" height="12">React</span><span class="tag">SigLIP2</span><span class="tag">Tìm kiếm đa phương thức</span><span class="tag">Đánh giá</span><span class="tag tag--icon"><img src="../assets/img/tech/postgresql.svg" alt="" width="12" height="12">PostgreSQL</span></div></div>
       <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt" href="../products/shopmind.html">English</a><a class="langswitch__opt is-active" href="../products/shopmind.vi.html" aria-current="page">Tiếng Việt</a></div>
       <div class="factbar"><div class="fact"><div class="fact__k">Loại</div><div class="fact__v">AI &amp; Search</div></div><div class="fact"><div class="fact__k">Trạng thái</div><div class="fact__v">Live</div></div><div class="fact"><div class="fact__k">Vai trò</div><div class="fact__v">Thiết kế &amp; phát triển</div></div><div class="fact"><div class="fact__k">Công nghệ</div><div class="fact__v">FastAPI · Elasticsearch · React · SigLIP2 · PostgreSQL</div></div><div class="fact"><div class="fact__k">Dành cho</div><div class="fact__v">Người đang cân nhắc dùng RAG cho catalogue sản phẩm, và người làm nghiên cứu cần số đo</div></div></div>
       <div style="margin-top:22px"><a class="btn btn--ghost" href="https://github.com/kt1101/shopmind-rag" target="_blank" rel="noopener noreferrer">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
@@ -70,7 +70,7 @@
 
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
-      
+      <div class="article-hero reveal"><a class="zoom" href="../assets/img/products/shopmind/catalog.jpg" data-lightbox data-caption="Gian hàng ShopMind"><img src="../assets/img/products/shopmind/catalog.jpg" alt="Gian hàng ShopMind" loading="lazy"></a></div>
       <div class="highlights reveal"><p class="highlights__title">Điểm chính</p><ul><li>Truy hồi đa phương thức trên 1.500 sản phẩm Amazon Berkeley Objects — tìm bằng chữ, bằng ảnh và kết hợp, dùng BM25 + kNN vector dày hợp nhất bằng RRF.</li><li>Trợ lý RAG trả lời từ sản phẩm, review và policy, mọi citation đều được đối chiếu với đúng context đã gửi cho mô hình, và từ chối rõ ràng khi thiếu bằng chứng.</li><li>Inspector minh bạch sinh pipeline trace cho mọi request — từng bước, đầu vào đầu ra, điểm số, thời gian và lý do.</li><li>Đánh giá IR và RAG tái lập được — Recall@10, nDCG@10, MRR@10 với hạt giống cố định, kèm ablation, mỗi lần chạy ghi vào thư mục riêng.</li></ul></div>
       <section class="pblock reveal">
     <h2 class="pblock__h">Vấn đề của phần lớn demo RAG</h2>
@@ -111,25 +111,43 @@
       </li></ol>
   </section><section class="pblock reveal">
     <h2 class="pblock__h">Hệ thống làm được gì</h2>
-    <div class="cap-grid"><div class="cap">
-        <h3 class="cap__title">Tìm kiếm kết hợp</h3>
-        <p class="cap__text">"Giống ảnh này nhưng màu đen" — ảnh neo hình dáng, chữ chỉnh thuộc tính. Gần nhất với cách người ta thực sự mua sắm.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Citation được kiểm tra</h3>
-        <p class="cap__text">Trích dẫn nào không truy ngược được về bằng chứng mô hình đã thấy thì bị loại chứ không hiển thị.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Có đường từ chối rõ ràng</h3>
-        <p class="cap__text">Khi không đủ bằng chứng, câu trả lời là <code>insufficient_evidence</code>, không phải một phương án nghe hợp lý do bịa ra.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Inspector minh bạch</h3>
-        <p class="cap__text">Câu truy vấn đã hiểu, rank BM25 / dense / RRF, từ khóa khớp, waterfall thời gian, query DSL thô và kết quả kiểm citation.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Lên kế hoạch mua theo ngân sách</h3>
-        <p class="cap__text">Tách nhu cầu, truy hồi theo từng nhu cầu, tối ưu theo ngân sách, và giải thích kết quả có trích dẫn.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Đo đạc chứ không khẳng định suông</h3>
-        <p class="cap__text">Recall@10, nDCG@10 và MRR@10 ở hạt giống cố định, kèm ablation, mỗi lần chạy ghi vào thư mục riêng.</p>
+    <div class="features"><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/compose.jpg" data-lightbox data-caption="Tìm kiếm kết hợp"><img src="../assets/img/products/shopmind/compose.jpg" alt="Tìm kiếm kết hợp" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Tìm kiếm kết hợp</h3><p class="cap__text">"Giống ảnh này nhưng màu đen" — ảnh neo hình dáng, chữ chỉnh thuộc tính. Gần nhất với cách người ta thực sự mua sắm.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/chat.jpg" data-lightbox data-caption="Citation được kiểm tra"><img src="../assets/img/products/shopmind/chat.jpg" alt="Citation được kiểm tra" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Citation được kiểm tra</h3><p class="cap__text">Trích dẫn nào không truy ngược được về bằng chứng mô hình đã thấy thì bị loại chứ không hiển thị.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/rag_flow.jpg" data-lightbox data-caption="Có đường từ chối rõ ràng"><img src="../assets/img/products/shopmind/rag_flow.jpg" alt="Có đường từ chối rõ ràng" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Có đường từ chối rõ ràng</h3><p class="cap__text">Khi không đủ bằng chứng, câu trả lời là <code>insufficient_evidence</code>, không phải một phương án nghe hợp lý do bịa ra.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/inspector_ranking.jpg" data-lightbox data-caption="Inspector minh bạch"><img src="../assets/img/products/shopmind/inspector_ranking.jpg" alt="Inspector minh bạch" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Inspector minh bạch</h3><p class="cap__text">Câu truy vấn đã hiểu, rank BM25 / dense / RRF, từ khóa khớp, waterfall thời gian, query DSL thô và kết quả kiểm citation.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/planner.jpg" data-lightbox data-caption="Lên kế hoạch mua theo ngân sách"><img src="../assets/img/products/shopmind/planner.jpg" alt="Lên kế hoạch mua theo ngân sách" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Lên kế hoạch mua theo ngân sách</h3><p class="cap__text">Tách nhu cầu, truy hồi theo từng nhu cầu, tối ưu theo ngân sách, và giải thích kết quả có trích dẫn.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/a1_ndcg.jpg" data-lightbox data-caption="Đo đạc chứ không khẳng định suông"><img src="../assets/img/products/shopmind/a1_ndcg.jpg" alt="Đo đạc chứ không khẳng định suông" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Đo đạc chứ không khẳng định suông</h3><p class="cap__text">Recall@10, nDCG@10 và MRR@10 ở hạt giống cố định, kèm ablation, mỗi lần chạy ghi vào thư mục riêng.</p></div>
       </div></div>
+    
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">Thêm màn hình và số đo</h2>
+    <div class="gallery"><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/search.jpg" data-lightbox data-caption="Kết quả tìm bằng chữ, có facet"><img src="../assets/img/products/shopmind/search.jpg" alt="Kết quả tìm bằng chữ, có facet" loading="lazy"></a>
+        <figcaption>Kết quả tìm bằng chữ, có facet</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/product.jpg" data-lightbox data-caption="Trang sản phẩm có hỏi đáp"><img src="../assets/img/products/shopmind/product.jpg" alt="Trang sản phẩm có hỏi đáp" loading="lazy"></a>
+        <figcaption>Trang sản phẩm có hỏi đáp</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/compare.jpg" data-lightbox data-caption="So sánh sản phẩm có trích dẫn"><img src="../assets/img/products/shopmind/compare.jpg" alt="So sánh sản phẩm có trích dẫn" loading="lazy"></a>
+        <figcaption>So sánh sản phẩm có trích dẫn</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/playground.jpg" data-lightbox data-caption="Search playground — hai pipeline đặt cạnh nhau"><img src="../assets/img/products/shopmind/playground.jpg" alt="Search playground — hai pipeline đặt cạnh nhau" loading="lazy"></a>
+        <figcaption>Search playground — hai pipeline đặt cạnh nhau</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/embedding_map.jpg" data-lightbox data-caption="Bản đồ 2D của không gian embedding"><img src="../assets/img/products/shopmind/embedding_map.jpg" alt="Bản đồ 2D của không gian embedding" loading="lazy"></a>
+        <figcaption>Bản đồ 2D của không gian embedding</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/admin_dashboard.jpg" data-lightbox data-caption="Dashboard quản trị — độ trễ, tỉ lệ không kết quả, tỉ lệ từ chối"><img src="../assets/img/products/shopmind/admin_dashboard.jpg" alt="Dashboard quản trị — độ trễ, tỉ lệ không kết quả, tỉ lệ từ chối" loading="lazy"></a>
+        <figcaption>Dashboard quản trị — độ trễ, tỉ lệ không kết quả, tỉ lệ từ chối</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/admin_config.jpg" data-lightbox data-caption="Cấu hình pipeline sửa nóng, có rollback"><img src="../assets/img/products/shopmind/admin_config.jpg" alt="Cấu hình pipeline sửa nóng, có rollback" loading="lazy"></a>
+        <figcaption>Cấu hình pipeline sửa nóng, có rollback</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/architecture.jpg" data-lightbox data-caption="Kiến trúc — interfaces, application, domain, infrastructure"><img src="../assets/img/products/shopmind/architecture.jpg" alt="Kiến trúc — interfaces, application, domain, infrastructure" loading="lazy"></a>
+        <figcaption>Kiến trúc — interfaces, application, domain, infrastructure</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/search_pipeline.jpg" data-lightbox data-caption="Pipeline tìm kiếm, mọi bước đều được ghi vết"><img src="../assets/img/products/shopmind/search_pipeline.jpg" alt="Pipeline tìm kiếm, mọi bước đều được ghi vết" loading="lazy"></a>
+        <figcaption>Pipeline tìm kiếm, mọi bước đều được ghi vết</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/planner_flow.jpg" data-lightbox data-caption="Cách bộ lên kế hoạch mua sắm hoạt động"><img src="../assets/img/products/shopmind/planner_flow.jpg" alt="Cách bộ lên kế hoạch mua sắm hoạt động" loading="lazy"></a>
+        <figcaption>Cách bộ lên kế hoạch mua sắm hoạt động</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/a1_recall.jpg" data-lightbox data-caption="Benchmark A1 — Recall@10 theo phương pháp"><img src="../assets/img/products/shopmind/a1_recall.jpg" alt="Benchmark A1 — Recall@10 theo phương pháp" loading="lazy"></a>
+        <figcaption>Benchmark A1 — Recall@10 theo phương pháp</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/f1_compose.jpg" data-lightbox data-caption="Tìm kết hợp ảnh + chữ — nDCG@10"><img src="../assets/img/products/shopmind/f1_compose.jpg" alt="Tìm kết hợp ảnh + chữ — nDCG@10" loading="lazy"></a>
+        <figcaption>Tìm kết hợp ảnh + chữ — nDCG@10</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/dense_before_after.jpg" data-lightbox data-caption="Truy hồi dense trước và sau khi đổi embedder"><img src="../assets/img/products/shopmind/dense_before_after.jpg" alt="Truy hồi dense trước và sau khi đổi embedder" loading="lazy"></a>
+        <figcaption>Truy hồi dense trước và sau khi đổi embedder</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/latency.jpg" data-lightbox data-caption="Độ trễ trước và sau tối ưu"><img src="../assets/img/products/shopmind/latency.jpg" alt="Độ trễ trước và sau tối ưu" loading="lazy"></a>
+        <figcaption>Độ trễ trước và sau tối ưu</figcaption></figure></div>
   </section>
       <div class="prose reveal">
 <h2>Ý tưởng</h2>

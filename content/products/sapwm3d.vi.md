@@ -11,6 +11,7 @@ stack: TypeScript monorepo · mô hình kho chuẩn hóa · viewer 2.5D
 audience: Giám sát kho, nhân viên kiểm soát tồn, quản lý vận hành
 summary: Nền tảng SaaS biến dữ liệu kho thành một bản đồ vận hành — mô hình 2.5D dạng khối hiển thị độ đầy, quá tải, ô bị khóa và các điểm dữ liệu lệch nhau, dựng trên mô hình chuẩn hóa không phụ thuộc SAP.
 tags: [TypeScript, Monorepo, Kho hàng, Trực quan 2.5D, SAP EWM, Multi-Tenant, Nhập Excel]
+illustration: warehouse
 repo: https://github.com/tranquanguit/warehouse-3d-4erp
 featured: true
 current: true

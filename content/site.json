@@ -140,5 +140,77 @@
   "direction": {
     "heading": "Where I am heading",
     "text": "SAP and ERP expertise first, then SAP Solution Architect — with enough range in data engineering and applied AI to design systems that do not stop at the SAP boundary."
+  },
+  "brands": {
+    "laidon": {
+      "name": "Laidon Group",
+      "mono": "LD",
+      "bg": "#0f5f5a"
+    },
+    "fis": {
+      "name": "FPT Information System",
+      "mono": "FPT",
+      "bg": "#f37021",
+      "accent": "#005baa"
+    },
+    "uit": {
+      "name": "University of Information Technology, VNU-HCM",
+      "mono": "UIT",
+      "bg": "#0a4a8f"
+    },
+    "kimtin": {
+      "name": "Kim Tin Group",
+      "mono": "KT",
+      "bg": "#c8102e"
+    },
+    "vinphaco": {
+      "name": "Vinphaco",
+      "mono": "VP",
+      "bg": "#00843d"
+    },
+    "hurc1": {
+      "name": "HURC1 — HCMC Metro Line 1",
+      "mono": "M1",
+      "bg": "#0072bc",
+      "accent": "#00a650"
+    },
+    "acecook": {
+      "name": "Acecook Vietnam",
+      "mono": "AC",
+      "bg": "#e60012"
+    },
+    "goldilocks": {
+      "name": "Goldilocks Bakeshop",
+      "mono": "GB",
+      "bg": "#f4c400",
+      "fg": "#7a1f3d"
+    },
+    "lof": {
+      "name": "LOF",
+      "mono": "LOF",
+      "bg": "#334155"
+    },
+    "mckesson": {
+      "name": "McKesson",
+      "mono": "McK",
+      "bg": "#0a5cad"
+    },
+    "simplemdg": {
+      "name": "SimpleMDG",
+      "mono": "MDG",
+      "bg": "#0f5f5a",
+      "accent": "#7cc4ff"
+    },
+    "sap": {
+      "name": "SAP",
+      "mono": "SAP",
+      "bg": "#0a6ed1",
+      "tech": "sap"
+    },
+    "jihmsp": {
+      "name": "JIHMSP",
+      "mono": "J",
+      "bg": "#5b45c4"
+    }
   }
 }

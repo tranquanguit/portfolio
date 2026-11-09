@@ -20,6 +20,8 @@ RAP is the centre of my current work at Laidon Group, building custom business o
 
 A RAP business object is four things stacked:
 
+![A RAP business object: four layers, and every consumer bound by the same behaviour definition.](diagram:rap-stack)
+
 1. **The data model** — CDS views defining the entities and their relationships.
 2. **The behaviour definition** — what can be done to them: create, update, delete, actions, validations, determinations, and the authorization and locking rules.
 3. **The behaviour implementation** — the ABAP classes where that behaviour actually lives.

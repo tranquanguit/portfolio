@@ -19,6 +19,8 @@ Acecook Vietnam, mainly: roughly 100 tables and 300 million records on MS SQL Se
 
 Three layers, always:
 
+![The layered warehouse, as built on SQL Server for Acecook and as a medallion Lakehouse on Fabric.](diagram:medallion)
+
 **Staging** mirrors the source, untouched. No cleansing, no business rules. When you need to answer "did the source really send that", this is the layer that answers.
 
 **Cleansed / integrated** is where the rules live — deduplication, type conformance, key resolution, the mapping between three systems' idea of the same customer.

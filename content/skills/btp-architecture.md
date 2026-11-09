@@ -20,6 +20,8 @@ Daily, on SimpleMDG — a master data governance product that *lives* on SAP BTP
 
 It is easy to say "don't modify standard SAP". The useful question is the follow-up: **then where does this logic go?**
 
+![Three answers to "where does this logic go?" under clean core.](diagram:clean-core)
+
 The BTP model gives three real answers, and choosing between them is most of the architecture work:
 
 **In-stack, with ABAP Cloud.** When the logic genuinely belongs to the business object and needs to run inside the transaction. Released APIs and released extension points only — the compiler enforces what used to be a code-review argument.

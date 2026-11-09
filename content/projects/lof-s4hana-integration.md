@@ -1,6 +1,7 @@
 ---
 title: SAP S/4HANA Integration — LOF
 slug: lof-s4hana-integration
+logo: lof
 org: fis
 client: LOF
 period: 11/2025 – 12/2025

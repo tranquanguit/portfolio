@@ -1,6 +1,7 @@
 ---
 title: SimpleMDG Implementation for McKesson — SAP Integration Suite
 slug: mckesson-integration-suite
+logo: mckesson
 org: laidon
 client: McKesson
 period: 05/2026 – Present
@@ -27,6 +28,8 @@ My scope is the integration layer: how master data moves between **SAP S/4HANA**
 ## The 75 checks
 
 The piece I am most pleased with is the **IDoc → SimpleMDG material inbound iFlow**. Material master records arrive as IDocs and have to land in the governance platform — but not unconditionally.
+
+![Where the material inbound sits in the landscape.](diagram:integration-landscape)
 
 The flow runs **75 automated checks** before anything is accepted, with a **standard error passthrough** for what fails. It deployed error-free.
 

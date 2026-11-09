@@ -20,6 +20,8 @@ Because reports I had written broke. On a development system with a few thousand
 
 Classic ABAP reads data from the database into the application server and processes it there. On HANA that is backwards. The database is fast, it is columnar, it parallelises, and moving a million rows across to the application layer to filter them is pure waste.
 
+![Classic ABAP moves data to the code. On HANA, move the code to the data.](diagram:code-pushdown)
+
 **Move the work to the data.** Aggregate, join, filter and calculate in the database; return only what the report displays.
 
 ## The tools, in the order I reach for them

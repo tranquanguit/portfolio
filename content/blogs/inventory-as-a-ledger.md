@@ -38,6 +38,8 @@ The usual answer is a **snapshot**: a periodically materialised balance plus the
 
 [Dropship Hub](products/dropship-hub.html) is built this way. Every movement is a transaction; quantity on hand is derived. Paired with bill-of-materials explosion, so an assembled product consumes its components correctly, and an explicit order state machine, so stock-affecting transitions cannot happen out of order.
 
+![How many combo sets can be built from current stock, and which component limits it — Dropship Hub](assets/img/products/dropship-hub/50b-ton-kho-combo.jpg)
+
 None of that is novel. It is standard ERP thinking applied to a small business system — which is precisely the gap I keep seeing. Tools built for small businesses tend to assume small businesses have simple problems. They have the same problems, with fewer people to absorb the consequences.
 
 ## The general lesson

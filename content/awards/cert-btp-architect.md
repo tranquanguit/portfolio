@@ -1,6 +1,7 @@
 ---
 title: SAP Certified Professional — Solution Architect, SAP BTP
 slug: cert-btp-architect
+logo: sap
 type: certification
 icon: 🏛
 issuer: SAP

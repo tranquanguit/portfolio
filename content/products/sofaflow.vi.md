@@ -11,6 +11,7 @@ stack: Flask · PostgreSQL · SQLAlchemy · docxtpl
 audience: Xưởng sửa chữa và sản xuất sofa, nhân viên kinh doanh và chủ xưởng
 summary: SaaS đa công ty chạy trọn vòng đời khách hàng cho xưởng sofa — từ báo giá, hợp đồng, bàn giao đến thanh toán — và tự sinh mọi chứng từ tiếng Việt trên đường đi.
 tags: [Flask, PostgreSQL, SQLAlchemy, Multi-Tenant, Sinh chứng từ DOCX, RBAC, Bootstrap]
+illustration: docflow
 repo:
 featured: true
 

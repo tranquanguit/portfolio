@@ -1,6 +1,7 @@
 ---
 title: SAP S/4HANA Maintenance — Goldilocks Bakeshop, Inc.
 slug: goldilocks-s4hana-maintenance
+logo: goldilocks
 org: fis
 client: Goldilocks Bakeshop, Inc. (Philippines)
 period: 06/2025 – 04/2026

@@ -1,6 +1,7 @@
 ---
 title: SAP Certified Associate — SAP Generative AI Developer
 slug: cert-genai-developer
+logo: sap
 type: certification
 icon: 🤖
 issuer: SAP

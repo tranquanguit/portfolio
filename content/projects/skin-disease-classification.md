@@ -1,6 +1,7 @@
 ---
 title: Deep Learning for Skin Disease Diagnosis
 slug: skin-disease-classification
+logo: jihmsp
 org: uit
 client: University of Information Technology, VNU-HCM
 period: 05/2024 – 11/2024

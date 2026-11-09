@@ -28,6 +28,9 @@ from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlsplit
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import visuals as V  # noqa: E402  (sibling module)
+
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 # Public location of the site. Both are set from content/site.json at build
@@ -36,6 +39,12 @@ CONTENT = ROOT / "content"
 # github.io project page).
 SITE_URL = "https://tranquanguit.github.io/portfolio"
 ROOT_PATH = "/portfolio/"
+
+GENERATED = "assets/img/generated"
+IMG_EXT = (".svg", ".png", ".jpg", ".jpeg", ".webp")
+BRANDS: dict = {}
+# Media the site would be better with but does not have yet: (kind, target path, used for).
+MEDIA_TODO: list[tuple[str, str, str]] = []
 
 SECTIONS = {
     "projects": {"title": "Projects", "blurb": "Client work, grouped by where it was delivered."},
@@ -240,6 +249,22 @@ def render_md(text: str, base: str = "") -> str:
             out.append("<ul>" + "".join(f"<li>{inline_md(it, base)}</li>" for it in items) + "</ul>")
             continue
 
+        # Figure: a line that is nothing but an image
+        fig = re.fullmatch(r"!\[([^\]]*)\]\(([^)\s]+)\)", stripped)
+        if fig:
+            alt, src = fig.group(1), fig.group(2)
+            if src.startswith("diagram:"):
+                svg = V.diagram(src[len("diagram:"):])
+                if svg:
+                    cap = f"<figcaption>{inline_md(alt, base)}</figcaption>" if alt else ""
+                    out.append(f'<figure class="diagram-wrap">{svg}{cap}</figure>')
+                    i += 1
+                    continue
+            cap = f"<figcaption>{inline_md(alt, base)}</figcaption>" if alt else ""
+            out.append(f'<figure class="figure">{media_img(src, alt, base, zoom=True, caption=alt)}{cap}</figure>')
+            i += 1
+            continue
+
         # Paragraph
         para = []
         while i < n and lines[i].strip() and not _breaks_paragraph(lines[i].strip()):
@@ -298,12 +323,13 @@ class Entry:
         suffix = "" if self.lang == "en" else f".{self.lang}"
         return f"{self.section}/{self.slug}{suffix}.html"
 
-    def blocks(self, key: str) -> list[tuple[str, str]]:
-        """Frontmatter list entries written as `Title :: body text`."""
+    def blocks(self, key: str) -> list[tuple[str, str, str]]:
+        """Frontmatter list entries written as `Title :: body text [:: image path]`."""
         out = []
         for raw in self.meta.get(key, []) or []:
-            head, sep, body = str(raw).partition("::")
-            out.append((head.strip(), body.strip() if sep else ""))
+            parts = [x.strip() for x in str(raw).split("::")]
+            parts += [""] * (3 - len(parts))
+            out.append((parts[0], parts[1], parts[2]))
         return out
 
     @property
@@ -479,9 +505,119 @@ def page(site: dict, *, title: str, description: str, body: str, base: str = "",
 # Shared fragments
 # ---------------------------------------------------------------------------
 
-def tag_list(tags: list, limit: int | None = None, cls: str = "tag") -> str:
+def find_asset(stem: str) -> str | None:
+    """`assets/img/logos/fis` -> the first existing file with an image extension."""
+    for ext in IMG_EXT:
+        if (ROOT / f"{stem}{ext}").exists():
+            return f"{stem}{ext}"
+    return None
+
+
+def todo(kind: str, target: str, used_for: str) -> None:
+    item = (kind, target, used_for)
+    if item not in MEDIA_TODO:
+        MEDIA_TODO.append(item)
+
+
+def write_generated(rel: str, svg: str) -> str:
+    """Write a generated SVG under assets/img/generated and return its site path."""
+    path = f"{GENERATED}/{rel}"
+    target = ROOT / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(svg, encoding="utf-8")
+    return path
+
+
+def brand_logo(key, base: str = "", cls: str = "logo") -> str:
+    """A real logo when one has been supplied, otherwise a monogram badge."""
+    if not key:
+        return ""
+    key = str(key)
+    b = BRANDS.get(key, {"name": key, "mono": key[:3].upper()})
+    real = find_asset(f"assets/img/logos/{key}")
+    if real:
+        return (f'<span class="{cls} {cls}--img"><img src="{e(base + real)}" alt="{e(b["name"])} logo" '
+                f'loading="lazy"></span>')
+    tech = b.get("tech")
+    if tech and (V.TECH_DIR / f"{tech}.svg").exists():
+        return (f'<span class="{cls} {cls}--img"><img src="{e(base)}assets/img/tech/{e(tech)}.svg" '
+                f'alt="{e(b["name"])} logo" loading="lazy"></span>')
+    todo("Logo", f"assets/img/logos/{key}.png  (or .svg / .jpg / .webp)", b["name"])
+    badge = V.monogram(b.get("mono", key[:3].upper()), b.get("bg", "#2c6baf"), b.get("fg", "#ffffff"),
+                       b.get("accent"))
+    return f'<span class="{cls}" title="{e(b["name"])}">{badge}</span>'
+
+
+def logo_row(names: list[str], base: str = "", cls: str = "logo-row") -> str:
+    if not names:
+        return ""
+    imgs = "".join(
+        f'<img src="{e(base)}assets/img/tech/{e(n)}.svg" alt="{e(n.replace("-", " ").title())}" '
+        f'title="{e(n.replace("-", " ").title())}" loading="lazy">' for n in names
+    )
+    return f'<span class="{cls}">{imgs}</span>'
+
+
+def entry_tech(entry) -> list[str]:
+    explicit = entry.meta.get("tech")
+    return V.tech_icons(explicit if isinstance(explicit, list) and explicit else entry.tags)
+
+
+def media_img(path: str, alt: str, base: str = "", cls: str = "", zoom: bool = False,
+              caption: str = "") -> str:
+    src = e(rebase(path, base))
+    img = f'<img src="{src}" alt="{e(alt)}" loading="lazy"{f" class={chr(34)}{cls}{chr(34)}" if cls else ""}>'
+    if zoom:
+        img = (f'<a class="zoom" href="{src}" data-lightbox data-caption="{e(caption or alt)}">{img}</a>')
+    return img
+
+
+def cover_for(entry, base: str = "") -> tuple[str, str]:
+    """(path, alt) of the best cover available for an entry, generating one if needed."""
+    for key in ("cover", "image"):
+        if entry.get(key):
+            return str(entry.get(key)), str(entry.get("imageAlt", entry.title))
+    if entry.get("illustration"):
+        svg = V.illustration(str(entry.get("illustration")))
+        if svg:
+            return (write_generated(f"{entry.section}/{entry.slug}-art.svg", svg),
+                    str(entry.get("imageAlt", entry.title)))
+    gallery = entry.blocks("gallery")
+    if gallery and gallery[0][0]:
+        return gallery[0][0], gallery[0][1] or entry.title
+    label = str(entry.get("topic") or entry.get("category") or SECTIONS[entry.section]["title"])
+    topic = label if entry.section == "blogs" else " ".join([label] + [str(x) for x in entry.tags[:3]])
+    svg = V.cover(str(entry.get("coverTitle") or entry.title), label, entry.slug, topic=topic)
+    return write_generated(f"{entry.section}/{entry.slug}.svg", svg), entry.title
+
+
+def award_art(entry) -> str:
+    """Badge (certifications) or medal (awards) illustration, as a site path."""
+    kind = str(entry.get("type", "award"))
+    if kind == "certification":
+        title = re.sub(r"^SAP Certified (Associate|Professional)\s*[—-]\s*", "", entry.title)
+        level = "Professional" if "Professional" in entry.title else "Associate"
+        svg = V.cert_badge(title, str(entry.get("code", "")), level, str(entry.get("issuer", "SAP")),
+                           str(entry.get("period", "")))
+    else:
+        svg = V.award_medal(entry.title, str(entry.get("issuer", "")), str(entry.get("period", "")),
+                            "🏆" if kind == "award" else "★")
+    return write_generated(f"awards/{entry.slug}-badge.svg", svg)
+
+
+def tag_list(tags: list, limit: int | None = None, cls: str = "tag", base: str = "") -> str:
     shown = tags[:limit] if limit else tags
-    chips = "".join(f'<span class="{cls}">{e(t)}</span>' for t in shown)
+    used: set = set()
+
+    def chip(tag) -> str:
+        icon = V.tech_icon_for(str(tag))
+        if icon and icon not in used:
+            used.add(icon)
+            return (f'<span class="{cls} tag--icon"><img src="{e(base)}assets/img/tech/{e(icon)}.svg" '
+                    f'alt="" width="12" height="12">{e(tag)}</span>')
+        return f'<span class="{cls}">{e(tag)}</span>'
+
+    chips = "".join(chip(t) for t in shown)
     if limit and len(tags) > limit:
         chips += f'<span class="tag">+{len(tags) - limit}</span>'
     return f'<div class="tags">{chips}</div>' if chips else ""
@@ -489,14 +625,11 @@ def tag_list(tags: list, limit: int | None = None, cls: str = "tag") -> str:
 
 def project_card(entry: Entry, orgs: dict, base: str = "") -> str:
     org = orgs.get(str(entry.get("org")), {})
-    image = entry.get("image")
-    if image:
-        media = (
-            f'<div class="card__media"><img src="{e(rebase(str(image), base))}" '
-            f'alt="{e(entry.get("imageAlt", entry.title))}" loading="lazy" width="640" height="360"></div>'
-        )
-    else:
-        media = f'<div class="card__media card__media--blank"><span class="card__glyph" aria-hidden="true">◆</span></div>'
+    path, alt = cover_for(entry)
+    media = (
+        f'<div class="card__media"><img src="{e(rebase(path, base))}" alt="{e(alt)}" loading="lazy" '
+        f'width="640" height="360">{brand_logo(entry.get("logo"), base, "card__logo")}</div>'
+    )
 
     live = '<span class="pill pill--live">Ongoing</span>' if entry.get("current") else ""
 
@@ -509,7 +642,7 @@ def project_card(entry: Entry, orgs: dict, base: str = "") -> str:
     </div>
     <h3 class="card__title">{e(entry.title)}</h3>
     <p class="card__desc">{e(entry.summary)}</p>
-    {tag_list(entry.tags, 4)}
+    {tag_list(entry.tags, 4, base=base)}
     <div class="card__foot"><span class="card__cue">Read the story {ICONS['arrow']}</span></div>
   </div>
 </a>"""
@@ -527,6 +660,7 @@ def skill_card(entry: Entry, base: str = "") -> str:
   <span style="flex:1;min-width:0">
     <span class="skill-card__title" style="display:block">{e(entry.title)}</span>
     <span class="skill-card__desc" style="display:block">{e(entry.summary)}</span>
+    {logo_row(entry_tech(entry)[:6], base)}
     {meter}
   </span>
 </a>"""
@@ -546,8 +680,11 @@ def blog_card(entry: Entry, base: str = "") -> str:
     badge = f'<span class="tag tag--teal">{e(where)}</span>' if where else ""
     draft = '<span class="tag">Draft</span>' if entry.get("status") == "draft" else ""
 
-    return f"""<a class="blog-card reveal" href="{e(base + entry.url)}"
+    cpath, calt = cover_for(entry)
+    return f"""<a class="blog-card blog-card--media reveal" href="{e(base + entry.url)}"
    data-filter-target="blogs" data-key="{e(entry.get('topic-id'))}">
+  <span class="blog-card__thumb"><img src="{e(rebase(cpath, base))}" alt="" loading="lazy" width="480" height="252"></span>
+  <span class="blog-card__main">
   <span class="blog-card__meta">
     <span>{e(entry.get('date', ''))}</span>
     <span class="dot">&middot;</span>
@@ -560,6 +697,7 @@ def blog_card(entry: Entry, base: str = "") -> str:
   <span class="blog-card__foot">
     <span class="tags">{badge}{draft}</span>
     <span class="card__cue">{'Read the article' if external else 'Read'} {ICONS['arrow']}</span>
+  </span>
   </span>
 </a>"""
 
@@ -603,7 +741,11 @@ def product_card(entry: Entry, base: str = "", translations: set | None = None) 
         links += (f'<a class="card__out" href="{e(entry.get("demo"))}" target="_blank" '
                   f'rel="noopener noreferrer">Live site</a>')
 
+    cpath, calt = cover_for(entry)
     return f"""<div class="product-card reveal" data-filter-target="products" data-key="{e(entry.get('category-id'))}">
+  <a class="product-card__cover" href="{e(base + entry.url)}" tabindex="-1" aria-hidden="true">
+    <img src="{e(rebase(cpath, base))}" alt="" loading="lazy" width="640" height="400">
+  </a>
   <div class="product-card__top">
     <span class="product-card__glyph" aria-hidden="true">{e(entry.get('icon', '◆'))}</span>
     <span class="{cls}">{e(label)}</span>
@@ -612,7 +754,7 @@ def product_card(entry: Entry, base: str = "", translations: set | None = None) 
     <h3 class="product-card__title">{e(entry.title)}</h3>
     <p class="product-card__desc">{e(entry.summary)}</p>
   </a>
-  {tag_list(entry.tags, 5)}
+  {logo_row(entry_tech(entry)[:6], base)}
   <div class="product-card__foot">
     <a class="card__cue" href="{e(base + entry.url)}">Read more {ICONS['arrow']}</a>
     <span class="product-card__links">{links}</span>
@@ -652,8 +794,10 @@ def product_groups(entries: list[Entry], base: str = "",
 
 def award_card(entry: Entry, base: str = "") -> str:
     kind = str(entry.get("type", "award"))
+    photo = find_asset(f"assets/img/awards/{entry.slug}")
+    art = photo or award_art(entry)
     return f"""<a class="award-card reveal" href="{e(base + entry.url)}" data-filter-target="awards" data-key="{e(kind)}">
-  <span class="award-card__icon" aria-hidden="true">{e(entry.get('icon', '🏅'))}</span>
+  <span class="award-card__art"><img src="{e(base + art)}" alt="" loading="lazy" width="120" height="120"></span>
   <span class="tag tag--gold">{e(AWARD_TYPE_LABEL.get(kind, kind.title()))}</span>
   <span class="award-card__title">{e(entry.title)}</span>
   <span class="award-card__issuer">{e(entry.get('issuer'))}</span>
@@ -669,7 +813,9 @@ def timeline_item(entry: Entry, base: str = "") -> str:
     points = "".join(f"<li>{inline_md(h, base)}</li>" for h in entry.highlights[:3])
     live = '<span class="pill pill--live">Current</span>' if entry.get("current") else ""
     return f"""<div class="tl-item {'tl-item--current' if entry.get('current') else ''} reveal">
-  <a class="tl-card" href="{e(base + entry.url)}">
+  <a class="tl-card tl-card--logo" href="{e(base + entry.url)}">
+    {brand_logo(entry.get('logo') or entry.get('org'), base, 'tl-logo')}
+    <div class="tl-main">
     <div class="tl-top">
       <span class="tl-role">{e(entry.title)}</span>
       <span class="tl-company">{e(entry.get('company'))}</span>
@@ -678,8 +824,9 @@ def timeline_item(entry: Entry, base: str = "") -> str:
     </div>
     <p class="tl-summary">{e(entry.summary)}</p>
     <ul class="tl-points">{points}</ul>
-    {tag_list(entry.tags, 5)}
+    {tag_list(entry.tags, 5, base=base)}
     <span class="card__cue" style="margin-top:.9rem">Read more {ICONS['arrow']}</span>
+    </div>
   </a>
 </div>"""
 
@@ -775,16 +922,22 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
 </section>"""
 
     summary_paras = "".join(f"<p>{e(p)}</p>" for p in site["summary"])
-    certs = "".join(
-        f"""<div class="cert-item">
-      <span class="cert-item__seal" aria-hidden="true">✦</span>
+    by_code = {str(a.get("code")): a for a in data.get("awards", []) if a.get("code")}
+
+    def cert_row(c: dict) -> str:
+        entry = by_code.get(str(c["code"]))
+        seal = (f'<img class="cert-item__badge" src="{e(award_art(entry))}" alt="" width="44" height="44">'
+                if entry else '<span class="cert-item__seal" aria-hidden="true">✦</span>')
+        inner = f"""{seal}
       <span>
         <span class="cert-item__name">{e(c['name'])}</span>
         <span class="cert-item__meta">{e(c['code'])} &middot; {e(c['issuer'])} &middot; {e(c['date'])}</span>
-      </span>
-    </div>"""
-        for c in site["certifications"]
-    )
+      </span>"""
+        if entry:
+            return f'<a class="cert-item cert-item--link" href="{e(entry.url)}">{inner}</a>'
+        return f'<div class="cert-item">{inner}</div>'
+
+    certs = "".join(cert_row(c) for c in site["certifications"])
     langs = "".join(
         f'<div class="deflist__row"><span class="deflist__k">{e(l["name"])}</span>'
         f'<span class="deflist__v">{e(l["level"])}</span></div>'
@@ -818,7 +971,7 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
       <div class="reveal">{summary_paras}</div>
       <div class="stack reveal">
         <div class="panel">
-          <p class="panel__title">Education</p>
+          <div class="panel__head">{brand_logo('uit', '', 'panel-logo')}<p class="panel__title" style="margin:0">Education</p></div>
           <div class="deflist">
             <div class="deflist__row"><span class="deflist__k">Degree</span><span class="deflist__v">{e(edu['degree'])}</span></div>
             <div class="deflist__row"><span class="deflist__k">University</span><span class="deflist__v">{e(edu['school'])}</span></div>
@@ -911,7 +1064,7 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
         cards = "".join(project_card(p, orgs) for p in items)
         org_blocks += f"""<div class="org" data-filter-section="projects">
       <div class="org__head">
-        <span class="org__badge">{e(org['short'])}</span>
+        <span class="org__lead">{brand_logo(org_id, "", 'org-logo')}<span class="org__badge">{e(org['short'])}</span></span>
         <span class="org__title">
           <span class="org__name">{e(org['name'])}</span>
           <span class="org__kind">{e(org['kind'])} &middot; {e(org['period'])}</span>
@@ -1067,7 +1220,7 @@ def build_listing(site: dict, section: str, entries: list[Entry], orgs: dict) ->
             cards = "".join(project_card(p, orgs, base) for p in items)
             blocks += f"""<div class="org" data-filter-section="projects">
       <div class="org__head">
-        <span class="org__badge">{e(org['short'])}</span>
+        <span class="org__lead">{brand_logo(org_id, base, 'org-logo')}<span class="org__badge">{e(org['short'])}</span></span>
         <span class="org__title">
           <span class="org__name">{e(org['name'])}</span>
           <span class="org__kind">{e(org['kind'])} &middot; {e(org['period'])}</span>
@@ -1195,7 +1348,7 @@ def portfolio_blocks(entry: Entry, base: str) -> str:
         <h3 class="pain__title">{e(head)}</h3>
         <p class="pain__text">{inline_md(body, base)}</p>
       </div>"""
-            for head, body in problems
+            for head, body, _img in problems
         )
         out += f"""<section class="pblock reveal">
     <h2 class="pblock__h">{e(entry.get('problemHeading', 'The problem'))}</h2>
@@ -1210,7 +1363,7 @@ def portfolio_blocks(entry: Entry, base: str) -> str:
         <span class="step__n">{i}</span>
         <span class="step__body"><strong>{e(head)}</strong><span>{inline_md(body, base)}</span></span>
       </li>"""
-            for i, (head, body) in enumerate(flow, 1)
+            for i, (head, body, _img) in enumerate(flow, 1)
         )
         out += f"""<section class="pblock reveal">
     <h2 class="pblock__h">{e(entry.get('flowHeading', 'How it works'))}</h2>
@@ -1219,19 +1372,67 @@ def portfolio_blocks(entry: Entry, base: str) -> str:
 
     caps = entry.blocks("capabilities")
     if caps:
+        shown = [c for c in caps if c[2]]
+        plain = [c for c in caps if not c[2]]
+        rows = "".join(
+            f"""<div class="feature{' feature--flip' if n % 2 else ''}">
+        <div class="feature__shot">{media_img(img, head, base, zoom=True, caption=head)}</div>
+        <div class="feature__text"><h3 class="cap__title">{e(head)}</h3><p class="cap__text">{inline_md(body, base)}</p></div>
+      </div>"""
+            for n, (head, body, img) in enumerate(shown)
+        )
         cards = "".join(
             f"""<div class="cap">
         <h3 class="cap__title">{e(head)}</h3>
         <p class="cap__text">{inline_md(body, base)}</p>
       </div>"""
-            for head, body in caps
+            for head, body, _img in plain
         )
         out += f"""<section class="pblock reveal">
     <h2 class="pblock__h">{e(entry.get('capabilitiesHeading', 'What it does'))}</h2>
-    <div class="cap-grid">{cards}</div>
+    {f'<div class="features">{rows}</div>' if rows else ''}
+    {f'<div class="cap-grid">{cards}</div>' if cards else ''}
+  </section>"""
+
+    gallery = entry.blocks("gallery")
+    if gallery:
+        shots = "".join(
+            f"""<figure class="gallery__item">{media_img(path, cap or entry.title, base, zoom=True, caption=cap)}
+        {f'<figcaption>{e(cap)}</figcaption>' if cap else ''}</figure>"""
+            for path, cap, _x in gallery
+        )
+        out += f"""<section class="pblock reveal">
+    <h2 class="pblock__h">{e(entry.get('galleryHeading', 'Gallery' if entry.lang == 'en' else 'Hình ảnh'))}</h2>
+    <div class="gallery">{shots}</div>
   </section>"""
 
     return out
+
+
+def award_media(entry: Entry, base: str) -> str:
+    """Badge illustration beside the real certificate or award photo — or a frame awaiting it."""
+    art = award_art(entry)
+    kind = str(entry.get("type", "award"))
+    noun = "certificate" if kind == "certification" else "photo"
+    real = find_asset(f"assets/img/awards/{entry.slug}")
+    if real:
+        right = (f'<figure class="award-media__doc">{media_img(real, entry.title, base, zoom=True)}'
+                 f'<figcaption>{e(entry.title)}</figcaption></figure>')
+    else:
+        todo("Certificate image" if kind == "certification" else "Award photo",
+             f"assets/img/awards/{entry.slug}.jpg  (or .png / .webp)", entry.title)
+        right = (f'<div class="award-media__frame" role="img" aria-label="{e(noun.title())} image to come">'
+                 f'<span class="award-media__frame-icon" aria-hidden="true">{"📜" if kind == "certification" else "📷"}</span>'
+                 f'<span class="award-media__frame-k">{e(noun.title())}</span>'
+                 f'<span class="award-media__frame-v">The {e(noun)} image will appear here.</span></div>')
+    verify = ""
+    if entry.get("verify"):
+        verify = (f'<a class="btn btn--ghost" href="{e(entry.get("verify"))}" target="_blank" '
+                  f'rel="noopener noreferrer">Verify this credential {ICONS["arrow"]}</a>')
+    verify_block = f'<p class="award-media__verify">{verify}</p>' if verify else ""
+    return (f'<div class="award-media reveal">'
+            f'<div class="award-media__badge"><img src="{e(base + art)}" alt="Badge illustration for {e(entry.title)}" width="260" height="260"></div>'
+            f'{right}</div>{verify_block}')
 
 
 def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict,
@@ -1295,13 +1496,28 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict,
         for k, v in facts
     ) + "</div>"
 
-    image = entry.get("image")
     hero_img = ""
-    if image:
-        hero_img = (
-            f'<div class="article-hero reveal"><img src="{e(rebase(str(image), base))}" '
-            f'alt="{e(entry.get("imageAlt", entry.title))}" width="1200" height="514"></div>'
-        )
+    if section in ("projects", "products", "blogs"):
+        cpath, calt = cover_for(entry)
+        hero_img = (f'<div class="article-hero reveal">'
+                    f'{media_img(cpath, calt, base, zoom=True, caption=calt)}</div>')
+    elif section == "skills":
+        logos = entry_tech(entry)
+        if logos:
+            hero_img = f'<div class="tech-strip reveal">{logo_row(logos, base, "tech-strip__row")}</div>'
+    elif section == "awards":
+        hero_img = award_media(entry, base)
+
+    video = str(entry.get("video", ""))
+    if video:
+        yt = re.search(r"(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/))([\w-]{6,})", video)
+        if yt:
+            hero_img += (f'<div class="video reveal"><iframe src="https://www.youtube-nocookie.com/embed/{e(yt.group(1))}" '
+                         f'title="{e(entry.title)}" loading="lazy" allowfullscreen '
+                         f'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe></div>')
+        else:
+            hero_img += (f'<div class="video reveal"><video controls preload="metadata" '
+                         f'src="{e(rebase(video, base))}"></video></div>')
 
     external = ""
     if section == "blogs" and entry.get("external"):
@@ -1370,9 +1586,9 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict,
         <span class="tag tag--accent">{e(entry.get('period', entry.get('date', '')))}</span>
         {live}
       </div>
-      <h1>{e(entry.title)}</h1>
+      <div class="article-head__title">{brand_logo(entry.get('logo') or (entry.get('org') if section == 'experience' else ''), base, 'head-logo')}<h1>{e(entry.title)}</h1></div>
       <p class="article-head__lede">{e(entry.summary)}</p>
-      <div class="article-head__tags">{tag_list(entry.tags)}</div>
+      <div class="article-head__tags">{tag_list(entry.tags, base=base)}</div>
       {language_switch(entry, family or [], base)}
       {factbar}
       {'<div style="margin-top:22px">' + external + '</div>' if external else ''}
@@ -1420,6 +1636,32 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict,
 # 404 + sitemap
 # ---------------------------------------------------------------------------
 
+def media_checklist() -> str:
+    """MEDIA.md — every image the site is currently standing in for, and where it goes."""
+    lines = [
+        "# Media checklist",
+        "",
+        "Generated by `tools/build.py` — do not edit by hand.",
+        "",
+        "Every item below is currently shown as a generated stand-in (a monogram badge, a",
+        "drawn badge, or an empty frame). Drop the real file at the path given and run the",
+        "build again; the stand-in is replaced automatically and the item disappears from",
+        "this list.",
+        "",
+    ]
+    if not MEDIA_TODO:
+        lines.append("Nothing outstanding.")
+        return "\n".join(lines) + "\n"
+    kinds: dict[str, list[tuple[str, str]]] = {}
+    for kind, target, used in MEDIA_TODO:
+        kinds.setdefault(kind, []).append((target, used))
+    for kind in sorted(kinds):
+        lines += [f"## {kind}", "", "| For | Put the file at |", "| --- | --- |"]
+        lines += [f"| {used} | `{target}` |" for target, used in sorted(kinds[kind], key=lambda x: x[1])]
+        lines.append("")
+    return "\n".join(lines)
+
+
 def build_404(site: dict) -> str:
     body = f"""<section class="section" style="min-height:60vh;display:grid;place-items:center;text-align:center">
   <div class="wrap wrap--narrow">
@@ -1450,6 +1692,14 @@ def _git_last_modified(path: str) -> str:
     breaks the "is the build up to date?" check in CI.
     """
     try:
+        # A source with uncommitted changes will be committed today, which is the
+        # date CI will see — so use it now and the two builds agree.
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--", path],
+            cwd=ROOT, capture_output=True, text=True, timeout=15,
+        )
+        if dirty.returncode == 0 and dirty.stdout.strip():
+            return date.today().isoformat()
         out = subprocess.run(
             ["git", "log", "-1", "--format=%cs", "--", path],
             cwd=ROOT, capture_output=True, text=True, timeout=15,
@@ -1480,6 +1730,15 @@ def main() -> int:
 
     site = json.loads((CONTENT / "site.json").read_text(encoding="utf-8"))
     orgs = {o["id"]: o for o in site["organizations"]}
+    BRANDS.clear()
+    BRANDS.update(site.get("brands", {}))
+    MEDIA_TODO.clear()
+
+    # Generated art is rebuilt from scratch, so a renamed entry leaves nothing behind.
+    gen = ROOT / GENERATED
+    if gen.exists():
+        for f in sorted(gen.rglob("*"), reverse=True):
+            f.unlink() if f.is_file() else f.rmdir()
 
     domain = str(site.get("customDomain", "")).strip().strip("/")
     SITE_URL = f"https://{domain}" if domain else str(site.get("siteUrl", SITE_URL)).rstrip("/")
@@ -1530,9 +1789,13 @@ def main() -> int:
 
     (ROOT / ".nojekyll").touch()
 
+    write("MEDIA.md", media_checklist())
+
     print(f"Built {len(written)} files:")
     for section, entries in data.items():
         print(f"  {section:<12} {len(entries)} entr{'y' if len(entries) == 1 else 'ies'}")
+    if MEDIA_TODO:
+        print(f"  media still wanted: {len(MEDIA_TODO)} item(s) — see MEDIA.md")
     return 0
 
 

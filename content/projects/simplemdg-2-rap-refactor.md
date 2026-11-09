@@ -1,6 +1,7 @@
 ---
 title: SimpleMDG 2.0 — Platform Refactor to RAP
 slug: simplemdg-2-rap-refactor
+logo: simplemdg
 org: laidon
 client: Laidon Group (product)
 period: 05/2026 – Present
@@ -48,6 +49,8 @@ Moving 411 objects by hand is not realistic, and SAP's transport tooling is buil
 ## Where AI fits, and where it does not
 
 I ran **AI coding agents** for a significant share of the mechanical transformation — the same object pattern applied hundreds of times is exactly what they are good at.
+
+![Every handover gated by a Git ↔ live-system byte comparison.](diagram:ai-gate)
 
 But a code generator producing 411 objects is only useful if you can prove what landed. So every handover is gated by a **Git ↔ live-system byte comparison**: what is in the repository and what is active in the system must match exactly, byte for byte. If they diverge, the handover stops.
 

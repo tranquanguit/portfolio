@@ -49,6 +49,8 @@ The lesson I keep relearning: performance problems are rarely in the code you wr
 
 **SAP Integration Suite** is where most of my non-ABAP time goes. The piece I am most pleased with is an **IDoc → SimpleMDG material inbound iFlow with 75 automated checks**, deployed error-free — the checks catch bad master data at the door rather than letting it land and be cleaned up later.
 
+![The integration layer I own on SimpleMDG implementations.](diagram:integration-landscape)
+
 Alongside that: **MuleSoft–Salesforce** customer interfaces, flat-file exports, and **Event Mesh**-based event handling.
 
 ## AI agents, behind a gate

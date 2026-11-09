@@ -1,6 +1,7 @@
 ---
 title: SAP S/4HANA Private Cloud Implementation — Vinphaco
 slug: vinphaco-s4hana
+logo: vinphaco
 org: fis
 client: Vinphaco (Vinh Phuc Pharmaceutical)
 period: 04/2024 – 08/2024

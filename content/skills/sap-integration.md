@@ -33,6 +33,8 @@ Integration turned out to be the thread running through nearly every project I h
 - **CI-DS** — bulk data movement between SAP systems and a warehouse, on a schedule.
 - **IDoc** — where the standard message type already models the document and the partner speaks it.
 
+![The master data landscape around SimpleMDG — validate at the door, govern in one place, publish as events.](diagram:integration-landscape)
+
 ## The lessons that were not in the spec
 
 **Errors matter more than the happy path.** Any interface can be built to work when everything is available and well-formed. The design question is what happens at 2 a.m. when the target system is down and 4,000 records are queued. On Kim Tin we ended up building a monitoring table and a reprocessing report that appeared nowhere in the specification and became the most-used part of the interface.

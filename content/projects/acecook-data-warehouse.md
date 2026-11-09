@@ -1,6 +1,7 @@
 ---
 title: Data Warehouse & Power BI — Acecook Vietnam
 slug: acecook-data-warehouse
+logo: acecook
 org: fis
 client: Acecook Vietnam JSC
 period: 02/2025 – 06/2025

@@ -32,6 +32,8 @@ Cleaning that up is not "correcting a record". It is an archaeology project with
 
 On the McKesson implementation, material master records arrive as IDocs and land in SimpleMDG on SAP BTP. The inbound iFlow runs **75 automated checks** before anything is accepted, with a standard error passthrough for what fails.
 
+![The inbound interface is the cheapest place to stop a bad record.](diagram:integration-landscape)
+
 Seventy-five sounds like a lot until you enumerate what can actually be wrong with a material master: missing mandatory fields for the plant it is being extended to, units of measure that do not convert, classification values outside the allowed set, references to org units that do not exist in the target, and so on. Each check is small. The set of them is what makes the difference.
 
 ## The part people get wrong: the error path

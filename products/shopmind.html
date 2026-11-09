@@ -59,9 +59,9 @@
         <span class="tag tag--accent">2026</span>
         
       </div>
-      <h1>ShopMind — Multimodal Search &amp; Glass-Box RAG</h1>
+      <div class="article-head__title"><h1>ShopMind — Multimodal Search &amp; Glass-Box RAG</h1></div>
       <p class="article-head__lede">A shopping assistant you can see inside — text, image and composed search over 1,500 products, a RAG assistant whose every citation is verified, and a glass-box inspector that shows exactly why each result came back.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">RAG</span><span class="tag">Elasticsearch</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">SigLIP2</span><span class="tag">Multimodal Search</span><span class="tag">Evaluation</span><span class="tag">PostgreSQL</span></div></div>
+      <div class="article-head__tags"><div class="tags"><span class="tag tag--icon"><img src="../assets/img/tech/openai.svg" alt="" width="12" height="12">RAG</span><span class="tag tag--icon"><img src="../assets/img/tech/elasticsearch.svg" alt="" width="12" height="12">Elasticsearch</span><span class="tag tag--icon"><img src="../assets/img/tech/fastapi.svg" alt="" width="12" height="12">FastAPI</span><span class="tag tag--icon"><img src="../assets/img/tech/react.svg" alt="" width="12" height="12">React</span><span class="tag">SigLIP2</span><span class="tag">Multimodal Search</span><span class="tag">Evaluation</span><span class="tag tag--icon"><img src="../assets/img/tech/postgresql.svg" alt="" width="12" height="12">PostgreSQL</span></div></div>
       <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt is-active" href="../products/shopmind.html" aria-current="page">English</a><a class="langswitch__opt" href="../products/shopmind.vi.html">Tiếng Việt</a></div>
       <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">AI &amp; Search</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">Live</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">FastAPI · Elasticsearch · React · SigLIP2 · PostgreSQL</div></div><div class="fact"><div class="fact__k">Built for</div><div class="fact__v">Anyone evaluating RAG for a product catalogue — and researchers who want the numbers</div></div></div>
       <div style="margin-top:22px"><a class="btn btn--ghost" href="https://github.com/kt1101/shopmind-rag" target="_blank" rel="noopener noreferrer">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
@@ -70,7 +70,7 @@
 
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
-      
+      <div class="article-hero reveal"><a class="zoom" href="../assets/img/products/shopmind/catalog.jpg" data-lightbox data-caption="The ShopMind storefront"><img src="../assets/img/products/shopmind/catalog.jpg" alt="The ShopMind storefront" loading="lazy"></a></div>
       <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Multimodal retrieval over 1,500 Amazon Berkeley Objects — text, image, and composed search ("like this picture but in black") using BM25 + dense kNN fused with RRF.</li><li>A RAG assistant answering from products, reviews and store policies, with every citation validated against the context actually sent to the model, and an explicit refusal when evidence is insufficient.</li><li>A glass-box inspector producing a pipeline trace for every request — each step, its input and output, scores, timings and reasoning.</li><li>Reproducible IR and RAG evaluation — Recall@10, nDCG@10, MRR@10 with fixed seeds, ablations, and every run written to its own directory.</li></ul></div>
       <section class="pblock reveal">
     <h2 class="pblock__h">The problem with most RAG demos</h2>
@@ -111,25 +111,43 @@
       </li></ol>
   </section><section class="pblock reveal">
     <h2 class="pblock__h">What it does</h2>
-    <div class="cap-grid"><div class="cap">
-        <h3 class="cap__title">Composed search</h3>
-        <p class="cap__text">"Like this picture but in black" — an image anchors the shape, text modifies it. The closest thing to how people actually shop.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Verified citations</h3>
-        <p class="cap__text">A citation that cannot be traced to the evidence the model saw is rejected rather than rendered.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">An explicit refusal path</h3>
-        <p class="cap__text">When evidence is insufficient the answer is <code>insufficient_evidence</code>, not a plausible invention.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Glass-box inspector</h3>
-        <p class="cap__text">Parsed query, BM25 / dense / RRF ranks, matched terms, latency waterfall, the raw query DSL, and the citation check.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Shopping plans with a budget</h3>
-        <p class="cap__text">Split the need, retrieve per need, optimise against a budget, and explain the result with citations.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Measured, not asserted</h3>
-        <p class="cap__text">Recall@10, nDCG@10 and MRR@10 at a fixed seed, with ablations, every run written to its own directory.</p>
+    <div class="features"><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/compose.jpg" data-lightbox data-caption="Composed search"><img src="../assets/img/products/shopmind/compose.jpg" alt="Composed search" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Composed search</h3><p class="cap__text">"Like this picture but in black" — an image anchors the shape, text modifies it. The closest thing to how people actually shop.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/chat.jpg" data-lightbox data-caption="Verified citations"><img src="../assets/img/products/shopmind/chat.jpg" alt="Verified citations" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Verified citations</h3><p class="cap__text">A citation that cannot be traced to the evidence the model saw is rejected rather than rendered.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/rag_flow.jpg" data-lightbox data-caption="An explicit refusal path"><img src="../assets/img/products/shopmind/rag_flow.jpg" alt="An explicit refusal path" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">An explicit refusal path</h3><p class="cap__text">When evidence is insufficient the answer is <code>insufficient_evidence</code>, not a plausible invention.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/inspector_ranking.jpg" data-lightbox data-caption="Glass-box inspector"><img src="../assets/img/products/shopmind/inspector_ranking.jpg" alt="Glass-box inspector" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Glass-box inspector</h3><p class="cap__text">Parsed query, BM25 / dense / RRF ranks, matched terms, latency waterfall, the raw query DSL, and the citation check.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/planner.jpg" data-lightbox data-caption="Shopping plans with a budget"><img src="../assets/img/products/shopmind/planner.jpg" alt="Shopping plans with a budget" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Shopping plans with a budget</h3><p class="cap__text">Split the need, retrieve per need, optimise against a budget, and explain the result with citations.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/shopmind/a1_ndcg.jpg" data-lightbox data-caption="Measured, not asserted"><img src="../assets/img/products/shopmind/a1_ndcg.jpg" alt="Measured, not asserted" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Measured, not asserted</h3><p class="cap__text">Recall@10, nDCG@10 and MRR@10 at a fixed seed, with ablations, every run written to its own directory.</p></div>
       </div></div>
+    
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">More screens and measurements</h2>
+    <div class="gallery"><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/search.jpg" data-lightbox data-caption="Text search results with facets"><img src="../assets/img/products/shopmind/search.jpg" alt="Text search results with facets" loading="lazy"></a>
+        <figcaption>Text search results with facets</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/product.jpg" data-lightbox data-caption="Product page with question answering"><img src="../assets/img/products/shopmind/product.jpg" alt="Product page with question answering" loading="lazy"></a>
+        <figcaption>Product page with question answering</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/compare.jpg" data-lightbox data-caption="Comparing products, with citations"><img src="../assets/img/products/shopmind/compare.jpg" alt="Comparing products, with citations" loading="lazy"></a>
+        <figcaption>Comparing products, with citations</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/playground.jpg" data-lightbox data-caption="Search playground — two pipelines side by side"><img src="../assets/img/products/shopmind/playground.jpg" alt="Search playground — two pipelines side by side" loading="lazy"></a>
+        <figcaption>Search playground — two pipelines side by side</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/embedding_map.jpg" data-lightbox data-caption="2D map of the embedding space"><img src="../assets/img/products/shopmind/embedding_map.jpg" alt="2D map of the embedding space" loading="lazy"></a>
+        <figcaption>2D map of the embedding space</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/admin_dashboard.jpg" data-lightbox data-caption="Admin dashboard — latency, zero-result and abstain rates"><img src="../assets/img/products/shopmind/admin_dashboard.jpg" alt="Admin dashboard — latency, zero-result and abstain rates" loading="lazy"></a>
+        <figcaption>Admin dashboard — latency, zero-result and abstain rates</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/admin_config.jpg" data-lightbox data-caption="Hot-reloadable pipeline configuration with rollback"><img src="../assets/img/products/shopmind/admin_config.jpg" alt="Hot-reloadable pipeline configuration with rollback" loading="lazy"></a>
+        <figcaption>Hot-reloadable pipeline configuration with rollback</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/architecture.jpg" data-lightbox data-caption="Architecture — interfaces, application, domain, infrastructure"><img src="../assets/img/products/shopmind/architecture.jpg" alt="Architecture — interfaces, application, domain, infrastructure" loading="lazy"></a>
+        <figcaption>Architecture — interfaces, application, domain, infrastructure</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/search_pipeline.jpg" data-lightbox data-caption="The search pipeline, every step traced"><img src="../assets/img/products/shopmind/search_pipeline.jpg" alt="The search pipeline, every step traced" loading="lazy"></a>
+        <figcaption>The search pipeline, every step traced</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/planner_flow.jpg" data-lightbox data-caption="How the shopping planner works"><img src="../assets/img/products/shopmind/planner_flow.jpg" alt="How the shopping planner works" loading="lazy"></a>
+        <figcaption>How the shopping planner works</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/a1_recall.jpg" data-lightbox data-caption="Benchmark A1 — Recall@10 by method"><img src="../assets/img/products/shopmind/a1_recall.jpg" alt="Benchmark A1 — Recall@10 by method" loading="lazy"></a>
+        <figcaption>Benchmark A1 — Recall@10 by method</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/f1_compose.jpg" data-lightbox data-caption="Composed image + text search — nDCG@10"><img src="../assets/img/products/shopmind/f1_compose.jpg" alt="Composed image + text search — nDCG@10" loading="lazy"></a>
+        <figcaption>Composed image + text search — nDCG@10</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/dense_before_after.jpg" data-lightbox data-caption="Dense retrieval before and after the embedder change"><img src="../assets/img/products/shopmind/dense_before_after.jpg" alt="Dense retrieval before and after the embedder change" loading="lazy"></a>
+        <figcaption>Dense retrieval before and after the embedder change</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/shopmind/latency.jpg" data-lightbox data-caption="Latency before and after optimisation"><img src="../assets/img/products/shopmind/latency.jpg" alt="Latency before and after optimisation" loading="lazy"></a>
+        <figcaption>Latency before and after optimisation</figcaption></figure></div>
   </section>
       <div class="prose reveal">
 <h2>The idea</h2>

@@ -179,6 +179,51 @@ Headings (`##`, `###`), paragraphs, bullet and numbered lists, **bold**,
 rules, and pipe tables. That is the full set the renderer handles — anything
 else is passed through as plain text.
 
+## Images, logos and video
+
+The site never shows an empty box. Where a real image exists it is used; where it
+does not, the build draws a stand-in and lists what is missing in **`MEDIA.md`**
+(regenerated on every build). Drop the real file at the path `MEDIA.md` gives and
+rebuild — the stand-in is replaced automatically.
+
+| What | Real file goes at | Stand-in until then |
+| --- | --- | --- |
+| Company / client / school logo | `assets/img/logos/<key>.png` (svg, jpg, webp) | Monogram badge in brand colours (`brands` in `site.json`) |
+| Certificate image | `assets/img/awards/<slug>.jpg` | Badge illustration + an empty frame on the page |
+| Award photo | `assets/img/awards/<slug>.jpg` | Medal illustration + an empty frame |
+| Project / product / article cover | `cover:` or `image:` in frontmatter | Generated cover art, unique per page |
+
+Logo keys are declared once in `content/site.json` → `brands`, and an entry picks
+one with `logo: <key>` (experience pages use their `org`).
+
+**Frontmatter for media**
+
+| Field | Applies to | Effect |
+| --- | --- | --- |
+| `cover`, `image`, `imageAlt` | all | Card thumbnail and page hero |
+| `illustration` | products | A drawn illustration (`warehouse`, `docflow`) |
+| `gallery` | any | List of `path :: caption` — a zoomable grid |
+| `capabilities` | products | A third segment adds a screenshot: `Title :: text :: path` |
+| `video` | any | YouTube URL (embedded privacy-friendly) or an `.mp4` path |
+| `tech` | skills, products | Explicit technology logos; otherwise derived from `tags` |
+| `verify` | awards | "Verify this credential" button (e.g. a Credly link) |
+
+**In the markdown body**
+
+```markdown
+![Caption under the image](assets/img/products/dropship-hub/04-nhan-van-don.jpg)
+![Caption under the diagram](diagram:rap-stack)
+```
+
+An image on its own line becomes a captioned figure that opens in the lightbox.
+`diagram:` inlines one of the technical diagrams from `tools/visuals.py`
+(`rap-stack`, `medallion`, `integration-landscape`, `clean-core`,
+`code-pushdown`, `ai-gate`) — drawn as SVG and coloured by the site theme, so they
+follow dark mode.
+
+Technology logos in `assets/img/tech/` come from CC0 icon sets; see
+`assets/img/tech/SOURCES.md`.
+
 ## Checks and CI
 
 ```bash

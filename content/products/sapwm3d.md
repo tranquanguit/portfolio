@@ -10,6 +10,7 @@ role: Designer & developer
 stack: TypeScript monorepo · canonical warehouse model · 2.5D viewer
 summary: A SaaS platform that turns warehouse data into a spatial cockpit — a block-based 2.5D model of the warehouse showing occupancy, overload, blocked bins and data mismatches, built on a canonical model that is not tied to SAP.
 tags: [TypeScript, Monorepo, Warehouse, 2.5D Visualisation, SAP EWM, Multi-Tenant, Excel Import]
+illustration: warehouse
 repo: https://github.com/tranquanguit/warehouse-3d-4erp
 featured: true
 current: true

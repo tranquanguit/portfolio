@@ -10,6 +10,7 @@ role: Designer & developer
 stack: Flask · PostgreSQL · SQLAlchemy · docxtpl
 summary: A multi-tenant SaaS that runs the full customer lifecycle for sofa repair and manufacturing businesses — quotation to contract to handover to payment — and generates every Vietnamese document along the way.
 tags: [Flask, PostgreSQL, SQLAlchemy, Multi-Tenant, DOCX Automation, RBAC, Bootstrap]
+illustration: docflow
 repo:
 featured: true
 audience: Sofa repair and manufacturing workshops, their sales staff and owners

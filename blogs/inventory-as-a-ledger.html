@@ -59,7 +59,7 @@
         <span class="tag tag--accent">2026</span>
         
       </div>
-      <h1>Inventory Is a Ledger, Not a Number</h1>
+      <div class="article-head__title"><h1>Inventory Is a Ledger, Not a Number</h1></div>
       <p class="article-head__lede">Why I build stock as a derived sum of immutable transactions instead of a mutable quantity field — an ERP habit that small systems almost always skip, and regret.</p>
       <div class="article-head__tags"><div class="tags"><span class="tag">Inventory</span><span class="tag">ERP Design</span><span class="tag">Data Modelling</span><span class="tag">Dropship Hub</span><span class="tag">SAP MM</span></div></div>
       
@@ -70,7 +70,7 @@
 
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
-      
+      <div class="article-hero reveal"><a class="zoom" href="../assets/img/generated/blogs/inventory-as-a-ledger.svg" data-lightbox data-caption="Inventory Is a Ledger, Not a Number"><img src="../assets/img/generated/blogs/inventory-as-a-ledger.svg" alt="Inventory Is a Ledger, Not a Number" loading="lazy"></a></div>
       
       
       <div class="prose reveal">
@@ -88,6 +88,7 @@
 <p>The usual answer is a <strong>snapshot</strong>: a periodically materialised balance plus the movements since. SAP does a version of this. It keeps the audit trail intact while making the common read cheap — and crucially, the snapshot is derived, so if it is ever wrong you rebuild it from the ledger rather than guessing.</p>
 <h2>Where I applied it</h2>
 <p><a href="../products/dropship-hub.html">Dropship Hub</a> is built this way. Every movement is a transaction; quantity on hand is derived. Paired with bill-of-materials explosion, so an assembled product consumes its components correctly, and an explicit order state machine, so stock-affecting transitions cannot happen out of order.</p>
+<figure class="figure"><a class="zoom" href="../assets/img/products/dropship-hub/50b-ton-kho-combo.jpg" data-lightbox data-caption="How many combo sets can be built from current stock, and which component limits it — Dropship Hub"><img src="../assets/img/products/dropship-hub/50b-ton-kho-combo.jpg" alt="How many combo sets can be built from current stock, and which component limits it — Dropship Hub" loading="lazy"></a><figcaption>How many combo sets can be built from current stock, and which component limits it — Dropship Hub</figcaption></figure>
 <p>None of that is novel. It is standard ERP thinking applied to a small business system — which is precisely the gap I keep seeing. Tools built for small businesses tend to assume small businesses have simple problems. They have the same problems, with fewer people to absorb the consequences.</p>
 <h2>The general lesson</h2>
 <p><strong>Store what happened, derive what is true.</strong></p>

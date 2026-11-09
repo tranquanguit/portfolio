@@ -1,6 +1,7 @@
 ---
 title: SAP S/4HANA Implementation — Kim Tin Group
 slug: kim-tin-s4hana
+logo: kimtin
 org: fis
 client: Kim Tin Group
 period: 08/2023 – 03/2024

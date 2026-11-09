@@ -54,7 +54,8 @@ class PageParser(html.parser.HTMLParser):
             self._in_title = True
         if tag == "meta" and a.get("name") == "description":
             self.description = a.get("content", "")
-        if tag == "img" and not a.get("alt"):
+        # alt="" is correct for a decorative image; a missing attribute is not.
+        if tag == "img" and "alt" not in a:
             self.images_without_alt += 1
 
     def handle_endtag(self, tag: str) -> None:

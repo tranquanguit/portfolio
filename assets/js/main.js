@@ -203,6 +203,74 @@
     });
   }
 
+
+  /* --- Lightbox ----------------------------------------------------------- */
+
+  function initLightbox() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('a[data-lightbox]'));
+    if (!links.length) return;
+
+    var box = document.createElement('div');
+    box.className = 'lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', 'Image viewer');
+    box.innerHTML =
+      '<img class="lightbox__img" alt="">' +
+      '<p class="lightbox__cap"></p>' +
+      '<button class="lightbox__btn lightbox__prev" type="button" aria-label="Previous image">&#8249;</button>' +
+      '<button class="lightbox__btn lightbox__next" type="button" aria-label="Next image">&#8250;</button>' +
+      '<button class="lightbox__btn lightbox__close" type="button" aria-label="Close">&times;</button>';
+    document.body.appendChild(box);
+
+    var img = box.querySelector('.lightbox__img');
+    var cap = box.querySelector('.lightbox__cap');
+    var prev = box.querySelector('.lightbox__prev');
+    var next = box.querySelector('.lightbox__next');
+    var current = 0;
+    var opener = null;
+
+    function show(i) {
+      current = (i + links.length) % links.length;
+      var a = links[current];
+      img.src = a.getAttribute('href');
+      img.alt = (a.querySelector('img') || {}).alt || '';
+      cap.textContent = a.getAttribute('data-caption') || '';
+      var multi = links.length > 1;
+      prev.style.display = next.style.display = multi ? '' : 'none';
+    }
+    function open(i, a) {
+      opener = a;
+      show(i);
+      box.classList.add('is-open');
+      document.documentElement.style.overflow = 'hidden';
+      box.querySelector('.lightbox__close').focus();
+    }
+    function close() {
+      box.classList.remove('is-open');
+      document.documentElement.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;  // let the browser open a tab
+        e.preventDefault();
+        open(i, a);
+      });
+    });
+    prev.addEventListener('click', function () { show(current - 1); });
+    next.addEventListener('click', function () { show(current + 1); });
+    box.querySelector('.lightbox__close').addEventListener('click', close);
+    box.addEventListener('click', function (e) { if (e.target === box) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (!box.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(current - 1);
+      else if (e.key === 'ArrowRight') show(current + 1);
+    });
+  }
+
   /* --- Current year ------------------------------------------------------- */
 
   function initYear() {
@@ -221,6 +289,7 @@
     initSpy();
     initFilters();
     initYear();
+    initLightbox();
   }
 
   if (document.readyState === 'loading') {

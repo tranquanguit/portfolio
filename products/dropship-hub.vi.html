@@ -59,9 +59,9 @@
         <span class="tag tag--accent">2026 – Nay</span>
         <span class="pill pill--live">Đang chạy</span>
       </div>
-      <h1>Dropship Hub — Phần mềm vận hành kho dropship</h1>
+      <div class="article-head__title"><h1>Dropship Hub — Phần mềm vận hành kho dropship</h1></div>
       <p class="article-head__lede">Nhận nhãn vận đơn của đại lý, đọc thẳng từ file PDF, bung combo, quét đóng hàng, bàn giao đơn vị vận chuyển và theo dõi công nợ trên cùng một hệ thống. Đại lý có portal riêng.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Fastify</span><span class="tag">React</span><span class="tag">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Metadata-Driven</span><span class="tag">Workflow Engine</span><span class="tag">Tồn kho</span></div></div>
+      <div class="article-head__tags"><div class="tags"><span class="tag tag--icon"><img src="../assets/img/tech/typescript.svg" alt="" width="12" height="12">TypeScript</span><span class="tag tag--icon"><img src="../assets/img/tech/fastify.svg" alt="" width="12" height="12">Fastify</span><span class="tag tag--icon"><img src="../assets/img/tech/react.svg" alt="" width="12" height="12">React</span><span class="tag tag--icon"><img src="../assets/img/tech/postgresql.svg" alt="" width="12" height="12">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Metadata-Driven</span><span class="tag">Workflow Engine</span><span class="tag">Tồn kho</span></div></div>
       <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt" href="../products/dropship-hub.html">English</a><a class="langswitch__opt is-active" href="../products/dropship-hub.vi.html" aria-current="page">Tiếng Việt</a></div>
       <div class="factbar"><div class="fact"><div class="fact__k">Loại</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Trạng thái</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Vai trò</div><div class="fact__v">Thiết kế sản phẩm &amp; phát triển</div></div><div class="fact"><div class="fact__k">Công nghệ</div><div class="fact__v">React 19 · Fastify 5 · TypeScript · PostgreSQL</div></div><div class="fact"><div class="fact__k">Dành cho</div><div class="fact__v">Kho dropship, các đại lý gửi hàng, và bộ phận kế toán của cả hai bên</div></div></div>
       
@@ -70,7 +70,7 @@
 
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
-      
+      <div class="article-hero reveal"><a class="zoom" href="../assets/img/products/dropship-hub/01-tong-quan.jpg" data-lightbox data-caption="Màn hình tổng quan của công ty"><img src="../assets/img/products/dropship-hub/01-tong-quan.jpg" alt="Màn hình tổng quan của công ty" loading="lazy"></a></div>
       <div class="highlights reveal"><p class="highlights__title">Điểm chính</p><ul><li>Đọc nhãn vận đơn thẳng từ chữ trong PDF theo quy tắc riêng từng đại lý, chặn trùng mã vận đơn giữa các file, các yêu cầu và các đại lý.</li><li>Đóng hàng theo quét mã, tiến độ từng phần ("đã đóng 4/10", "đã giao 0/10") và trạng thái từng kiện, nên đóng một phần vẫn giao được.</li><li>Sổ kho chỉ ghi thêm với tồn thực / đang giữ / khả dụng, khóa dòng khi nhiều người quét cùng lúc, kèm bộ kiểm tra toàn vẹn dữ liệu.</li><li>Nền tảng chạy theo metadata — định nghĩa DocType sinh ra validate API, truy vấn danh sách, giao diện form, mẫu Excel và OpenAPI, nên trường riêng của khách là cấu hình chứ không phải bản phát hành.</li></ul></div>
       <section class="pblock reveal">
     <h2 class="pblock__h">Vấn đề</h2>
@@ -117,37 +117,54 @@
       </li></ol>
   </section><section class="pblock reveal">
     <h2 class="pblock__h">Hệ thống làm được gì</h2>
-    <div class="cap-grid"><div class="cap">
-        <h3 class="cap__title">Đọc nhãn PDF không cần mẫu</h3>
-        <p class="cap__text">Đọc chữ trực tiếp trong file PDF, không chụp ảnh, không nhập tay. Có sẵn quy cách cho Shopee (SPX), Lazada, TikTok Shop, Viettel Post và SuperShip; nhãn khác đọc theo cách chung.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Dạy một lần, lần sau tự nhận ra</h3>
-        <p class="cap__text">Tải nhãn mẫu, kéo chuột quanh thông tin cần đọc. Vùng đọc bám theo chữ in sẵn gần nhất, nên nhãn có thêm dòng vẫn đọc đúng.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Hiểu cách đại lý gọi tên hàng</h3>
-        <p class="cap__text">Khai "cách gọi trong tin nhắn" để đại lý dán "30 combo A, 20 B" là hệ thống ra đúng mặt hàng, đúng số lượng.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Bung combo đúng thành phần</h3>
-        <p class="cap__text">Combo không cần tồn riêng; số bộ ráp được tính từ thành phần ít nhất trong kho. Kho thấy rõ cần cho gì vào kiện.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Bắt đơn hủy ngay tại trạm quét</h3>
-        <p class="cap__text">Đơn đã hủy trên sàn, quét tới là hiện cảnh báo đỏ và kiện không được tính là đã đóng.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Tồn kho luôn khớp thực tế</h3>
-        <p class="cap__text">Không ai sửa thẳng con số tồn. Mọi thay đổi đi qua chứng từ và để lại dấu vết — nhập mua, xuất bàn giao, chuyển kho, nhập hoàn, kiểm kê.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Tách tiền khỏi hàng</h3>
-        <p class="cap__text">Quyền "xem tiền" tách riêng. Tiền được ẩn ở mọi nơi — danh sách, chi tiết, bộ lọc, xuất Excel, tổng quan, thông báo — với người không có quyền.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Mỗi tối mỗi đại lý nhận báo cáo riêng</h3>
-        <p class="cap__text">Tự gửi vào giờ công ty chọn, trên portal và qua email hoặc Zalo, kèm mã QR có sẵn số tiền và nội dung chuyển khoản.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Khuyến mãi thay cho PDF trong nhóm chat</h3>
-        <p class="cap__text">Phát hành bảng giá và quà theo kênh bán, đại lý bấm tham gia, quà tự gắn vào đúng kiện và xuất kho cùng hàng.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Mọi trao đổi ở một chỗ</h3>
-        <p class="cap__text">Mỗi đại lý một luồng trao đổi với công ty, biết bên kia đã đọc chưa, giao được người phụ trách — thay cho hàng chục nhóm chat.</p>
+    <div class="features"><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/04-nhan-van-don.jpg" data-lightbox data-caption="Đọc nhãn PDF không cần mẫu"><img src="../assets/img/products/dropship-hub/04-nhan-van-don.jpg" alt="Đọc nhãn PDF không cần mẫu" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Đọc nhãn PDF không cần mẫu</h3><p class="cap__text">Đọc chữ trực tiếp trong file PDF, không chụp ảnh, không nhập tay. Có sẵn quy cách cho Shopee (SPX), Lazada, TikTok Shop, Viettel Post và SuperShip; nhãn khác đọc theo cách chung.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/07-quy-cach-nhan.jpg" data-lightbox data-caption="Dạy một lần, lần sau tự nhận ra"><img src="../assets/img/products/dropship-hub/07-quy-cach-nhan.jpg" alt="Dạy một lần, lần sau tự nhận ra" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Dạy một lần, lần sau tự nhận ra</h3><p class="cap__text">Tải nhãn mẫu, kéo chuột quanh thông tin cần đọc. Vùng đọc bám theo chữ in sẵn gần nhất, nên nhãn có thêm dòng vẫn đọc đúng.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/08-quy-tac-san-pham.jpg" data-lightbox data-caption="Hiểu cách đại lý gọi tên hàng"><img src="../assets/img/products/dropship-hub/08-quy-tac-san-pham.jpg" alt="Hiểu cách đại lý gọi tên hàng" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Hiểu cách đại lý gọi tên hàng</h3><p class="cap__text">Khai "cách gọi trong tin nhắn" để đại lý dán "30 combo A, 20 B" là hệ thống ra đúng mặt hàng, đúng số lượng.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/41-combo.jpg" data-lightbox data-caption="Bung combo đúng thành phần"><img src="../assets/img/products/dropship-hub/41-combo.jpg" alt="Bung combo đúng thành phần" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Bung combo đúng thành phần</h3><p class="cap__text">Combo không cần tồn riêng; số bộ ráp được tính từ thành phần ít nhất trong kho. Kho thấy rõ cần cho gì vào kiện.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/22-kho-don-huy.jpg" data-lightbox data-caption="Bắt đơn hủy ngay tại trạm quét"><img src="../assets/img/products/dropship-hub/22-kho-don-huy.jpg" alt="Bắt đơn hủy ngay tại trạm quét" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Bắt đơn hủy ngay tại trạm quét</h3><p class="cap__text">Đơn đã hủy trên sàn, quét tới là hiện cảnh báo đỏ và kiện không được tính là đã đóng.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/50b-ton-kho-combo.jpg" data-lightbox data-caption="Tồn kho luôn khớp thực tế"><img src="../assets/img/products/dropship-hub/50b-ton-kho-combo.jpg" alt="Tồn kho luôn khớp thực tế" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Tồn kho luôn khớp thực tế</h3><p class="cap__text">Không ai sửa thẳng con số tồn. Mọi thay đổi đi qua chứng từ và để lại dấu vết — nhập mua, xuất bàn giao, chuyển kho, nhập hoàn, kiểm kê.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/21-kho-chi-tiet.jpg" data-lightbox data-caption="Tách tiền khỏi hàng"><img src="../assets/img/products/dropship-hub/21-kho-chi-tiet.jpg" alt="Tách tiền khỏi hàng" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Tách tiền khỏi hàng</h3><p class="cap__text">Quyền "xem tiền" tách riêng. Tiền được ẩn ở mọi nơi — danh sách, chi tiết, bộ lọc, xuất Excel, tổng quan, thông báo — với người không có quyền.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/53-portal-sao-ke.jpg" data-lightbox data-caption="Mỗi tối mỗi đại lý nhận báo cáo riêng"><img src="../assets/img/products/dropship-hub/53-portal-sao-ke.jpg" alt="Mỗi tối mỗi đại lý nhận báo cáo riêng" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Mỗi tối mỗi đại lý nhận báo cáo riêng</h3><p class="cap__text">Tự gửi vào giờ công ty chọn, trên portal và qua email hoặc Zalo, kèm mã QR có sẵn số tiền và nội dung chuyển khoản.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/43-khuyen-mai.jpg" data-lightbox data-caption="Khuyến mãi thay cho PDF trong nhóm chat"><img src="../assets/img/products/dropship-hub/43-khuyen-mai.jpg" alt="Khuyến mãi thay cho PDF trong nhóm chat" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Khuyến mãi thay cho PDF trong nhóm chat</h3><p class="cap__text">Phát hành bảng giá và quà theo kênh bán, đại lý bấm tham gia, quà tự gắn vào đúng kiện và xuất kho cùng hàng.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/45-tin-nhan.jpg" data-lightbox data-caption="Mọi trao đổi ở một chỗ"><img src="../assets/img/products/dropship-hub/45-tin-nhan.jpg" alt="Mọi trao đổi ở một chỗ" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Mọi trao đổi ở một chỗ</h3><p class="cap__text">Mỗi đại lý một luồng trao đổi với công ty, biết bên kia đã đọc chưa, giao được người phụ trách — thay cho hàng chục nhóm chat.</p></div>
       </div></div>
+    
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">Thêm màn hình</h2>
+    <div class="gallery"><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/03-chi-tiet-yeu-cau.jpg" data-lightbox data-caption="Một yêu cầu đóng hàng — nhãn, kiện, tiến độ và chứng từ ở một chỗ"><img src="../assets/img/products/dropship-hub/03-chi-tiet-yeu-cau.jpg" alt="Một yêu cầu đóng hàng — nhãn, kiện, tiến độ và chứng từ ở một chỗ" loading="lazy"></a>
+        <figcaption>Một yêu cầu đóng hàng — nhãn, kiện, tiến độ và chứng từ ở một chỗ</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/22a-kho-quet.jpg" data-lightbox data-caption="Trạm đóng gói sau khi quét"><img src="../assets/img/products/dropship-hub/22a-kho-quet.jpg" alt="Trạm đóng gói sau khi quét" loading="lazy"></a>
+        <figcaption>Trạm đóng gói sau khi quét</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/52-kiem-cuoi-ca.jpg" data-lightbox data-caption="Kiểm cuối ca"><img src="../assets/img/products/dropship-hub/52-kiem-cuoi-ca.jpg" alt="Kiểm cuối ca" loading="lazy"></a>
+        <figcaption>Kiểm cuối ca</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/10-bien-ban.jpg" data-lightbox data-caption="Biên bản bàn giao đơn vị vận chuyển cho nhiều yêu cầu"><img src="../assets/img/products/dropship-hub/10-bien-ban.jpg" alt="Biên bản bàn giao đơn vị vận chuyển cho nhiều yêu cầu" loading="lazy"></a>
+        <figcaption>Biên bản bàn giao đơn vị vận chuyển cho nhiều yêu cầu</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/11-cong-no.jpg" data-lightbox data-caption="Công nợ theo đại lý — số dư, hạn mức, tuổi nợ"><img src="../assets/img/products/dropship-hub/11-cong-no.jpg" alt="Công nợ theo đại lý — số dư, hạn mức, tuổi nợ" loading="lazy"></a>
+        <figcaption>Công nợ theo đại lý — số dư, hạn mức, tuổi nợ</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/48-bao-cao-cuoi-ngay.jpg" data-lightbox data-caption="Báo cáo công nợ cuối ngày phía công ty"><img src="../assets/img/products/dropship-hub/48-bao-cao-cuoi-ngay.jpg" alt="Báo cáo công nợ cuối ngày phía công ty" loading="lazy"></a>
+        <figcaption>Báo cáo công nợ cuối ngày phía công ty</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/30-portal-tong-quan.jpg" data-lightbox data-caption="Trang tổng quan của đại lý"><img src="../assets/img/products/dropship-hub/30-portal-tong-quan.jpg" alt="Trang tổng quan của đại lý" loading="lazy"></a>
+        <figcaption>Trang tổng quan của đại lý</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/33-portal-catalog.jpg" data-lightbox data-caption="Sản phẩm và giá riêng của đại lý trên portal"><img src="../assets/img/products/dropship-hub/33-portal-catalog.jpg" alt="Sản phẩm và giá riêng của đại lý trên portal" loading="lazy"></a>
+        <figcaption>Sản phẩm và giá riêng của đại lý trên portal</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/37-portal-dien-thoai-yc.jpg" data-lightbox data-caption="Yêu cầu trên điện thoại"><img src="../assets/img/products/dropship-hub/37-portal-dien-thoai-yc.jpg" alt="Yêu cầu trên điện thoại" loading="lazy"></a>
+        <figcaption>Yêu cầu trên điện thoại</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/44-portal-khuyen-mai.jpg" data-lightbox data-caption="Chương trình khuyến mãi trên portal đại lý"><img src="../assets/img/products/dropship-hub/44-portal-khuyen-mai.jpg" alt="Chương trình khuyến mãi trên portal đại lý" loading="lazy"></a>
+        <figcaption>Chương trình khuyến mãi trên portal đại lý</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/46-thong-bao.jpg" data-lightbox data-caption="Ai đã đọc và xác nhận thông báo"><img src="../assets/img/products/dropship-hub/46-thong-bao.jpg" alt="Ai đã đọc và xác nhận thông báo" loading="lazy"></a>
+        <figcaption>Ai đã đọc và xác nhận thông báo</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/47-portal-thong-bao.jpg" data-lightbox data-caption="Đại lý đọc và xác nhận thông báo"><img src="../assets/img/products/dropship-hub/47-portal-thong-bao.jpg" alt="Đại lý đọc và xác nhận thông báo" loading="lazy"></a>
+        <figcaption>Đại lý đọc và xác nhận thông báo</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/14-thiet-lap.jpg" data-lightbox data-caption="Trang thiết lập — công ty tự chỉnh, không cần lập trình"><img src="../assets/img/products/dropship-hub/14-thiet-lap.jpg" alt="Trang thiết lập — công ty tự chỉnh, không cần lập trình" loading="lazy"></a>
+        <figcaption>Trang thiết lập — công ty tự chỉnh, không cần lập trình</figcaption></figure></div>
   </section>
       <div class="prose reveal">
 <h2>Dành cho ai</h2>

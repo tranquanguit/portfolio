@@ -1,6 +1,7 @@
 ---
 title: Microsoft Fabric Data Platform — PB15, FPT IS HCM
 slug: fabric-data-platform
+logo: fis
 org: fis
 client: FPT IS HCM — internal
 period: 02/2025 – 04/2026
@@ -26,6 +27,8 @@ After the Acecook warehouse shipped on SQL Server and SSIS, the obvious question
 ## Medallion, in practice
 
 We built an end-to-end flow from the internal application database through to Power BI, structured as a **medallion architecture**:
+
+![Bronze, silver, gold — from the application database to Power BI.](diagram:medallion)
 
 - **Bronze** — raw, as it arrived, nothing cleaned.
 - **Silver** — conformed and cleansed, the layer where business rules live.

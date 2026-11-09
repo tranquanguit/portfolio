@@ -10,6 +10,8 @@ role: Designer & developer
 stack: FastAPI · Elasticsearch · React · SigLIP2 · PostgreSQL
 summary: A shopping assistant you can see inside — text, image and composed search over 1,500 products, a RAG assistant whose every citation is verified, and a glass-box inspector that shows exactly why each result came back.
 tags: [RAG, Elasticsearch, FastAPI, React, SigLIP2, Multimodal Search, Evaluation, PostgreSQL]
+cover: assets/img/products/shopmind/catalog.jpg
+imageAlt: The ShopMind storefront
 repo: https://github.com/kt1101/shopmind-rag
 featured: true
 audience: Anyone evaluating RAG for a product catalogue — and researchers who want the numbers
@@ -33,12 +35,28 @@ flow:
 
 capabilitiesHeading: What it does
 capabilities:
-  - Composed search :: "Like this picture but in black" — an image anchors the shape, text modifies it. The closest thing to how people actually shop.
-  - Verified citations :: A citation that cannot be traced to the evidence the model saw is rejected rather than rendered.
-  - An explicit refusal path :: When evidence is insufficient the answer is `insufficient_evidence`, not a plausible invention.
-  - Glass-box inspector :: Parsed query, BM25 / dense / RRF ranks, matched terms, latency waterfall, the raw query DSL, and the citation check.
-  - Shopping plans with a budget :: Split the need, retrieve per need, optimise against a budget, and explain the result with citations.
-  - Measured, not asserted :: Recall@10, nDCG@10 and MRR@10 at a fixed seed, with ablations, every run written to its own directory.
+  - Composed search :: "Like this picture but in black" — an image anchors the shape, text modifies it. The closest thing to how people actually shop. :: assets/img/products/shopmind/compose.jpg
+  - Verified citations :: A citation that cannot be traced to the evidence the model saw is rejected rather than rendered. :: assets/img/products/shopmind/chat.jpg
+  - An explicit refusal path :: When evidence is insufficient the answer is `insufficient_evidence`, not a plausible invention. :: assets/img/products/shopmind/rag_flow.jpg
+  - Glass-box inspector :: Parsed query, BM25 / dense / RRF ranks, matched terms, latency waterfall, the raw query DSL, and the citation check. :: assets/img/products/shopmind/inspector_ranking.jpg
+  - Shopping plans with a budget :: Split the need, retrieve per need, optimise against a budget, and explain the result with citations. :: assets/img/products/shopmind/planner.jpg
+  - Measured, not asserted :: Recall@10, nDCG@10 and MRR@10 at a fixed seed, with ablations, every run written to its own directory. :: assets/img/products/shopmind/a1_ndcg.jpg
+galleryHeading: More screens and measurements
+gallery:
+  - assets/img/products/shopmind/search.jpg :: Text search results with facets
+  - assets/img/products/shopmind/product.jpg :: Product page with question answering
+  - assets/img/products/shopmind/compare.jpg :: Comparing products, with citations
+  - assets/img/products/shopmind/playground.jpg :: Search playground — two pipelines side by side
+  - assets/img/products/shopmind/embedding_map.jpg :: 2D map of the embedding space
+  - assets/img/products/shopmind/admin_dashboard.jpg :: Admin dashboard — latency, zero-result and abstain rates
+  - assets/img/products/shopmind/admin_config.jpg :: Hot-reloadable pipeline configuration with rollback
+  - assets/img/products/shopmind/architecture.jpg :: Architecture — interfaces, application, domain, infrastructure
+  - assets/img/products/shopmind/search_pipeline.jpg :: The search pipeline, every step traced
+  - assets/img/products/shopmind/planner_flow.jpg :: How the shopping planner works
+  - assets/img/products/shopmind/a1_recall.jpg :: Benchmark A1 — Recall@10 by method
+  - assets/img/products/shopmind/f1_compose.jpg :: Composed image + text search — nDCG@10
+  - assets/img/products/shopmind/dense_before_after.jpg :: Dense retrieval before and after the embedder change
+  - assets/img/products/shopmind/latency.jpg :: Latency before and after optimisation
 highlights:
   - Multimodal retrieval over 1,500 Amazon Berkeley Objects — text, image, and composed search ("like this picture but in black") using BM25 + dense kNN fused with RRF.
   - A RAG assistant answering from products, reviews and store policies, with every citation validated against the context actually sent to the model, and an explicit refusal when evidence is insufficient.

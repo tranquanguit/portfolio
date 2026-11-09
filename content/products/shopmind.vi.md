@@ -11,6 +11,8 @@ stack: FastAPI · Elasticsearch · React · SigLIP2 · PostgreSQL
 audience: Người đang cân nhắc dùng RAG cho catalogue sản phẩm, và người làm nghiên cứu cần số đo
 summary: Trợ lý mua sắm nhìn được vào bên trong — tìm bằng chữ, bằng ảnh và kết hợp cả hai trên 1.500 sản phẩm, trợ lý RAG có citation được kiểm tra, và bộ inspector cho thấy vì sao ra kết quả đó.
 tags: [RAG, Elasticsearch, FastAPI, React, SigLIP2, Tìm kiếm đa phương thức, Đánh giá, PostgreSQL]
+cover: assets/img/products/shopmind/catalog.jpg
+imageAlt: Gian hàng ShopMind
 repo: https://github.com/kt1101/shopmind-rag
 featured: true
 
@@ -33,13 +35,29 @@ flow:
 
 capabilitiesHeading: Hệ thống làm được gì
 capabilities:
-  - Tìm kiếm kết hợp :: "Giống ảnh này nhưng màu đen" — ảnh neo hình dáng, chữ chỉnh thuộc tính. Gần nhất với cách người ta thực sự mua sắm.
-  - Citation được kiểm tra :: Trích dẫn nào không truy ngược được về bằng chứng mô hình đã thấy thì bị loại chứ không hiển thị.
-  - Có đường từ chối rõ ràng :: Khi không đủ bằng chứng, câu trả lời là `insufficient_evidence`, không phải một phương án nghe hợp lý do bịa ra.
-  - Inspector minh bạch :: Câu truy vấn đã hiểu, rank BM25 / dense / RRF, từ khóa khớp, waterfall thời gian, query DSL thô và kết quả kiểm citation.
-  - Lên kế hoạch mua theo ngân sách :: Tách nhu cầu, truy hồi theo từng nhu cầu, tối ưu theo ngân sách, và giải thích kết quả có trích dẫn.
-  - Đo đạc chứ không khẳng định suông :: Recall@10, nDCG@10 và MRR@10 ở hạt giống cố định, kèm ablation, mỗi lần chạy ghi vào thư mục riêng.
+  - Tìm kiếm kết hợp :: "Giống ảnh này nhưng màu đen" — ảnh neo hình dáng, chữ chỉnh thuộc tính. Gần nhất với cách người ta thực sự mua sắm. :: assets/img/products/shopmind/compose.jpg
+  - Citation được kiểm tra :: Trích dẫn nào không truy ngược được về bằng chứng mô hình đã thấy thì bị loại chứ không hiển thị. :: assets/img/products/shopmind/chat.jpg
+  - Có đường từ chối rõ ràng :: Khi không đủ bằng chứng, câu trả lời là `insufficient_evidence`, không phải một phương án nghe hợp lý do bịa ra. :: assets/img/products/shopmind/rag_flow.jpg
+  - Inspector minh bạch :: Câu truy vấn đã hiểu, rank BM25 / dense / RRF, từ khóa khớp, waterfall thời gian, query DSL thô và kết quả kiểm citation. :: assets/img/products/shopmind/inspector_ranking.jpg
+  - Lên kế hoạch mua theo ngân sách :: Tách nhu cầu, truy hồi theo từng nhu cầu, tối ưu theo ngân sách, và giải thích kết quả có trích dẫn. :: assets/img/products/shopmind/planner.jpg
+  - Đo đạc chứ không khẳng định suông :: Recall@10, nDCG@10 và MRR@10 ở hạt giống cố định, kèm ablation, mỗi lần chạy ghi vào thư mục riêng. :: assets/img/products/shopmind/a1_ndcg.jpg
 
+galleryHeading: Thêm màn hình và số đo
+gallery:
+  - assets/img/products/shopmind/search.jpg :: Kết quả tìm bằng chữ, có facet
+  - assets/img/products/shopmind/product.jpg :: Trang sản phẩm có hỏi đáp
+  - assets/img/products/shopmind/compare.jpg :: So sánh sản phẩm có trích dẫn
+  - assets/img/products/shopmind/playground.jpg :: Search playground — hai pipeline đặt cạnh nhau
+  - assets/img/products/shopmind/embedding_map.jpg :: Bản đồ 2D của không gian embedding
+  - assets/img/products/shopmind/admin_dashboard.jpg :: Dashboard quản trị — độ trễ, tỉ lệ không kết quả, tỉ lệ từ chối
+  - assets/img/products/shopmind/admin_config.jpg :: Cấu hình pipeline sửa nóng, có rollback
+  - assets/img/products/shopmind/architecture.jpg :: Kiến trúc — interfaces, application, domain, infrastructure
+  - assets/img/products/shopmind/search_pipeline.jpg :: Pipeline tìm kiếm, mọi bước đều được ghi vết
+  - assets/img/products/shopmind/planner_flow.jpg :: Cách bộ lên kế hoạch mua sắm hoạt động
+  - assets/img/products/shopmind/a1_recall.jpg :: Benchmark A1 — Recall@10 theo phương pháp
+  - assets/img/products/shopmind/f1_compose.jpg :: Tìm kết hợp ảnh + chữ — nDCG@10
+  - assets/img/products/shopmind/dense_before_after.jpg :: Truy hồi dense trước và sau khi đổi embedder
+  - assets/img/products/shopmind/latency.jpg :: Độ trễ trước và sau tối ưu
 highlights:
   - Truy hồi đa phương thức trên 1.500 sản phẩm Amazon Berkeley Objects — tìm bằng chữ, bằng ảnh và kết hợp, dùng BM25 + kNN vector dày hợp nhất bằng RRF.
   - Trợ lý RAG trả lời từ sản phẩm, review và policy, mọi citation đều được đối chiếu với đúng context đã gửi cho mô hình, và từ chối rõ ràng khi thiếu bằng chứng.

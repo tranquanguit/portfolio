@@ -11,6 +11,8 @@ stack: React 19 · Fastify 5 · TypeScript · PostgreSQL
 audience: Dropship warehouses, their agency partners, and the finance team behind both
 summary: Warehouse operations software for dropshipping. It reads carrier labels straight out of PDFs, explodes combos, drives scan-based packing, hands over to carriers and settles agency debt — one flow from label to money, with a portal the agencies run themselves.
 tags: [TypeScript, Fastify, React, PostgreSQL, Multi-Tenant, Metadata-Driven, Workflow Engine, Inventory]
+cover: assets/img/products/dropship-hub/01-tong-quan.jpg
+imageAlt: Dropship Hub company overview
 repo:
 featured: true
 current: true
@@ -36,17 +38,32 @@ flow:
 
 capabilitiesHeading: What it does
 capabilities:
-  - Reads PDF labels without a template :: Text is read directly from the PDF — no photographs, no retyping. Shopee (SPX), Lazada, TikTok Shop, Viettel Post and SuperShip are preconfigured; anything else is read by the generic method.
-  - Learns a label once :: Drag a box around the field on a sample label. The read area anchors to the nearest printed caption, so a label with an extra line still reads correctly.
-  - Learns how each agency talks :: Declare the phrases an agency uses and they can paste "30 combo A, 20 B" into the form and get the right items out.
-  - Explodes combos correctly :: Combos hold no stock of their own; how many sets can be built is derived from the scarcest component. The warehouse sees exactly what goes in the parcel.
-  - Catches cancellations at the scanner :: An order cancelled on the marketplace raises a red warning when scanned, and the parcel is not counted as packed.
-  - Stock that matches the floor :: Nobody edits a quantity. Every change goes through a document and leaves a trace — purchase, handover, transfer, return, stock count.
-  - Separates money from goods :: "See prices" is its own permission. Money disappears everywhere — lists, detail, filters, Excel exports, dashboards, notifications — for anyone without it.
-  - Nightly statements, per agency :: Each agency gets its own debt report at a time the company chooses, on the portal and by email or Zalo, with a QR code carrying the amount and reference.
-  - Promotions instead of PDFs in a chat group :: Publish a channel price list with gifts; agencies opt in, and the gift attaches itself to the right parcel and ships with the goods.
-  - One thread per agency :: Every exchange in one place, with read receipts and an owner, instead of dozens of chat groups.
+  - Reads PDF labels without a template :: Text is read directly from the PDF — no photographs, no retyping. Shopee (SPX), Lazada, TikTok Shop, Viettel Post and SuperShip are preconfigured; anything else is read by the generic method. :: assets/img/products/dropship-hub/04-nhan-van-don.jpg
+  - Learns a label once :: Drag a box around the field on a sample label. The read area anchors to the nearest printed caption, so a label with an extra line still reads correctly. :: assets/img/products/dropship-hub/07-quy-cach-nhan.jpg
+  - Learns how each agency talks :: Declare the phrases an agency uses and they can paste "30 combo A, 20 B" into the form and get the right items out. :: assets/img/products/dropship-hub/08-quy-tac-san-pham.jpg
+  - Explodes combos correctly :: Combos hold no stock of their own; how many sets can be built is derived from the scarcest component. The warehouse sees exactly what goes in the parcel. :: assets/img/products/dropship-hub/41-combo.jpg
+  - Catches cancellations at the scanner :: An order cancelled on the marketplace raises a red warning when scanned, and the parcel is not counted as packed. :: assets/img/products/dropship-hub/22-kho-don-huy.jpg
+  - Stock that matches the floor :: Nobody edits a quantity. Every change goes through a document and leaves a trace — purchase, handover, transfer, return, stock count. :: assets/img/products/dropship-hub/50b-ton-kho-combo.jpg
+  - Separates money from goods :: "See prices" is its own permission. Money disappears everywhere — lists, detail, filters, Excel exports, dashboards, notifications — for anyone without it. :: assets/img/products/dropship-hub/21-kho-chi-tiet.jpg
+  - Nightly statements, per agency :: Each agency gets its own debt report at a time the company chooses, on the portal and by email or Zalo, with a QR code carrying the amount and reference. :: assets/img/products/dropship-hub/53-portal-sao-ke.jpg
+  - Promotions instead of PDFs in a chat group :: Publish a channel price list with gifts; agencies opt in, and the gift attaches itself to the right parcel and ships with the goods. :: assets/img/products/dropship-hub/43-khuyen-mai.jpg
+  - One thread per agency :: Every exchange in one place, with read receipts and an owner, instead of dozens of chat groups. :: assets/img/products/dropship-hub/45-tin-nhan.jpg
 
+galleryHeading: More screens
+gallery:
+  - assets/img/products/dropship-hub/03-chi-tiet-yeu-cau.jpg :: One packing request — labels, parcels, progress and documents in one place
+  - assets/img/products/dropship-hub/22a-kho-quet.jpg :: The packing station after a scan
+  - assets/img/products/dropship-hub/52-kiem-cuoi-ca.jpg :: End-of-shift check
+  - assets/img/products/dropship-hub/10-bien-ban.jpg :: Carrier handover note covering several requests
+  - assets/img/products/dropship-hub/11-cong-no.jpg :: Debt per agency — balance, limit and ageing
+  - assets/img/products/dropship-hub/48-bao-cao-cuoi-ngay.jpg :: Company view of the nightly debt report
+  - assets/img/products/dropship-hub/30-portal-tong-quan.jpg :: Agency portal overview
+  - assets/img/products/dropship-hub/33-portal-catalog.jpg :: Products and the agency’s own prices on the portal
+  - assets/img/products/dropship-hub/37-portal-dien-thoai-yc.jpg :: A request on a phone
+  - assets/img/products/dropship-hub/44-portal-khuyen-mai.jpg :: A promotion as the agency sees it
+  - assets/img/products/dropship-hub/46-thong-bao.jpg :: Who has read and acknowledged an announcement
+  - assets/img/products/dropship-hub/47-portal-thong-bao.jpg :: An agency acknowledging an announcement
+  - assets/img/products/dropship-hub/14-thiet-lap.jpg :: Settings — the company adapts the system without a developer
 highlights:
   - Reads carrier labels directly from PDF text with per-agency parsing rules, blocking duplicate tracking numbers across files, requests and agencies.
   - Scan-driven packing with partial progress ("packed 4/10", "delivered 0/10") and per-parcel state, so partial handover is a first-class case.

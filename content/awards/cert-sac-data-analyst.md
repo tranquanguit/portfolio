@@ -1,6 +1,7 @@
 ---
 title: SAP Certified Associate — Data Analyst, SAP Analytics Cloud
 slug: cert-sac-data-analyst
+logo: sap
 type: certification
 icon: 📊
 issuer: SAP

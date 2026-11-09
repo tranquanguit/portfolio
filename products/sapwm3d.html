@@ -59,9 +59,9 @@
         <span class="tag tag--accent">2026 – Present</span>
         <span class="pill pill--live">Ongoing</span>
       </div>
-      <h1>sapwm3d — Warehouse Visualisation Platform</h1>
+      <div class="article-head__title"><h1>sapwm3d — Warehouse Visualisation Platform</h1></div>
       <p class="article-head__lede">A SaaS platform that turns warehouse data into a spatial cockpit — a block-based 2.5D model of the warehouse showing occupancy, overload, blocked bins and data mismatches, built on a canonical model that is not tied to SAP.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Monorepo</span><span class="tag">Warehouse</span><span class="tag">2.5D Visualisation</span><span class="tag">SAP EWM</span><span class="tag">Multi-Tenant</span><span class="tag">Excel Import</span></div></div>
+      <div class="article-head__tags"><div class="tags"><span class="tag tag--icon"><img src="../assets/img/tech/typescript.svg" alt="" width="12" height="12">TypeScript</span><span class="tag">Monorepo</span><span class="tag">Warehouse</span><span class="tag">2.5D Visualisation</span><span class="tag tag--icon"><img src="../assets/img/tech/sap.svg" alt="" width="12" height="12">SAP EWM</span><span class="tag">Multi-Tenant</span><span class="tag">Excel Import</span></div></div>
       <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt is-active" href="../products/sapwm3d.html" aria-current="page">English</a><a class="langswitch__opt" href="../products/sapwm3d.vi.html">Tiếng Việt</a></div>
       <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">SAP Platform &amp; Visualisation</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">TypeScript monorepo · canonical warehouse model · 2.5D viewer</div></div><div class="fact"><div class="fact__k">Built for</div><div class="fact__v">Warehouse supervisors, inventory controllers, operations managers</div></div></div>
       <div style="margin-top:22px"><a class="btn btn--ghost" href="https://github.com/tranquanguit/warehouse-3d-4erp" target="_blank" rel="noopener noreferrer">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
@@ -70,7 +70,7 @@
 
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
-      
+      <div class="article-hero reveal"><a class="zoom" href="../assets/img/generated/products/sapwm3d-art.svg" data-lightbox data-caption="sapwm3d — Warehouse Visualisation Platform"><img src="../assets/img/generated/products/sapwm3d-art.svg" alt="sapwm3d — Warehouse Visualisation Platform" loading="lazy"></a></div>
       <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Design-time mode for configuring warehouse structure, layout, render settings and mapping rules; run-time mode for visualising stock, capacity and discrepancies.</li><li>A canonical warehouse hierarchy independent of SAP-specific structures, so the same core serves customers at different levels of data maturity.</li><li>Excel and API ingestion first, with SAP, S/4HANA, EWM and BTP as planned integration paths rather than hard dependencies.</li><li>Monorepo with separate web and API apps over five shared packages — canonical model, import schemas, template schema, viewer contracts and UI tokens.</li></ul></div>
       <section class="pblock reveal">
     <h2 class="pblock__h">The problem</h2>
@@ -111,6 +111,7 @@
       </li></ol>
   </section><section class="pblock reveal">
     <h2 class="pblock__h">What it does</h2>
+    
     <div class="cap-grid"><div class="cap">
         <h3 class="cap__title">Block-based 2.5D cockpit</h3>
         <p class="cap__text">Fast to read and fast to render, with no camera to fight and no occlusion.</p>

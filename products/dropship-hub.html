@@ -59,9 +59,9 @@
         <span class="tag tag--accent">2026 – Present</span>
         <span class="pill pill--live">Ongoing</span>
       </div>
-      <h1>Dropship Hub — Warehouse Operations for Dropshipping</h1>
+      <div class="article-head__title"><h1>Dropship Hub — Warehouse Operations for Dropshipping</h1></div>
       <p class="article-head__lede">Warehouse operations software for dropshipping. It reads carrier labels straight out of PDFs, explodes combos, drives scan-based packing, hands over to carriers and settles agency debt — one flow from label to money, with a portal the agencies run themselves.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Fastify</span><span class="tag">React</span><span class="tag">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Metadata-Driven</span><span class="tag">Workflow Engine</span><span class="tag">Inventory</span></div></div>
+      <div class="article-head__tags"><div class="tags"><span class="tag tag--icon"><img src="../assets/img/tech/typescript.svg" alt="" width="12" height="12">TypeScript</span><span class="tag tag--icon"><img src="../assets/img/tech/fastify.svg" alt="" width="12" height="12">Fastify</span><span class="tag tag--icon"><img src="../assets/img/tech/react.svg" alt="" width="12" height="12">React</span><span class="tag tag--icon"><img src="../assets/img/tech/postgresql.svg" alt="" width="12" height="12">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Metadata-Driven</span><span class="tag">Workflow Engine</span><span class="tag">Inventory</span></div></div>
       <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt is-active" href="../products/dropship-hub.html" aria-current="page">English</a><a class="langswitch__opt" href="../products/dropship-hub.vi.html">Tiếng Việt</a></div>
       <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Product designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">React 19 · Fastify 5 · TypeScript · PostgreSQL</div></div><div class="fact"><div class="fact__k">Built for</div><div class="fact__v">Dropship warehouses, their agency partners, and the finance team behind both</div></div></div>
       
@@ -70,7 +70,7 @@
 
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
-      
+      <div class="article-hero reveal"><a class="zoom" href="../assets/img/products/dropship-hub/01-tong-quan.jpg" data-lightbox data-caption="Dropship Hub company overview"><img src="../assets/img/products/dropship-hub/01-tong-quan.jpg" alt="Dropship Hub company overview" loading="lazy"></a></div>
       <div class="highlights reveal"><p class="highlights__title">What I delivered</p><ul><li>Reads carrier labels directly from PDF text with per-agency parsing rules, blocking duplicate tracking numbers across files, requests and agencies.</li><li>Scan-driven packing with partial progress ("packed 4/10", "delivered 0/10") and per-parcel state, so partial handover is a first-class case.</li><li>Append-only stock ledger with on-hand, reserved and available quantities, row-level locking for concurrent scanning, and a data integrity checker.</li><li>Metadata-driven platform — DocType definitions generate API validation, list queries, form UI, Excel templates and OpenAPI, so customer-specific fields are configuration.</li></ul></div>
       <section class="pblock reveal">
     <h2 class="pblock__h">The problem</h2>
@@ -117,37 +117,54 @@
       </li></ol>
   </section><section class="pblock reveal">
     <h2 class="pblock__h">What it does</h2>
-    <div class="cap-grid"><div class="cap">
-        <h3 class="cap__title">Reads PDF labels without a template</h3>
-        <p class="cap__text">Text is read directly from the PDF — no photographs, no retyping. Shopee (SPX), Lazada, TikTok Shop, Viettel Post and SuperShip are preconfigured; anything else is read by the generic method.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Learns a label once</h3>
-        <p class="cap__text">Drag a box around the field on a sample label. The read area anchors to the nearest printed caption, so a label with an extra line still reads correctly.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Learns how each agency talks</h3>
-        <p class="cap__text">Declare the phrases an agency uses and they can paste "30 combo A, 20 B" into the form and get the right items out.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Explodes combos correctly</h3>
-        <p class="cap__text">Combos hold no stock of their own; how many sets can be built is derived from the scarcest component. The warehouse sees exactly what goes in the parcel.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Catches cancellations at the scanner</h3>
-        <p class="cap__text">An order cancelled on the marketplace raises a red warning when scanned, and the parcel is not counted as packed.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Stock that matches the floor</h3>
-        <p class="cap__text">Nobody edits a quantity. Every change goes through a document and leaves a trace — purchase, handover, transfer, return, stock count.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Separates money from goods</h3>
-        <p class="cap__text">"See prices" is its own permission. Money disappears everywhere — lists, detail, filters, Excel exports, dashboards, notifications — for anyone without it.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Nightly statements, per agency</h3>
-        <p class="cap__text">Each agency gets its own debt report at a time the company chooses, on the portal and by email or Zalo, with a QR code carrying the amount and reference.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">Promotions instead of PDFs in a chat group</h3>
-        <p class="cap__text">Publish a channel price list with gifts; agencies opt in, and the gift attaches itself to the right parcel and ships with the goods.</p>
-      </div><div class="cap">
-        <h3 class="cap__title">One thread per agency</h3>
-        <p class="cap__text">Every exchange in one place, with read receipts and an owner, instead of dozens of chat groups.</p>
+    <div class="features"><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/04-nhan-van-don.jpg" data-lightbox data-caption="Reads PDF labels without a template"><img src="../assets/img/products/dropship-hub/04-nhan-van-don.jpg" alt="Reads PDF labels without a template" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Reads PDF labels without a template</h3><p class="cap__text">Text is read directly from the PDF — no photographs, no retyping. Shopee (SPX), Lazada, TikTok Shop, Viettel Post and SuperShip are preconfigured; anything else is read by the generic method.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/07-quy-cach-nhan.jpg" data-lightbox data-caption="Learns a label once"><img src="../assets/img/products/dropship-hub/07-quy-cach-nhan.jpg" alt="Learns a label once" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Learns a label once</h3><p class="cap__text">Drag a box around the field on a sample label. The read area anchors to the nearest printed caption, so a label with an extra line still reads correctly.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/08-quy-tac-san-pham.jpg" data-lightbox data-caption="Learns how each agency talks"><img src="../assets/img/products/dropship-hub/08-quy-tac-san-pham.jpg" alt="Learns how each agency talks" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Learns how each agency talks</h3><p class="cap__text">Declare the phrases an agency uses and they can paste "30 combo A, 20 B" into the form and get the right items out.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/41-combo.jpg" data-lightbox data-caption="Explodes combos correctly"><img src="../assets/img/products/dropship-hub/41-combo.jpg" alt="Explodes combos correctly" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Explodes combos correctly</h3><p class="cap__text">Combos hold no stock of their own; how many sets can be built is derived from the scarcest component. The warehouse sees exactly what goes in the parcel.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/22-kho-don-huy.jpg" data-lightbox data-caption="Catches cancellations at the scanner"><img src="../assets/img/products/dropship-hub/22-kho-don-huy.jpg" alt="Catches cancellations at the scanner" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Catches cancellations at the scanner</h3><p class="cap__text">An order cancelled on the marketplace raises a red warning when scanned, and the parcel is not counted as packed.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/50b-ton-kho-combo.jpg" data-lightbox data-caption="Stock that matches the floor"><img src="../assets/img/products/dropship-hub/50b-ton-kho-combo.jpg" alt="Stock that matches the floor" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Stock that matches the floor</h3><p class="cap__text">Nobody edits a quantity. Every change goes through a document and leaves a trace — purchase, handover, transfer, return, stock count.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/21-kho-chi-tiet.jpg" data-lightbox data-caption="Separates money from goods"><img src="../assets/img/products/dropship-hub/21-kho-chi-tiet.jpg" alt="Separates money from goods" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Separates money from goods</h3><p class="cap__text">"See prices" is its own permission. Money disappears everywhere — lists, detail, filters, Excel exports, dashboards, notifications — for anyone without it.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/53-portal-sao-ke.jpg" data-lightbox data-caption="Nightly statements, per agency"><img src="../assets/img/products/dropship-hub/53-portal-sao-ke.jpg" alt="Nightly statements, per agency" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Nightly statements, per agency</h3><p class="cap__text">Each agency gets its own debt report at a time the company chooses, on the portal and by email or Zalo, with a QR code carrying the amount and reference.</p></div>
+      </div><div class="feature">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/43-khuyen-mai.jpg" data-lightbox data-caption="Promotions instead of PDFs in a chat group"><img src="../assets/img/products/dropship-hub/43-khuyen-mai.jpg" alt="Promotions instead of PDFs in a chat group" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">Promotions instead of PDFs in a chat group</h3><p class="cap__text">Publish a channel price list with gifts; agencies opt in, and the gift attaches itself to the right parcel and ships with the goods.</p></div>
+      </div><div class="feature feature--flip">
+        <div class="feature__shot"><a class="zoom" href="../assets/img/products/dropship-hub/45-tin-nhan.jpg" data-lightbox data-caption="One thread per agency"><img src="../assets/img/products/dropship-hub/45-tin-nhan.jpg" alt="One thread per agency" loading="lazy"></a></div>
+        <div class="feature__text"><h3 class="cap__title">One thread per agency</h3><p class="cap__text">Every exchange in one place, with read receipts and an owner, instead of dozens of chat groups.</p></div>
       </div></div>
+    
+  </section><section class="pblock reveal">
+    <h2 class="pblock__h">More screens</h2>
+    <div class="gallery"><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/03-chi-tiet-yeu-cau.jpg" data-lightbox data-caption="One packing request — labels, parcels, progress and documents in one place"><img src="../assets/img/products/dropship-hub/03-chi-tiet-yeu-cau.jpg" alt="One packing request — labels, parcels, progress and documents in one place" loading="lazy"></a>
+        <figcaption>One packing request — labels, parcels, progress and documents in one place</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/22a-kho-quet.jpg" data-lightbox data-caption="The packing station after a scan"><img src="../assets/img/products/dropship-hub/22a-kho-quet.jpg" alt="The packing station after a scan" loading="lazy"></a>
+        <figcaption>The packing station after a scan</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/52-kiem-cuoi-ca.jpg" data-lightbox data-caption="End-of-shift check"><img src="../assets/img/products/dropship-hub/52-kiem-cuoi-ca.jpg" alt="End-of-shift check" loading="lazy"></a>
+        <figcaption>End-of-shift check</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/10-bien-ban.jpg" data-lightbox data-caption="Carrier handover note covering several requests"><img src="../assets/img/products/dropship-hub/10-bien-ban.jpg" alt="Carrier handover note covering several requests" loading="lazy"></a>
+        <figcaption>Carrier handover note covering several requests</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/11-cong-no.jpg" data-lightbox data-caption="Debt per agency — balance, limit and ageing"><img src="../assets/img/products/dropship-hub/11-cong-no.jpg" alt="Debt per agency — balance, limit and ageing" loading="lazy"></a>
+        <figcaption>Debt per agency — balance, limit and ageing</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/48-bao-cao-cuoi-ngay.jpg" data-lightbox data-caption="Company view of the nightly debt report"><img src="../assets/img/products/dropship-hub/48-bao-cao-cuoi-ngay.jpg" alt="Company view of the nightly debt report" loading="lazy"></a>
+        <figcaption>Company view of the nightly debt report</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/30-portal-tong-quan.jpg" data-lightbox data-caption="Agency portal overview"><img src="../assets/img/products/dropship-hub/30-portal-tong-quan.jpg" alt="Agency portal overview" loading="lazy"></a>
+        <figcaption>Agency portal overview</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/33-portal-catalog.jpg" data-lightbox data-caption="Products and the agency’s own prices on the portal"><img src="../assets/img/products/dropship-hub/33-portal-catalog.jpg" alt="Products and the agency’s own prices on the portal" loading="lazy"></a>
+        <figcaption>Products and the agency’s own prices on the portal</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/37-portal-dien-thoai-yc.jpg" data-lightbox data-caption="A request on a phone"><img src="../assets/img/products/dropship-hub/37-portal-dien-thoai-yc.jpg" alt="A request on a phone" loading="lazy"></a>
+        <figcaption>A request on a phone</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/44-portal-khuyen-mai.jpg" data-lightbox data-caption="A promotion as the agency sees it"><img src="../assets/img/products/dropship-hub/44-portal-khuyen-mai.jpg" alt="A promotion as the agency sees it" loading="lazy"></a>
+        <figcaption>A promotion as the agency sees it</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/46-thong-bao.jpg" data-lightbox data-caption="Who has read and acknowledged an announcement"><img src="../assets/img/products/dropship-hub/46-thong-bao.jpg" alt="Who has read and acknowledged an announcement" loading="lazy"></a>
+        <figcaption>Who has read and acknowledged an announcement</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/47-portal-thong-bao.jpg" data-lightbox data-caption="An agency acknowledging an announcement"><img src="../assets/img/products/dropship-hub/47-portal-thong-bao.jpg" alt="An agency acknowledging an announcement" loading="lazy"></a>
+        <figcaption>An agency acknowledging an announcement</figcaption></figure><figure class="gallery__item"><a class="zoom" href="../assets/img/products/dropship-hub/14-thiet-lap.jpg" data-lightbox data-caption="Settings — the company adapts the system without a developer"><img src="../assets/img/products/dropship-hub/14-thiet-lap.jpg" alt="Settings — the company adapts the system without a developer" loading="lazy"></a>
+        <figcaption>Settings — the company adapts the system without a developer</figcaption></figure></div>
   </section>
       <div class="prose reveal">
 <h2>Who it is for</h2>

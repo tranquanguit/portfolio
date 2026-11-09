@@ -22,6 +22,8 @@ It is also now a certified competence: **SAP Certified Associate — SAP Generat
 
 An AI agent can generate 400 ABAP objects faster than I can read the list. That is either a large productivity gain or a large unreviewed change to a customer system, and which one it is depends entirely on what happens next.
 
+![The agent generates; the byte comparison and the human sign-off decide.](diagram:ai-gate)
+
 For the SimpleMDG refactor, every agent handover is gated by a **Git ↔ live-system byte comparison**. What is in the repository and what is active in the system must match exactly. If they diverge, the handover stops and a human looks at it.
 
 That check is the engineering. Without it, "the agent generated it" is a statement of hope.

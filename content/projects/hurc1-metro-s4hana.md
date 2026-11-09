@@ -1,6 +1,7 @@
 ---
 title: SAP S/4HANA Implementation — HURC1, HCMC Metro Line 1
 slug: hurc1-metro-s4hana
+logo: hurc1
 org: fis
 client: HURC1 — HCMC Metro Line No.1 Operating Company
 period: 11/2024 – 06/2025

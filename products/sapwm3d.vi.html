@@ -59,9 +59,9 @@
         <span class="tag tag--accent">2026 – Nay</span>
         <span class="pill pill--live">Đang chạy</span>
       </div>
-      <h1>sapwm3d — Nền tảng trực quan hóa kho hàng</h1>
+      <div class="article-head__title"><h1>sapwm3d — Nền tảng trực quan hóa kho hàng</h1></div>
       <p class="article-head__lede">Nền tảng SaaS biến dữ liệu kho thành một bản đồ vận hành — mô hình 2.5D dạng khối hiển thị độ đầy, quá tải, ô bị khóa và các điểm dữ liệu lệch nhau, dựng trên mô hình chuẩn hóa không phụ thuộc SAP.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Monorepo</span><span class="tag">Kho hàng</span><span class="tag">Trực quan 2.5D</span><span class="tag">SAP EWM</span><span class="tag">Multi-Tenant</span><span class="tag">Nhập Excel</span></div></div>
+      <div class="article-head__tags"><div class="tags"><span class="tag tag--icon"><img src="../assets/img/tech/typescript.svg" alt="" width="12" height="12">TypeScript</span><span class="tag">Monorepo</span><span class="tag">Kho hàng</span><span class="tag">Trực quan 2.5D</span><span class="tag tag--icon"><img src="../assets/img/tech/sap.svg" alt="" width="12" height="12">SAP EWM</span><span class="tag">Multi-Tenant</span><span class="tag">Nhập Excel</span></div></div>
       <div class="langswitch" role="group" aria-label="Language"><a class="langswitch__opt" href="../products/sapwm3d.html">English</a><a class="langswitch__opt is-active" href="../products/sapwm3d.vi.html" aria-current="page">Tiếng Việt</a></div>
       <div class="factbar"><div class="fact"><div class="fact__k">Loại</div><div class="fact__v">SAP Platform &amp; Visualisation</div></div><div class="fact"><div class="fact__k">Trạng thái</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Vai trò</div><div class="fact__v">Thiết kế &amp; phát triển</div></div><div class="fact"><div class="fact__k">Công nghệ</div><div class="fact__v">TypeScript monorepo · mô hình kho chuẩn hóa · viewer 2.5D</div></div><div class="fact"><div class="fact__k">Dành cho</div><div class="fact__v">Giám sát kho, nhân viên kiểm soát tồn, quản lý vận hành</div></div></div>
       <div style="margin-top:22px"><a class="btn btn--ghost" href="https://github.com/tranquanguit/warehouse-3d-4erp" target="_blank" rel="noopener noreferrer">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
@@ -70,7 +70,7 @@
 
   <div class="section section--tight">
     <div class="wrap wrap--narrow">
-      
+      <div class="article-hero reveal"><a class="zoom" href="../assets/img/generated/products/sapwm3d-art.svg" data-lightbox data-caption="sapwm3d — Nền tảng trực quan hóa kho hàng"><img src="../assets/img/generated/products/sapwm3d-art.svg" alt="sapwm3d — Nền tảng trực quan hóa kho hàng" loading="lazy"></a></div>
       <div class="highlights reveal"><p class="highlights__title">Điểm chính</p><ul><li>Chế độ thiết kế để cấu hình cấu trúc kho, bố cục, thiết lập hiển thị và quy tắc map; chế độ vận hành để xem tồn, sức chứa và điểm lệch.</li><li>Phân cấp kho chuẩn hóa độc lập với cấu trúc riêng của SAP, nên cùng một lõi phục vụ được khách ở nhiều mức độ dữ liệu khác nhau.</li><li>Ưu tiên nạp dữ liệu qua Excel và API, còn SAP, S/4HANA, EWM và BTP là hướng tích hợp dự kiến chứ không phải điều kiện bắt buộc.</li><li>Monorepo tách riêng app web và API trên năm package dùng chung — mô hình chuẩn, schema nhập liệu, schema mẫu kho, hợp đồng viewer và design token.</li></ul></div>
       <section class="pblock reveal">
     <h2 class="pblock__h">Vấn đề</h2>
@@ -111,6 +111,7 @@
       </li></ol>
   </section><section class="pblock reveal">
     <h2 class="pblock__h">Hệ thống làm được gì</h2>
+    
     <div class="cap-grid"><div class="cap">
         <h3 class="cap__title">Bản đồ 2.5D dạng khối</h3>
         <p class="cap__text">Đọc nhanh, render nhẹ, không phải xoay camera và không bị che khuất.</p>

@@ -1,6 +1,7 @@
 ---
 title: Master Data Governance — Custom Business Objects & Integration Flows
 slug: laidon-mdg-rap
+logo: simplemdg
 org: laidon
 client: Laidon Group
 period: 05/2026 – Present
@@ -33,5 +34,7 @@ My current work at Laidon Group, starting May 2026. The focus is master data gov
 ## Why RAP rather than classic ABAP
 
 For a governance process specifically, RAP earns its complexity. The framework gives you draft handling, optimistic locking, a state model, and a consistent transactional contract — all things you would otherwise hand-write badly. And because the object is exposed as an OData V4 service by construction, the Fiori UI and any system integration consume the *same* definition of what is valid.
+
+![Each governed object is a RAP business object; the behaviour definition holds the governance rules.](diagram:rap-stack)
 
 > **In progress.** This engagement is ongoing — I will publish specific stories here as milestones complete.

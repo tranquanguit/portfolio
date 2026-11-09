@@ -1,6 +1,7 @@
 ---
 title: SAP Certified Associate — Back-End Developer, ABAP Cloud
 slug: cert-abap-cloud
+logo: sap
 type: certification
 icon: 📜
 issuer: SAP
