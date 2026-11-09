@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventory Is a Ledger, Not a Number — Tran Van Quang</title>
+  <meta name="description" content="Why I build stock as a derived sum of immutable transactions instead of a mutable quantity field — an ERP habit that small systems almost always skip, and regret.">
+  <meta name="author" content="Tran Van Quang">
+  <meta name="theme-color" content="#faf9f6">
+  <link rel="canonical" href="https://quangtv.com/blogs/inventory-as-a-ledger.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Inventory Is a Ledger, Not a Number — Tran Van Quang">
+  <meta property="og:description" content="Why I build stock as a derived sum of immutable transactions instead of a mutable quantity field — an ERP habit that small systems almost always skip, and regret.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232c6baf'/><text x='50' y='68' font-family='sans-serif' font-size='46' font-weight='700' fill='white' text-anchor='middle'>Q</text></svg>">
+  <script>
+    (function () {
+      try {
+        document.documentElement.classList.add('js');
+        var t = localStorage.getItem('tvq-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">TV</span>
+      <span class="brand__text">
+        <span class="brand__name">Tran Van Quang</span>
+        <span class="brand__role">SAP Technical Consultant</span>
+      </span>
+    </a>
+    <nav class="nav__links" aria-label="Main"><a href="../index.html">Home</a><a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../products/index.html">Products</a><a href="../blogs/index.html">Writing</a><a href="../awards/index.html">Recognition</a></nav>
+    <div class="nav__tools">
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle colour theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+      <button class="icon-btn nav__burger" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div class="nav__drawer"><div class="wrap"><a href="../index.html">Home</a><a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../products/index.html">Products</a><a href="../blogs/index.html">Writing</a><a href="../awards/index.html">Recognition</a></div></div>
+</header>
+  <main id="main">
+<article>
+  <header class="article-head">
+    <div class="wrap wrap--narrow">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a><span class="sep">/</span>
+        <a href="../blogs/index.html">Writing</a>
+      </nav>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:.9rem">
+        <span class="tag tag--accent">2026</span>
+        
+      </div>
+      <h1>Inventory Is a Ledger, Not a Number</h1>
+      <p class="article-head__lede">Why I build stock as a derived sum of immutable transactions instead of a mutable quantity field — an ERP habit that small systems almost always skip, and regret.</p>
+      <div class="article-head__tags"><div class="tags"><span class="tag">Inventory</span><span class="tag">ERP Design</span><span class="tag">Data Modelling</span><span class="tag">Dropship Hub</span><span class="tag">SAP MM</span></div></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Published</div><div class="fact__v">2026</div></div><div class="fact"><div class="fact__k">Topic</div><div class="fact__v">SAP &amp; ERP</div></div><div class="fact"><div class="fact__k">Where</div><div class="fact__v">This site</div></div><div class="fact"><div class="fact__k">Read</div><div class="fact__v">2 min</div></div></div>
+      
+    </div>
+  </header>
+
+  <div class="section section--tight">
+    <div class="wrap wrap--narrow">
+      
+      
+      <div class="prose reveal">
+<h2>Two ways to store stock</h2>
+<p><strong>The obvious way.</strong> A <code>quantity_on_hand</code> column on the product. A receipt adds to it, an issue subtracts from it. One row, one read, fast.</p>
+<p><strong>The ERP way.</strong> A table of movements — receipts, issues, adjustments, transfers — each immutable. Stock on hand is the sum of them.</p>
+<p>Almost every small system picks the first. Almost every ERP picks the second. The reason is worth understanding, because it is not about performance.</p>
+<h2>What the mutable number cannot do</h2>
+<p>It cannot answer <strong>"why"</strong>.</p>
+<p>Stock says 48. The warehouse counts 45. Where did the three go? With a quantity column the honest answer is <em>we don't know</em> — the history was overwritten each time the number changed. You can look at order records and try to reconstruct it, which is exactly the archaeology the ledger was supposed to prevent.</p>
+<p>It also fails under concurrency in ways that are hard to see. Two processes reading 48, each subtracting 5, each writing their result: the final value is 43 and one movement has vanished. You can solve this with locking — and now you have a lock on the hottest row in the system.</p>
+<p>With a ledger, both processes insert. Nothing is lost, because nothing is overwritten.</p>
+<h2>What it costs</h2>
+<p>A join and an aggregate where the naive design has a single column read. That is a real cost and it is worth being honest about it.</p>
+<p>The usual answer is a <strong>snapshot</strong>: a periodically materialised balance plus the movements since. SAP does a version of this. It keeps the audit trail intact while making the common read cheap — and crucially, the snapshot is derived, so if it is ever wrong you rebuild it from the ledger rather than guessing.</p>
+<h2>Where I applied it</h2>
+<p><a href="../products/dropship-hub.html">Dropship Hub</a> is built this way. Every movement is a transaction; quantity on hand is derived. Paired with bill-of-materials explosion, so an assembled product consumes its components correctly, and an explicit order state machine, so stock-affecting transitions cannot happen out of order.</p>
+<p>None of that is novel. It is standard ERP thinking applied to a small business system — which is precisely the gap I keep seeing. Tools built for small businesses tend to assume small businesses have simple problems. They have the same problems, with fewer people to absorb the consequences.</p>
+<h2>The general lesson</h2>
+<p><strong>Store what happened, derive what is true.</strong></p>
+<p>It applies well beyond inventory: account balances, document status, approval state. The event is the fact. Everything else is a projection you can rebuild.</p>
+<blockquote><p><strong>Draft.</strong> I plan to add the snapshot design and the concurrency tests.</p></blockquote>
+      </div>
+
+      <div class="cta-strip reveal">
+        <div>
+          <p class="cta-strip__title">Want the detail behind this?</p>
+          <p class="cta-strip__sub">Happy to walk through the technical decisions in a conversation.</p>
+        </div>
+        <a class="btn btn--primary" href="mailto:tranvanquang2104@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg> Email me</a>
+      </div>
+
+      <div class="pager"><span class="pager__spacer"></span><a class="pager__link pager__link--next" href="../blogs/master-data-at-the-door.html"><span class="pager__k">Next</span><span class="pager__t">Reject Bad Master Data at the Door</span></a></div>
+
+      <p style="margin-top:28px">
+        <a class="btn btn--quiet" href="../blogs/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> All writing</a>
+      </p>
+    </div>
+  </div>
+</article>
+  </main>
+  <footer class="footer">
+  <div class="wrap footer__inner">
+    <p class="footer__copy">&copy; <span data-year>2026</span> Tran Van Quang &middot; SAP Technical Consultant</p>
+    <nav class="footer__links" aria-label="Footer">
+      <a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../products/index.html">Products</a><a href="../blogs/index.html">Writing</a><a href="../awards/index.html">Recognition</a>
+      <a href="mailto:tranvanquang2104@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/tranquang214/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </nav>
+  </div>
+</footer>
+  <script src="../assets/js/main.js" defer></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ slug: cds-amdp-performance
 category: SAP Development
 icon: ⚡
 short: Performance
+radar: true
 level: 85
 years: 3
 summary: Code-to-data optimization on SAP HANA — pushing logic down with CDS views and AMDP, and rescuing reports that could not survive production volumes.

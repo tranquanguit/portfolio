@@ -1,0 +1,41 @@
+name: CI
+
+# Quality gate. Runs on every push and pull request, and never deploys.
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Build and verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # build.py dates the sitemap from git history, so it needs the log.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build the site
+        run: python3 tools/build.py
+
+      - name: Generated files must match the committed ones
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::The committed HTML is out of date. Run 'python3 tools/build.py' and commit the result."
+            git diff --stat
+            exit 1
+          fi
+          echo "Generated output matches what is committed."
+
+      - name: Check internal links and page structure
+        run: python3 tools/check.py

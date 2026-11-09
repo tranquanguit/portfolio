@@ -18,6 +18,8 @@ content/site.json          profile, contact, stats, education, certifications, o
                            and the public URL (siteUrl / customDomain)
 content/experience/*.md    one file per role      → /experience/<slug>.html
 content/projects/*.md      one file per project   → /projects/<slug>.html
+content/products/*.md      one file per product   → /products/<slug>.html
+content/blogs/*.md         one file per article   → /blogs/<slug>.html
 content/skills/*.md        one file per skill     → /skills/<slug>.html
 content/awards/*.md        one file per award     → /awards/<slug>.html
 ```
@@ -71,6 +73,28 @@ The story goes here, in markdown.
 Then run the build. The project appears on the home page under its organization
 group, in the projects listing, in the filter counts, and as its own page.
 
+### Adding an article
+
+Create `content/blogs/my-article.md`. For something published elsewhere, set
+`external` and `publishedOn` — the page then carries your own framing plus a
+button out to the original:
+
+```markdown
+---
+title: "The article's title"
+slug: my-article
+topic: SAP & ERP
+date: 2026-11-01
+external: https://www.linkedin.com/pulse/...
+publishedOn: LinkedIn
+summary: One or two sentences shown on the card.
+tags: [MDG, Integration]
+---
+```
+
+Leave `external` out for a post written to live on this site. Add
+`status: draft` while it is still being worked on.
+
 ### Adding a new organization group
 
 Add an entry to `organizations` in `content/site.json`:
@@ -103,6 +127,26 @@ order they are listed in `site.json`.
 | `featured: true` + `short` | skills | Included in the radar chart (top 6 by level) |
 | `type` | awards | `award`, `certification`, `achievement` — drives the filter |
 | `issuer`, `date`, `code` | awards | Shown in the fact bar |
+| `category` | products | Group heading and filter, e.g. `ERP & Business Systems` |
+| `status` | products | `live`, `building`, `private` or `concept` — drives the status pill |
+| `stack`, `role` | products | Shown in the fact bar |
+| `repo`, `demo` | products | Optional links; leave `repo` empty for a private one |
+| `topic` | blogs | Group heading and filter, e.g. `SAP & ERP` |
+| `date` | blogs | Drives ordering, newest first |
+| `external` | blogs | URL of the original post; adds a "read the full article" button |
+| `publishedOn` | blogs | Where it was published, e.g. `LinkedIn` |
+| `status: draft` | blogs | Shows a Draft badge on the card |
+
+### Linking between pages
+
+Write internal links **as if from the site root**, without `../`:
+
+```markdown
+That work has [its own page](projects/fabric-data-platform.html).
+```
+
+The build rewrites the path for whatever depth the page ends up at. Writing
+`../projects/…` yourself produces `../../projects/…` and the link check fails.
 
 ## Markdown supported in the body
 
@@ -111,6 +155,23 @@ Headings (`##`, `###`), paragraphs, bullet and numbered lists, **bold**,
 rules, and pipe tables. That is the full set the renderer handles — anything
 else is passed through as plain text.
 
+## Checks and CI
+
+```bash
+python3 tools/check.py
+```
+
+Validates internal links and anchors, page titles, meta descriptions, image alt
+text, canonical hosts, and the files GitHub Pages needs. It runs automatically:
+
+| Workflow | When | What it does |
+| --- | --- | --- |
+| `.github/workflows/ci.yml` | every push and pull request | builds, fails if the committed HTML is stale, runs the checker |
+| `.github/workflows/deploy.yml` | push to `main` | builds, checks, publishes to GitHub Pages |
+
+Because CI fails when the generated output differs from what is committed,
+**always run the build and commit its result** alongside a content change.
+
 ## Layout
 
 ```
@@ -118,6 +179,7 @@ assets/css/style.css   design tokens and all styling (light + dark)
 assets/js/main.js      theme toggle, nav, scroll reveal, filters
 assets/img/            images
 tools/build.py         the generator
+tools/check.py         the link and metadata checker
 ```
 
 Colours, spacing and typography are all CSS custom properties at the top of

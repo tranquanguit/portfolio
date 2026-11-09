@@ -4,6 +4,7 @@ slug: sap-integration
 category: Integration & Data
 icon: ⇄
 short: Integration
+radar: true
 level: 85
 years: 3
 summary: Connecting SAP to everything else — OData and REST APIs, BAPI and RFC, SAP PI/PO, SAP Integration Suite and SAP CI-DS, across warehouse systems, sales applications, planning tools and data warehouses.

@@ -8,28 +8,51 @@ start: 2026-05
 end:
 location: Ho Chi Minh City, Vietnam
 current: true
-summary: Designing custom business objects and integration flows in S/4HANA with the RAP model and ABAP OOP, with a focus on master data governance and SAP BTP ↔ SAP ERP connectivity.
-tags: [RAP Model, ABAP Cloud, Master Data Governance, SAP BTP, SAP Integration Suite]
+summary: ABAP/RAP backend and SAP Integration Suite flows for SimpleMDG, Laidon's master data governance product on SAP BTP — across 10 US and EU customer implementations, with OData response times cut by up to 94%.
+tags: [RAP Model, ABAP Cloud, SAP Integration Suite, SAP BTP, Master Data Governance, Event Mesh, Performance]
 highlights:
-  - Design and develop custom Business Objects and integration flows in SAP S/4HANA using the RAP model and ABAP OOP for complex business requirements, especially in master data governance.
-  - Integrate SAP systems through the SAP Integration Suite and establish connections between SAP BTP and SAP ERP.
-  - Work in a clean-core mindset — extensions built with released APIs and ABAP Cloud rather than modifications to standard objects.
+  - Deliver the ABAP/RAP backend and integrations for SimpleMDG across 10 customer implementations for US and EU clients; owned 220+ Jira tickets, 92% closed or in customer testing.
+  - Built SAP Integration Suite iFlows — an IDoc → SimpleMDG material inbound with 75 automated checks deployed error-free, MuleSoft–Salesforce customer interfaces, and flat-file exports.
+  - Cut OData response times by up to 94% (Product read 27 s → 4.4 s, BP $expand 43 s → 2.5 s) and traced production dumps and timeouts to RAP paging and CDS fan-out root causes.
+  - Prepared customer rollouts — transport packages, Basis setup guides, a 36-object downport from ABAP 7.40 to 7.31, and CUA for 19 clients across 7 systems.
+  - Ran AI coding agents behind human review gates for code generation, ADT REST deployment and Jira automation (105 sub-tasks in one run, 0 errors).
 ---
 
 ## The move
 
-After nearly three years at FPT IS delivering S/4HANA projects on-premise, I moved to Laidon Group in May 2026 to work closer to the modern SAP stack: ABAP Cloud, the RAP model and SAP BTP.
+After nearly three years at FPT IS delivering S/4HANA projects on-premise, I moved to Laidon Group in May 2026 — from project work for one customer at a time to **product** work shipped to many.
 
-## What the role covers
+SimpleMDG is Laidon's master data governance product, built on SAP BTP. I own the ABAP/RAP backend and the integration layer, and the same code lands in ten different customer landscapes across the US and Europe.
 
-**Master data governance.** Master data is where most integration problems actually start. My work here is about modelling governance processes — creation, review, approval and distribution of master data — as RAP business objects, so the process is auditable and the data that leaves the system is trustworthy.
+## What changes when it is a product
 
-**RAP business objects.** Building managed and unmanaged RAP business objects: CDS data models, behaviour definitions, behaviour implementations, projection views and the service bindings that expose them to Fiori and to other systems.
+**Ten landscapes, one codebase.** A fix is not "a fix for this client" — it has to hold in every system the product runs in. That changed how I write: fewer assumptions about configuration, far more defensive reading of master data, and no shortcuts that happen to work because of how one customer happened to set things up.
 
-**Integration between BTP and ERP.** Establishing the connections — destinations, communication arrangements, principal propagation — that let side-by-side extensions on BTP talk to the ERP core safely, and building the iFlows in SAP Integration Suite that move the data.
+**Customer rollout is part of engineering.** Transport packages, Basis setup guides, CUA across 19 clients and 7 systems, and a 36-object downport from ABAP 7.40 to 7.31 for a customer still on the older stack. None of that is glamorous. All of it decides whether the product actually reaches production.
 
-## Why clean core matters here
+**Tickets as the unit of work.** 220+ Jira tickets so far, 92% closed or sitting in customer testing.
 
-Every enhancement I wrote in my first three years was, in some form, a modification to how standard SAP behaves. It works, but each one is a small tax on every future upgrade. ABAP Cloud changes the default: you only consume released APIs and extension points, and anything else has to be justified. It is a stricter way to work, and it is the reason the C_ABAPD certification was worth the time.
+## Performance became the headline
 
-> **More to come.** This role is ongoing — I will expand this page with specific project stories as they wrap up.
+The biggest single contribution has been latency. Two numbers I keep coming back to:
+
+| Call | Before | After |
+| --- | --- | --- |
+| Product read | 27 s | 4.4 s |
+| Business Partner `$expand` | 43 s | 2.5 s |
+
+Both were traced to the same family of causes: **RAP paging behaving differently than expected under load, and CDS fan-out** — a view graph that multiplies rows long before the result set is cut back down. Production dumps and timeouts that had been written off as "the system is slow" turned out to have specific, fixable root causes.
+
+The lesson I keep relearning: performance problems are rarely in the code you wrote last. They are in the shape of the data model underneath it.
+
+## Integration
+
+**SAP Integration Suite** is where most of my non-ABAP time goes. The piece I am most pleased with is an **IDoc → SimpleMDG material inbound iFlow with 75 automated checks**, deployed error-free — the checks catch bad master data at the door rather than letting it land and be cleaned up later.
+
+Alongside that: **MuleSoft–Salesforce** customer interfaces, flat-file exports, and **Event Mesh**-based event handling.
+
+## AI agents, behind a gate
+
+I run AI coding agents for code generation, ADT REST deployment and Jira automation — one run created 105 sub-tasks with 0 errors.
+
+The part that matters is not the agent, it is the **gate**. Every handover is verified by a Git ↔ live-system byte comparison, and nothing reaches a customer system without human review. Agents are fast and confidently wrong in ways that are hard to spot by reading; the verification step is what makes the speed usable rather than dangerous.

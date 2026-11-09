@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP BTP &amp; Clean Core Architecture — Tran Van Quang</title>
+  <meta name="description" content="Designing extensions on SAP Business Technology Platform — side-by-side versus in-stack, Integration Suite, Event Mesh, and the clean-core decisions that make an upgrade cheap instead of expensive.">
+  <meta name="author" content="Tran Van Quang">
+  <meta name="theme-color" content="#faf9f6">
+  <link rel="canonical" href="https://quangtv.com/skills/btp-architecture.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SAP BTP &amp; Clean Core Architecture — Tran Van Quang">
+  <meta property="og:description" content="Designing extensions on SAP Business Technology Platform — side-by-side versus in-stack, Integration Suite, Event Mesh, and the clean-core decisions that make an upgrade cheap instead of expensive.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232c6baf'/><text x='50' y='68' font-family='sans-serif' font-size='46' font-weight='700' fill='white' text-anchor='middle'>Q</text></svg>">
+  <script>
+    (function () {
+      try {
+        document.documentElement.classList.add('js');
+        var t = localStorage.getItem('tvq-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">TV</span>
+      <span class="brand__text">
+        <span class="brand__name">Tran Van Quang</span>
+        <span class="brand__role">SAP Technical Consultant</span>
+      </span>
+    </a>
+    <nav class="nav__links" aria-label="Main"><a href="../index.html">Home</a><a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../products/index.html">Products</a><a href="../blogs/index.html">Writing</a><a href="../awards/index.html">Recognition</a></nav>
+    <div class="nav__tools">
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle colour theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+      <button class="icon-btn nav__burger" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div class="nav__drawer"><div class="wrap"><a href="../index.html">Home</a><a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../products/index.html">Products</a><a href="../blogs/index.html">Writing</a><a href="../awards/index.html">Recognition</a></div></div>
+</header>
+  <main id="main">
+<article>
+  <header class="article-head">
+    <div class="wrap wrap--narrow">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a><span class="sep">/</span>
+        <a href="../skills/index.html">Skills</a>
+      </nav>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:.9rem">
+        <span class="tag tag--accent"></span>
+        
+      </div>
+      <h1>SAP BTP &amp; Clean Core Architecture</h1>
+      <p class="article-head__lede">Designing extensions on SAP Business Technology Platform — side-by-side versus in-stack, Integration Suite, Event Mesh, and the clean-core decisions that make an upgrade cheap instead of expensive.</p>
+      <div class="article-head__tags"><div class="tags"><span class="tag">SAP BTP</span><span class="tag">Clean Core</span><span class="tag">Side-by-Side Extensibility</span><span class="tag">ABAP Cloud</span><span class="tag">Integration Suite</span><span class="tag">Event Mesh</span><span class="tag">CAP</span></div></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Category</div><div class="fact__v">SAP Development</div></div><div class="fact"><div class="fact__k">Hands-on</div><div class="fact__v">1.5 years</div></div><div class="fact"><div class="fact__k">Proficiency</div><div class="fact__v">80%</div></div><div class="fact"><div class="fact__k">Read</div><div class="fact__v">2 min</div></div></div>
+      
+    </div>
+  </header>
+
+  <div class="section section--tight">
+    <div class="wrap wrap--narrow">
+      
+      
+      <div class="prose reveal">
+<h2>Where I use it</h2>
+<p>Daily, on SimpleMDG — a master data governance product that <em>lives</em> on SAP BTP and reaches into ten different customer S/4HANA landscapes. Certified as <strong>SAP Certified Professional — Solution Architect, SAP BTP</strong> (P_BTPA), April 2026.</p>
+<h2>The question clean core actually asks</h2>
+<p>It is easy to say "don't modify standard SAP". The useful question is the follow-up: <strong>then where does this logic go?</strong></p>
+<p>The BTP model gives three real answers, and choosing between them is most of the architecture work:</p>
+<p><strong>In-stack, with ABAP Cloud.</strong> When the logic genuinely belongs to the business object and needs to run inside the transaction. Released APIs and released extension points only — the compiler enforces what used to be a code-review argument.</p>
+<p><strong>Side-by-side, on BTP.</strong> When the capability has its own lifecycle, its own release cadence, or has to serve more than one backend. SimpleMDG is exactly this case: a governance product that cannot live inside any one customer's core.</p>
+<p><strong>Integration, in between.</strong> When two systems each legitimately own their part and the problem is getting data across the gap safely.</p>
+<p>The failure I see most often is putting something in-stack because that is where the developer is comfortable, and discovering at the next upgrade that it was a lifecycle decision made by accident.</p>
+<h2>Synchronous or event-driven</h2>
+<p>A distinction I apply constantly:</p>
+<ul><li><strong>Synchronous call</strong> when the caller cannot continue without the answer.</li><li><strong>Event, via Event Mesh</strong> when something happened that others may care about, and none of them should block it.</li></ul>
+<p>Master data governance leans heavily towards the second. A business partner being approved is an event — several systems want to know, and the approval should not wait for any of them.</p>
+<h2>What building a product taught me that projects did not</h2>
+<p>A project has one landscape. A product has ten, and the architecture has to survive all of them.</p>
+<p>That changes the defaults: fewer assumptions about configuration, no reliance on a field being filled because this customer happens to fill it, and a hard rule that anything customer-specific is configuration rather than code. It also means <strong>rollout is part of the architecture</strong> — transport strategy, Basis prerequisites, and what happens when a customer is two releases behind.</p>
+<blockquote><p><strong>To expand:</strong> the side-by-side vs. in-stack decision tree, with a worked example.</p></blockquote>
+      </div>
+
+      <div class="cta-strip reveal">
+        <div>
+          <p class="cta-strip__title">Want the detail behind this?</p>
+          <p class="cta-strip__sub">Happy to walk through the technical decisions in a conversation.</p>
+        </div>
+        <a class="btn btn--primary" href="mailto:tranvanquang2104@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg> Email me</a>
+      </div>
+
+      <div class="pager"><a class="pager__link" href="../skills/bi-analytics.html"><span class="pager__k">Previous</span><span class="pager__t">BI &amp; Analytics</span></a><a class="pager__link pager__link--next" href="../skills/cds-amdp-performance.html"><span class="pager__k">Next</span><span class="pager__t">CDS Views, AMDP &amp; Performance</span></a></div>
+
+      <p style="margin-top:28px">
+        <a class="btn btn--quiet" href="../skills/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> All skills</a>
+      </p>
+    </div>
+  </div>
+</article>
+  </main>
+  <footer class="footer">
+  <div class="wrap footer__inner">
+    <p class="footer__copy">&copy; <span data-year>2026</span> Tran Van Quang &middot; SAP Technical Consultant</p>
+    <nav class="footer__links" aria-label="Footer">
+      <a href="../experience/index.html">Experience</a><a href="../skills/index.html">Skills</a><a href="../projects/index.html">Projects</a><a href="../products/index.html">Products</a><a href="../blogs/index.html">Writing</a><a href="../awards/index.html">Recognition</a>
+      <a href="mailto:tranvanquang2104@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/tranquang214/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </nav>
+  </div>
+</footer>
+  <script src="../assets/js/main.js" defer></script>
+</body>
+</html>

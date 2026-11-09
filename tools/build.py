@@ -20,9 +20,11 @@ import html
 import json
 import math
 import re
+import subprocess
 import sys
 from dataclasses import dataclass, field
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -37,6 +39,8 @@ ROOT_PATH = "/portfolio/"
 
 SECTIONS = {
     "projects": {"title": "Projects", "blurb": "Client work, grouped by where it was delivered."},
+    "products": {"title": "Products", "blurb": "Things I build outside client work — products and platforms of my own."},
+    "blogs": {"title": "Writing", "blurb": "Articles and notes — what I have learned, and the problems behind the systems I build."},
     "experience": {"title": "Experience", "blurb": "Roles, and what each one actually involved."},
     "skills": {"title": "Skills", "blurb": "What I work with, and what I have learned using it."},
     "awards": {"title": "Recognition", "blurb": "Awards, certifications and achievements."},
@@ -268,10 +272,15 @@ class Entry:
     slug: str
     meta: dict
     body: str
+    source: str = "content"
     tags: list = field(default_factory=list)
     highlights: list = field(default_factory=list)
 
     def get(self, key, default=""):
+        if key == "category-id":
+            return self.category_id
+        if key == "topic-id":
+            return re.sub(r"[^a-z0-9]+", "-", str(self.meta.get("topic", "other")).lower()).strip("-")
         value = self.meta.get(key, default)
         return default if value in (None, "") else value
 
@@ -286,6 +295,10 @@ class Entry:
     @property
     def url(self) -> str:
         return f"{self.section}/{self.slug}.html"
+
+    @property
+    def category_id(self) -> str:
+        return re.sub(r"[^a-z0-9]+", "-", str(self.meta.get("category", "other")).lower()).strip("-")
 
     @property
     def sort_key(self) -> str:
@@ -311,6 +324,7 @@ def load_entries(section: str) -> list[Entry]:
                 slug=slug,
                 meta=meta,
                 body=body,
+                source=str(path.relative_to(ROOT)),
                 tags=[str(t) for t in meta.get("tags", []) if str(t).strip()],
                 highlights=[str(h) for h in meta.get("highlights", []) if str(h).strip()],
             )
@@ -343,6 +357,8 @@ HOME_NAV = [
     ("#experience", "Experience"),
     ("#skills", "Skills"),
     ("#projects", "Projects"),
+    ("#products", "Products"),
+    ("#blogs", "Writing"),
     ("#awards", "Recognition"),
     ("#contact", "Contact"),
 ]
@@ -352,6 +368,8 @@ SUB_NAV = [
     ("experience/index.html", "Experience"),
     ("skills/index.html", "Skills"),
     ("projects/index.html", "Projects"),
+    ("products/index.html", "Products"),
+    ("blogs/index.html", "Writing"),
     ("awards/index.html", "Recognition"),
 ]
 
@@ -507,6 +525,112 @@ AWARD_TYPE_LABEL = {
 }
 
 
+def blog_card(entry: Entry, base: str = "") -> str:
+    external = str(entry.get("external", ""))
+    where = str(entry.get("publishedOn", "")) if external else ""
+    badge = f'<span class="tag tag--teal">{e(where)}</span>' if where else ""
+    draft = '<span class="tag">Draft</span>' if entry.get("status") == "draft" else ""
+
+    return f"""<a class="blog-card reveal" href="{e(base + entry.url)}"
+   data-filter-target="blogs" data-key="{e(entry.get('topic-id'))}">
+  <span class="blog-card__meta">
+    <span>{e(entry.get('date', ''))}</span>
+    <span class="dot">&middot;</span>
+    <span>{e(entry.get('topic', ''))}</span>
+    <span class="dot">&middot;</span>
+    <span>{entry.reading_time} min read</span>
+  </span>
+  <span class="blog-card__title">{e(entry.title)}</span>
+  <span class="blog-card__desc">{e(entry.summary)}</span>
+  <span class="blog-card__foot">
+    <span class="tags">{badge}{draft}</span>
+    <span class="card__cue">{'Read the article' if external else 'Read'} {ICONS['arrow']}</span>
+  </span>
+</a>"""
+
+
+def blog_groups(entries: list[Entry], base: str = "") -> tuple[str, str]:
+    ordered = sorted(entries, key=lambda x: str(x.get("date", "")), reverse=True)
+    topics: dict[str, int] = {}
+    for item in ordered:
+        topics[str(item.get("topic", "Other"))] = topics.get(str(item.get("topic", "Other")), 0) + 1
+
+    filters = (f'<button class="filter is-active" data-value="all" aria-pressed="true">All'
+               f'<span class="filter__n">{len(ordered)}</span></button>')
+    for name, count in topics.items():
+        key = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+        filters += (f'<button class="filter" data-value="{e(key)}" aria-pressed="false">{e(name)}'
+                    f'<span class="filter__n">{count}</span></button>')
+    cards = "".join(blog_card(i, base) for i in ordered)
+    return filters, f'<div class="blog-list">{cards}</div>'
+
+
+PRODUCT_STATUS = {
+    "live":     ("pill pill--live", "Live"),
+    "building": ("pill pill--building", "In development"),
+    "private":  ("pill", "Private source"),
+    "concept":  ("pill", "Concept"),
+}
+
+
+def product_card(entry: Entry, base: str = "") -> str:
+    status = str(entry.get("status", "building"))
+    cls, label = PRODUCT_STATUS.get(status, PRODUCT_STATUS["building"])
+
+    links = ""
+    if entry.get("repo"):
+        links += (f'<a class="card__out" href="{e(entry.get("repo"))}" target="_blank" '
+                  f'rel="noopener noreferrer">Source</a>')
+    if entry.get("demo"):
+        links += (f'<a class="card__out" href="{e(entry.get("demo"))}" target="_blank" '
+                  f'rel="noopener noreferrer">Live site</a>')
+
+    return f"""<div class="product-card reveal" data-filter-target="products" data-key="{e(entry.get('category-id'))}">
+  <div class="product-card__top">
+    <span class="product-card__glyph" aria-hidden="true">{e(entry.get('icon', '◆'))}</span>
+    <span class="{cls}">{e(label)}</span>
+  </div>
+  <a class="product-card__link" href="{e(base + entry.url)}">
+    <h3 class="product-card__title">{e(entry.title)}</h3>
+    <p class="product-card__desc">{e(entry.summary)}</p>
+  </a>
+  {tag_list(entry.tags, 5)}
+  <div class="product-card__foot">
+    <a class="card__cue" href="{e(base + entry.url)}">Read more {ICONS['arrow']}</a>
+    <span class="product-card__links">{links}</span>
+  </div>
+</div>"""
+
+
+def product_groups(entries: list[Entry], base: str = "") -> tuple[str, str]:
+    """Returns (filter buttons, grouped markup) for the product collection."""
+    buckets: dict[str, list[Entry]] = {}
+    for item in entries:
+        buckets.setdefault(str(item.get("category", "Other")), []).append(item)
+
+    order = ["ERP & Business Systems", "SAP Platform & Visualisation", "AI & Search"]
+    names = [c for c in order if c in buckets] + [c for c in buckets if c not in order]
+
+    filters = (f'<button class="filter is-active" data-value="all" aria-pressed="true">All'
+               f'<span class="filter__n">{len(entries)}</span></button>')
+    blocks = ""
+    for name in names:
+        items = sorted(buckets[name], key=lambda x: x.sort_key, reverse=True)
+        key = items[0].get("category-id")
+        filters += (f'<button class="filter" data-value="{e(key)}" aria-pressed="false">{e(name)}'
+                    f'<span class="filter__n">{len(items)}</span></button>')
+        cards = "".join(product_card(i, base) for i in items)
+        blocks += f"""<div class="org" data-filter-section="products">
+      <div class="org__head">
+        <span class="org__badge">{e(name)}</span>
+        <span class="org__title"></span>
+        <span class="org__count">{len(items)} product{'s' if len(items) != 1 else ''}</span>
+      </div>
+      <div class="grid grid--3">{cards}</div>
+    </div>"""
+    return filters, blocks
+
+
 def award_card(entry: Entry, base: str = "") -> str:
     kind = str(entry.get("type", "award"))
     return f"""<a class="award-card reveal" href="{e(base + entry.url)}" data-filter-target="awards" data-key="{e(kind)}">
@@ -649,11 +773,27 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
     )
     edu = site["education"]
 
+    focus = "".join(
+        f"""<div class="focus-card reveal">
+        <span class="focus-card__icon" aria-hidden="true">{e(f['icon'])}</span>
+        <h3 class="focus-card__title">{e(f['title'])}</h3>
+        <p class="focus-card__text">{e(f['text'])}</p>
+      </div>"""
+        for f in site.get("focus", [])
+    )
+    focus_block = f"""<div class="grid grid--4" style="margin-top:44px">{focus}</div>""" if focus else ""
+
+    direction = site.get("direction") or {}
+    direction_block = f"""<div class="direction reveal">
+      <p class="direction__k">{e(direction.get('heading', ''))}</p>
+      <p class="direction__v">{e(direction.get('text', ''))}</p>
+    </div>""" if direction else ""
+
     about = f"""<section class="section" id="about">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">About</p>
-      <h2>Two disciplines, one delivery path</h2>
+      <h2>SAP depth, carried through to data and AI</h2>
     </div>
     <div class="grid grid--2" style="align-items:start;gap:32px">
       <div class="reveal">{summary_paras}</div>
@@ -677,6 +817,8 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
         </div>
       </div>
     </div>
+    {focus_block}
+    {direction_block}
   </div>
 </section>"""
 
@@ -707,10 +849,13 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
       <div class="grid grid--2">{cards}</div>
     </div>"""
 
-    radar_skills = sorted(
-        [s for s in skills if s.get("featured") and s.get("short")],
-        key=lambda x: -int(x.get("level", 0) or 0),
-    )[:6]
+    # The radar is a deliberate selection (`radar: true` in a skill's frontmatter),
+    # not whichever six happen to score highest — so it can show what the current
+    # role is actually about. Falls back to the top featured skills if unset.
+    radar_skills = [s for s in skills if s.get("radar") and s.get("short")]
+    if not radar_skills:
+        radar_skills = [s for s in skills if s.get("featured") and s.get("short")]
+    radar_skills = sorted(radar_skills, key=lambda x: -int(x.get("level", 0) or 0))[:6]
     radar = radar_svg(radar_skills)
     radar_panel = f"""<div class="radar-panel reveal">
         <h3 class="radar-panel__title">Proficiency at a glance</h3>
@@ -770,9 +915,41 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
   </div>
 </section>"""
 
+    products = sorted(data.get("products", []), key=lambda x: x.sort_key, reverse=True)
+    products_section = ""
+    if products:
+        p_filters, p_blocks = product_groups(products)
+        products_section = f"""<section class="section" id="products">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Products</p>
+      <h2>{e(SECTIONS['products']['title'])}</h2>
+      <p>{e(SECTIONS['products']['blurb'])} Side projects that grew into real systems — each one opens into a full write-up.</p>
+    </div>
+    <div class="filters" data-filter-group="products">{p_filters}</div>
+    {p_blocks}
+  </div>
+</section>"""
+
+    blogs = data.get("blogs", [])
+    blogs_section = ""
+    if blogs:
+        b_filters, b_list = blog_groups(blogs)
+        blogs_section = f"""<section class="section section--alt" id="blogs">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Writing</p>
+      <h2>{e(SECTIONS['blogs']['title'])}</h2>
+      <p>{e(SECTIONS['blogs']['blurb'])}</p>
+    </div>
+    <div class="filters" data-filter-group="blogs">{b_filters}</div>
+    {b_list}
+  </div>
+</section>"""
+
     pub = site["publication"]
     award_cards = "".join(award_card(a) for a in awards)
-    awards_section = f"""<section class="section" id="awards">
+    awards_section = f"""<section class="section section--alt" id="awards">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Recognition</p>
@@ -791,7 +968,7 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
   </div>
 </section>"""
 
-    contact = f"""<section class="section section--alt" id="contact">
+    contact = f"""<section class="section" id="contact">
   <div class="wrap">
     <div class="section-head section-head--center">
       <p class="eyebrow">Contact</p>
@@ -826,7 +1003,8 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
   @media (max-width: 980px) { .skills-layout { grid-template-columns: 1fr !important; } }
 </style>"""
 
-    body = style_fix + hero + about + exp + skills_section + projects_section + awards_section + contact
+    body = (style_fix + hero + about + exp + skills_section + projects_section
+            + products_section + blogs_section + awards_section + contact)
     return page(
         site,
         title=f"{site['name']} — {site['role']}",
@@ -885,6 +1063,14 @@ def build_listing(site: dict, section: str, entries: list[Entry], orgs: dict) ->
     elif section == "experience":
         ordered = sorted(entries, key=lambda x: x.sort_key, reverse=True)
         content = '<div class="timeline">' + "".join(timeline_item(x, base) for x in ordered) + "</div>"
+
+    elif section == "blogs":
+        b_filters, b_list = blog_groups(entries, base)
+        content = f'<div class="filters" data-filter-group="blogs">{b_filters}</div>{b_list}'
+
+    elif section == "products":
+        p_filters, p_blocks = product_groups(entries, base)
+        content = f'<div class="filters" data-filter-group="products">{p_filters}</div>{p_blocks}'
 
     elif section == "skills":
         categories: dict[str, list[Entry]] = {}
@@ -949,6 +1135,23 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
             ("Period", str(entry.get("period", "—"))),
             ("Location", str(entry.get("location", "—"))),
         ]
+    elif section == "blogs":
+        facts = [
+            ("Published", str(entry.get("date", "—"))),
+            ("Topic", str(entry.get("topic", "—"))),
+            ("Where", str(entry.get("publishedOn", "This site"))),
+            ("Read", f"{entry.reading_time} min"),
+        ]
+
+    elif section == "products":
+        _, status_label = PRODUCT_STATUS.get(str(entry.get("status", "building")), PRODUCT_STATUS["building"])
+        facts = [
+            ("Type", str(entry.get("category", "—"))),
+            ("Status", status_label),
+            ("Role", str(entry.get("role", "Designer & developer"))),
+            ("Stack", str(entry.get("stack", "—"))),
+        ]
+
     elif section == "skills":
         facts = [
             ("Category", str(entry.get("category", "—"))),
@@ -978,7 +1181,20 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
         )
 
     external = ""
-    if entry.get("link"):
+    if section == "blogs" and entry.get("external"):
+        external = (f'<a class="btn btn--primary" href="{e(entry.get("external"))}" target="_blank" '
+                    f'rel="noopener noreferrer">Read the full article on '
+                    f'{e(entry.get("publishedOn", "the original site"))} {ICONS["arrow"]}</a>')
+    elif section == "products":
+        buttons = []
+        if entry.get("repo"):
+            buttons.append(f'<a class="btn btn--ghost" href="{e(entry.get("repo"))}" target="_blank" '
+                           f'rel="noopener noreferrer">View source {ICONS["arrow"]}</a>')
+        if entry.get("demo"):
+            buttons.append(f'<a class="btn btn--primary" href="{e(entry.get("demo"))}" target="_blank" '
+                           f'rel="noopener noreferrer">Open the live site {ICONS["arrow"]}</a>')
+        external = "".join(buttons)
+    elif entry.get("link"):
         external = (
             f'<a class="btn btn--ghost" href="{e(entry.get("link"))}" target="_blank" rel="noopener noreferrer">'
             f'{e(entry.get("linkLabel", "External link"))} {ICONS["arrow"]}</a>'
@@ -1095,10 +1311,32 @@ def public_url(path: str) -> str:
     return path
 
 
-def build_sitemap(urls: list[str]) -> str:
-    today = date.today().isoformat()
+@lru_cache(maxsize=None)
+def _git_last_modified(path: str) -> str:
+    """Date of the last commit touching `path`, so the sitemap is reproducible.
+
+    Using today's date would rewrite every <lastmod> on every build, which makes
+    the generated output differ from the committed output for no real reason and
+    breaks the "is the build up to date?" check in CI.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", path],
+            cwd=ROOT, capture_output=True, text=True, timeout=15,
+        )
+        stamp = out.stdout.strip()
+        if out.returncode == 0 and re.fullmatch(r"\d{4}-\d{2}-\d{2}", stamp):
+            return stamp
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return date.today().isoformat()
+
+
+def build_sitemap(entries: list[tuple[str, str]]) -> str:
     items = "".join(
-        f"  <url><loc>{SITE_URL}/{public_url(u)}</loc><lastmod>{today}</lastmod></url>\n" for u in urls
+        f"  <url><loc>{SITE_URL}/{public_url(u)}</loc>"
+        f"<lastmod>{_git_last_modified(src)}</lastmod></url>\n"
+        for u, src in entries
     )
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}</urlset>\n'
 
@@ -1125,24 +1363,28 @@ def main() -> int:
         print(f"warning: no content found for {', '.join(missing)}", file=sys.stderr)
 
     written: list[str] = []
+    sources: dict[str, str] = {}
 
-    def write(path: str, content: str) -> None:
+    def write(path: str, content: str, source: str = "content") -> None:
         target = ROOT / path
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8")
         written.append(path)
+        sources[path] = source
 
     write("index.html", build_home(site, data, orgs))
 
     for section, entries in data.items():
         if not entries:
             continue
-        write(f"{section}/index.html", build_listing(site, section, entries, orgs))
+        write(f"{section}/index.html", build_listing(site, section, entries, orgs), f"content/{section}")
         for entry in entries:
-            write(entry.url, build_detail(site, entry, entries, orgs))
+            write(entry.url, build_detail(site, entry, entries, orgs), entry.source)
 
     write("404.html", build_404(site))
-    write("sitemap.xml", build_sitemap([p for p in written if p.endswith(".html") and p != "404.html"]))
+    write("sitemap.xml", build_sitemap(
+        [(p, sources[p]) for p in written if p.endswith(".html") and p != "404.html"]
+    ))
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
 
     # GitHub Pages reads CNAME to serve the site from a custom domain. Keeping it

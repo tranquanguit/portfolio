@@ -4,11 +4,12 @@
   "customDomain": "quangtv.com",
   "shortName": "Quang Tran",
   "role": "SAP Technical Consultant",
-  "roleLong": "SAP Technical Consultant · ABAP / RAP / Data Integration",
-  "tagline": "I build custom SAP S/4HANA solutions and the data pipelines around them — from ABAP objects and RAP business objects to warehouses that feed the reports leadership actually reads.",
+  "roleLong": "SAP & ERP · Master Data Governance · Integration · Applied AI",
+  "tagline": "I work across the SAP platform — ABAP and RAP development, master data governance and integration — then carry the same problems through to data platforms and applied AI. Working towards SAP Solution Architect.",
   "summary": [
-    "SAP ABAP Developer with 3 years of hands-on experience in SAP S/4HANA, specializing in custom development, system integration, and performance optimization. I have delivered 60+ reports and enhancements across MM, SD, FI, FM, WM, PP and QM, and contributed to large-scale S/4HANA implementation projects for manufacturing, pharmaceutical, retail and public-transport clients.",
-    "Alongside ABAP, I work on the data side: designing warehouses, building ETL pipelines with SSIS and SAP CI-DS, and modelling data for BI. That combination lets me carry a requirement end to end — from the business process inside SAP all the way to the number on a dashboard."
+    "I am an SAP Technical Consultant with 3+ years on SAP S/4HANA. At Laidon Group I deliver the ABAP/RAP backend and the integration layer for SimpleMDG, a master data governance product on SAP BTP, across 10 customer implementations for US and EU clients. Before that, three years at FPT IS gave me the delivery grounding: around 60 custom objects across MM, SD, FI, FM, WM, PP and QM, integration through PI/PO, OData and SAP CI-DS, and performance work with CDS views and AMDP.",
+    "Alongside the SAP core I work on the data and AI side — a 300-million-record warehouse, the Microsoft Fabric platform I led at FPT IS, semantic models for BI, and AI delivery behind human review gates. I also build my own products: an ERP-style dropshipping platform, a warehouse visualisation SaaS, and a RAG search system with verified citations.",
+    "Where this is heading: depth in SAP and ERP first — the technical range that makes someone genuinely useful on an implementation — and from there towards SAP Solution Architect. The certifications follow that line, and so does the breadth into data engineering and applied AI, because an architect who cannot see past the SAP boundary is only half an architect."
   ],
   "location": "Ho Chi Minh City, Vietnam",
   "email": "tranvanquang2104@gmail.com",
@@ -18,23 +19,23 @@
   "linkedinLabel": "linkedin.com/in/tranquang214",
   "photo": "assets/img/portrait.jpg",
   "heroImage": "assets/img/background.png",
-  "lastUpdated": "June 2026",
+  "lastUpdated": "November 2026",
   "stats": [
     {
       "value": "3+",
-      "label": "Years in SAP S/4HANA"
+      "label": "Years in SAP & ERP"
     },
     {
-      "value": "60+",
-      "label": "Custom objects delivered"
+      "value": "10",
+      "label": "Customer implementations"
     },
     {
-      "value": "10+",
-      "label": "Implementation projects"
-    },
-    {
-      "value": "2",
+      "value": "4",
       "label": "SAP certifications"
+    },
+    {
+      "value": "94%",
+      "label": "Peak latency cut"
     }
   ],
   "education": {
@@ -56,6 +57,18 @@
       "code": "C_SAC",
       "issuer": "SAP",
       "date": "17 April 2026"
+    },
+    {
+      "name": "SAP Certified Professional — Solution Architect, SAP BTP",
+      "code": "P_BTPA",
+      "issuer": "SAP",
+      "date": "26 April 2026"
+    },
+    {
+      "name": "SAP Certified Associate — SAP Generative AI Developer",
+      "code": "C_AIDEV",
+      "issuer": "SAP",
+      "date": "30 April 2026"
     }
   ],
   "publication": {
@@ -83,7 +96,7 @@
       "short": "LAIDON",
       "kind": "Company",
       "period": "05/2026 – Present",
-      "blurb": "SAP Technical Consultant. Master data governance, RAP business objects and integration between SAP BTP and SAP ERP."
+      "blurb": "SAP Technical Consultant. ABAP/RAP backend, SAP Integration Suite flows and performance work for SimpleMDG, Laidon's master data governance product on SAP BTP, across 10 US and EU customer implementations."
     },
     {
       "id": "fis",
@@ -91,7 +104,7 @@
       "short": "FPT IS",
       "kind": "Company",
       "period": "07/2023 – 04/2026",
-      "blurb": "SAP ABAP Developer, then Data Engineer. Ten S/4HANA implementation and maintenance projects across manufacturing, pharma, retail and public transport."
+      "blurb": "SAP ABAP Developer, then Data Engineer and team lead. Ten S/4HANA projects across manufacturing, pharma, retail and public transport, plus the Acecook data warehouse and the internal Microsoft Fabric initiative."
     },
     {
       "id": "uit",
@@ -101,5 +114,31 @@
       "period": "11/2020 – 11/2024",
       "blurb": "Information Systems undergraduate. Deep-learning research with an international publication, plus student-union leadership."
     }
-  ]
+  ],
+  "focus": [
+    {
+      "icon": "◈",
+      "title": "SAP & ERP core",
+      "text": "ABAP, ABAP OO, RAP and ABAP Cloud across seven modules — reports, enhancements, Fiori and the performance work underneath. The depth an ERP expert is built on."
+    },
+    {
+      "icon": "⇄",
+      "title": "Master data & integration",
+      "text": "SimpleMDG on SAP BTP, SAP Integration Suite, Event Mesh, PI/PO and CI-DS. Making systems agree with each other, and rejecting bad master data at the door."
+    },
+    {
+      "icon": "▤",
+      "title": "Data & analytics engineering",
+      "text": "Warehouses, ETL, Microsoft Fabric on a medallion Lakehouse, and semantic models — the governed layer that business decisions actually rest on."
+    },
+    {
+      "icon": "⬢",
+      "title": "Applied AI & presales",
+      "text": "SAP Generative AI, RAG systems I build and measure myself, and AI coding agents run behind review gates. Plus the presales side: explaining the trade-offs honestly."
+    }
+  ],
+  "direction": {
+    "heading": "Where I am heading",
+    "text": "SAP and ERP expertise first, then SAP Solution Architect — with enough range in data engineering and applied AI to design systems that do not stop at the SAP boundary."
+  }
 }

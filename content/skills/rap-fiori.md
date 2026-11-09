@@ -4,6 +4,7 @@ slug: rap-fiori
 category: SAP Development
 icon: ◉
 short: RAP / Fiori
+radar: true
 level: 80
 years: 2
 summary: Building applications on the ABAP RESTful Application Programming model — business objects, behaviour definitions and OData V4 services — plus Fiori and Web GUI front ends.
