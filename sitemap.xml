@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://quangtv.com/</loc><lastmod>2026-08-23</lastmod></url>
-  <url><loc>https://quangtv.com/projects/</loc><lastmod>2026-08-14</lastmod></url>
+  <url><loc>https://quangtv.com/</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/projects/</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/projects/acecook-data-warehouse.html</loc><lastmod>2026-08-14</lastmod></url>
   <url><loc>https://quangtv.com/projects/fabric-data-platform.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/projects/goldilocks-s4hana-maintenance.html</loc><lastmod>2026-08-14</lastmod></url>
@@ -13,24 +13,29 @@
   <url><loc>https://quangtv.com/projects/simplemdg-2-rap-refactor.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/projects/skin-disease-classification.html</loc><lastmod>2026-08-14</lastmod></url>
   <url><loc>https://quangtv.com/projects/vinphaco-s4hana.html</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/experience/</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/experience/fis-data-engineer.html</loc><lastmod>2026-08-14</lastmod></url>
+  <url><loc>https://quangtv.com/products/</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/products/dropship-hub.html</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/products/sapwm3d.html</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/products/shopmind.html</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/products/sofaflow.html</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/experience/</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/experience/fis-data-engineer.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/experience/fis-sap-abap-developer.html</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/experience/laidon-sap-technical-consultant.html</loc><lastmod>2026-08-14</lastmod></url>
+  <url><loc>https://quangtv.com/experience/laidon-sap-technical-consultant.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/experience/uit-student.html</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/skills/</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/skills/abap-oo.html</loc><lastmod>2026-08-14</lastmod></url>
+  <url><loc>https://quangtv.com/skills/</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/skills/abap-oo.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/skills/ai-assisted-delivery.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/skills/bi-analytics.html</loc><lastmod>2026-08-14</lastmod></url>
   <url><loc>https://quangtv.com/skills/btp-architecture.html</loc><lastmod>2026-11-09</lastmod></url>
-  <url><loc>https://quangtv.com/skills/cds-amdp-performance.html</loc><lastmod>2026-08-14</lastmod></url>
+  <url><loc>https://quangtv.com/skills/cds-amdp-performance.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/skills/data-warehouse-etl.html</loc><lastmod>2026-08-14</lastmod></url>
   <url><loc>https://quangtv.com/skills/enhancements.html</loc><lastmod>2026-08-14</lastmod></url>
   <url><loc>https://quangtv.com/skills/leadership-collaboration.html</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/skills/rap-fiori.html</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/skills/sap-integration.html</loc><lastmod>2026-08-14</lastmod></url>
+  <url><loc>https://quangtv.com/skills/rap-fiori.html</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://quangtv.com/skills/sap-integration.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/skills/sql-databases.html</loc><lastmod>2026-08-14</lastmod></url>
-  <url><loc>https://quangtv.com/awards/</loc><lastmod>2026-08-14</lastmod></url>
+  <url><loc>https://quangtv.com/awards/</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/awards/cert-abap-cloud.html</loc><lastmod>2026-08-14</lastmod></url>
   <url><loc>https://quangtv.com/awards/cert-btp-architect.html</loc><lastmod>2026-11-09</lastmod></url>
   <url><loc>https://quangtv.com/awards/cert-genai-developer.html</loc><lastmod>2026-11-09</lastmod></url>

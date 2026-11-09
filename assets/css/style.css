@@ -949,3 +949,71 @@ a.card:hover .card__cue svg { transform: translateX(3px); }
   body { background: #fff; color: #000; }
   .card, .panel { break-inside: avoid; }
 }
+
+
+/* --- Products ------------------------------------------------------------- */
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.product-card:hover,
+.product-card:focus-within {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+
+.product-card__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.product-card__glyph {
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 1.05rem;
+}
+
+.product-card__link { display: block; color: inherit; }
+.product-card__link:hover { color: inherit; }
+.product-card__title { font-size: 1.08rem; font-weight: 700; letter-spacing: -.015em; line-height: 1.35; margin-bottom: .4rem; }
+.product-card__link:hover .product-card__title { color: var(--accent-ink); }
+.product-card__desc { font-size: .89rem; color: var(--ink-muted); line-height: 1.6; margin: 0; }
+
+.product-card__foot {
+  margin-top: auto;
+  padding-top: .5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.product-card__links { display: flex; gap: 12px; }
+
+.card__out {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  color: var(--ink-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.card__out:hover { color: var(--accent-ink); }
+
+.pill--building { background: var(--gold-soft); border-color: transparent; color: var(--gold); }
+.pill--building::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* A product group header carries only a label and a count. */
+.org__head:has(.org__title:empty) { grid-template-columns: auto 1fr auto; }

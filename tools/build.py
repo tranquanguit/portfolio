@@ -39,6 +39,7 @@ ROOT_PATH = "/portfolio/"
 
 SECTIONS = {
     "projects": {"title": "Projects", "blurb": "Client work, grouped by where it was delivered."},
+    "products": {"title": "Products", "blurb": "Things I build outside client work — products and platforms of my own."},
     "experience": {"title": "Experience", "blurb": "Roles, and what each one actually involved."},
     "skills": {"title": "Skills", "blurb": "What I work with, and what I have learned using it."},
     "awards": {"title": "Recognition", "blurb": "Awards, certifications and achievements."},
@@ -275,6 +276,8 @@ class Entry:
     highlights: list = field(default_factory=list)
 
     def get(self, key, default=""):
+        if key == "category-id":
+            return self.category_id
         value = self.meta.get(key, default)
         return default if value in (None, "") else value
 
@@ -289,6 +292,10 @@ class Entry:
     @property
     def url(self) -> str:
         return f"{self.section}/{self.slug}.html"
+
+    @property
+    def category_id(self) -> str:
+        return re.sub(r"[^a-z0-9]+", "-", str(self.meta.get("category", "other")).lower()).strip("-")
 
     @property
     def sort_key(self) -> str:
@@ -347,6 +354,7 @@ HOME_NAV = [
     ("#experience", "Experience"),
     ("#skills", "Skills"),
     ("#projects", "Projects"),
+    ("#products", "Products"),
     ("#awards", "Recognition"),
     ("#contact", "Contact"),
 ]
@@ -356,6 +364,7 @@ SUB_NAV = [
     ("experience/index.html", "Experience"),
     ("skills/index.html", "Skills"),
     ("projects/index.html", "Projects"),
+    ("products/index.html", "Products"),
     ("awards/index.html", "Recognition"),
 ]
 
@@ -509,6 +518,72 @@ AWARD_TYPE_LABEL = {
     "achievement": "Achievement",
     "publication": "Publication",
 }
+
+
+PRODUCT_STATUS = {
+    "live":     ("pill pill--live", "Live"),
+    "building": ("pill pill--building", "In development"),
+    "private":  ("pill", "Private source"),
+    "concept":  ("pill", "Concept"),
+}
+
+
+def product_card(entry: Entry, base: str = "") -> str:
+    status = str(entry.get("status", "building"))
+    cls, label = PRODUCT_STATUS.get(status, PRODUCT_STATUS["building"])
+
+    links = ""
+    if entry.get("repo"):
+        links += (f'<a class="card__out" href="{e(entry.get("repo"))}" target="_blank" '
+                  f'rel="noopener noreferrer">Source</a>')
+    if entry.get("demo"):
+        links += (f'<a class="card__out" href="{e(entry.get("demo"))}" target="_blank" '
+                  f'rel="noopener noreferrer">Live site</a>')
+
+    return f"""<div class="product-card reveal" data-filter-target="products" data-key="{e(entry.get('category-id'))}">
+  <div class="product-card__top">
+    <span class="product-card__glyph" aria-hidden="true">{e(entry.get('icon', '◆'))}</span>
+    <span class="{cls}">{e(label)}</span>
+  </div>
+  <a class="product-card__link" href="{e(base + entry.url)}">
+    <h3 class="product-card__title">{e(entry.title)}</h3>
+    <p class="product-card__desc">{e(entry.summary)}</p>
+  </a>
+  {tag_list(entry.tags, 5)}
+  <div class="product-card__foot">
+    <a class="card__cue" href="{e(base + entry.url)}">Read more {ICONS['arrow']}</a>
+    <span class="product-card__links">{links}</span>
+  </div>
+</div>"""
+
+
+def product_groups(entries: list[Entry], base: str = "") -> tuple[str, str]:
+    """Returns (filter buttons, grouped markup) for the product collection."""
+    buckets: dict[str, list[Entry]] = {}
+    for item in entries:
+        buckets.setdefault(str(item.get("category", "Other")), []).append(item)
+
+    order = ["ERP & Business Systems", "SAP Platform & Visualisation", "AI & Search"]
+    names = [c for c in order if c in buckets] + [c for c in buckets if c not in order]
+
+    filters = (f'<button class="filter is-active" data-value="all" aria-pressed="true">All'
+               f'<span class="filter__n">{len(entries)}</span></button>')
+    blocks = ""
+    for name in names:
+        items = sorted(buckets[name], key=lambda x: x.sort_key, reverse=True)
+        key = items[0].get("category-id")
+        filters += (f'<button class="filter" data-value="{e(key)}" aria-pressed="false">{e(name)}'
+                    f'<span class="filter__n">{len(items)}</span></button>')
+        cards = "".join(product_card(i, base) for i in items)
+        blocks += f"""<div class="org" data-filter-section="products">
+      <div class="org__head">
+        <span class="org__badge">{e(name)}</span>
+        <span class="org__title"></span>
+        <span class="org__count">{len(items)} product{'s' if len(items) != 1 else ''}</span>
+      </div>
+      <div class="grid grid--3">{cards}</div>
+    </div>"""
+    return filters, blocks
 
 
 def award_card(entry: Entry, base: str = "") -> str:
@@ -777,9 +852,25 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
   </div>
 </section>"""
 
+    products = sorted(data.get("products", []), key=lambda x: x.sort_key, reverse=True)
+    products_section = ""
+    if products:
+        p_filters, p_blocks = product_groups(products)
+        products_section = f"""<section class="section" id="products">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Products</p>
+      <h2>{e(SECTIONS['products']['title'])}</h2>
+      <p>{e(SECTIONS['products']['blurb'])} Side projects that grew into real systems — each one opens into a full write-up.</p>
+    </div>
+    <div class="filters" data-filter-group="products">{p_filters}</div>
+    {p_blocks}
+  </div>
+</section>"""
+
     pub = site["publication"]
     award_cards = "".join(award_card(a) for a in awards)
-    awards_section = f"""<section class="section" id="awards">
+    awards_section = f"""<section class="section section--alt" id="awards">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Recognition</p>
@@ -798,7 +889,7 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
   </div>
 </section>"""
 
-    contact = f"""<section class="section section--alt" id="contact">
+    contact = f"""<section class="section" id="contact">
   <div class="wrap">
     <div class="section-head section-head--center">
       <p class="eyebrow">Contact</p>
@@ -833,7 +924,8 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
   @media (max-width: 980px) { .skills-layout { grid-template-columns: 1fr !important; } }
 </style>"""
 
-    body = style_fix + hero + about + exp + skills_section + projects_section + awards_section + contact
+    body = (style_fix + hero + about + exp + skills_section + projects_section
+            + products_section + awards_section + contact)
     return page(
         site,
         title=f"{site['name']} — {site['role']}",
@@ -892,6 +984,10 @@ def build_listing(site: dict, section: str, entries: list[Entry], orgs: dict) ->
     elif section == "experience":
         ordered = sorted(entries, key=lambda x: x.sort_key, reverse=True)
         content = '<div class="timeline">' + "".join(timeline_item(x, base) for x in ordered) + "</div>"
+
+    elif section == "products":
+        p_filters, p_blocks = product_groups(entries, base)
+        content = f'<div class="filters" data-filter-group="products">{p_filters}</div>{p_blocks}'
 
     elif section == "skills":
         categories: dict[str, list[Entry]] = {}
@@ -956,6 +1052,15 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
             ("Period", str(entry.get("period", "—"))),
             ("Location", str(entry.get("location", "—"))),
         ]
+    elif section == "products":
+        _, status_label = PRODUCT_STATUS.get(str(entry.get("status", "building")), PRODUCT_STATUS["building"])
+        facts = [
+            ("Type", str(entry.get("category", "—"))),
+            ("Status", status_label),
+            ("Role", str(entry.get("role", "Designer & developer"))),
+            ("Stack", str(entry.get("stack", "—"))),
+        ]
+
     elif section == "skills":
         facts = [
             ("Category", str(entry.get("category", "—"))),
@@ -985,7 +1090,16 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
         )
 
     external = ""
-    if entry.get("link"):
+    if section == "products":
+        buttons = []
+        if entry.get("repo"):
+            buttons.append(f'<a class="btn btn--ghost" href="{e(entry.get("repo"))}" target="_blank" '
+                           f'rel="noopener noreferrer">View source {ICONS["arrow"]}</a>')
+        if entry.get("demo"):
+            buttons.append(f'<a class="btn btn--primary" href="{e(entry.get("demo"))}" target="_blank" '
+                           f'rel="noopener noreferrer">Open the live site {ICONS["arrow"]}</a>')
+        external = "".join(buttons)
+    elif entry.get("link"):
         external = (
             f'<a class="btn btn--ghost" href="{e(entry.get("link"))}" target="_blank" rel="noopener noreferrer">'
             f'{e(entry.get("linkLabel", "External link"))} {ICONS["arrow"]}</a>'
