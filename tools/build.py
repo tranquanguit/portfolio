@@ -40,6 +40,7 @@ ROOT_PATH = "/portfolio/"
 SECTIONS = {
     "projects": {"title": "Projects", "blurb": "Client work, grouped by where it was delivered."},
     "products": {"title": "Products", "blurb": "Things I build outside client work — products and platforms of my own."},
+    "blogs": {"title": "Writing", "blurb": "Articles and notes — what I have learned, and the problems behind the systems I build."},
     "experience": {"title": "Experience", "blurb": "Roles, and what each one actually involved."},
     "skills": {"title": "Skills", "blurb": "What I work with, and what I have learned using it."},
     "awards": {"title": "Recognition", "blurb": "Awards, certifications and achievements."},
@@ -278,6 +279,8 @@ class Entry:
     def get(self, key, default=""):
         if key == "category-id":
             return self.category_id
+        if key == "topic-id":
+            return re.sub(r"[^a-z0-9]+", "-", str(self.meta.get("topic", "other")).lower()).strip("-")
         value = self.meta.get(key, default)
         return default if value in (None, "") else value
 
@@ -355,6 +358,7 @@ HOME_NAV = [
     ("#skills", "Skills"),
     ("#projects", "Projects"),
     ("#products", "Products"),
+    ("#blogs", "Writing"),
     ("#awards", "Recognition"),
     ("#contact", "Contact"),
 ]
@@ -365,6 +369,7 @@ SUB_NAV = [
     ("skills/index.html", "Skills"),
     ("projects/index.html", "Projects"),
     ("products/index.html", "Products"),
+    ("blogs/index.html", "Writing"),
     ("awards/index.html", "Recognition"),
 ]
 
@@ -518,6 +523,46 @@ AWARD_TYPE_LABEL = {
     "achievement": "Achievement",
     "publication": "Publication",
 }
+
+
+def blog_card(entry: Entry, base: str = "") -> str:
+    external = str(entry.get("external", ""))
+    where = str(entry.get("publishedOn", "")) if external else ""
+    badge = f'<span class="tag tag--teal">{e(where)}</span>' if where else ""
+    draft = '<span class="tag">Draft</span>' if entry.get("status") == "draft" else ""
+
+    return f"""<a class="blog-card reveal" href="{e(base + entry.url)}"
+   data-filter-target="blogs" data-key="{e(entry.get('topic-id'))}">
+  <span class="blog-card__meta">
+    <span>{e(entry.get('date', ''))}</span>
+    <span class="dot">&middot;</span>
+    <span>{e(entry.get('topic', ''))}</span>
+    <span class="dot">&middot;</span>
+    <span>{entry.reading_time} min read</span>
+  </span>
+  <span class="blog-card__title">{e(entry.title)}</span>
+  <span class="blog-card__desc">{e(entry.summary)}</span>
+  <span class="blog-card__foot">
+    <span class="tags">{badge}{draft}</span>
+    <span class="card__cue">{'Read the article' if external else 'Read'} {ICONS['arrow']}</span>
+  </span>
+</a>"""
+
+
+def blog_groups(entries: list[Entry], base: str = "") -> tuple[str, str]:
+    ordered = sorted(entries, key=lambda x: str(x.get("date", "")), reverse=True)
+    topics: dict[str, int] = {}
+    for item in ordered:
+        topics[str(item.get("topic", "Other"))] = topics.get(str(item.get("topic", "Other")), 0) + 1
+
+    filters = (f'<button class="filter is-active" data-value="all" aria-pressed="true">All'
+               f'<span class="filter__n">{len(ordered)}</span></button>')
+    for name, count in topics.items():
+        key = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+        filters += (f'<button class="filter" data-value="{e(key)}" aria-pressed="false">{e(name)}'
+                    f'<span class="filter__n">{count}</span></button>')
+    cards = "".join(blog_card(i, base) for i in ordered)
+    return filters, f'<div class="blog-list">{cards}</div>'
 
 
 PRODUCT_STATUS = {
@@ -728,11 +773,27 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
     )
     edu = site["education"]
 
+    focus = "".join(
+        f"""<div class="focus-card reveal">
+        <span class="focus-card__icon" aria-hidden="true">{e(f['icon'])}</span>
+        <h3 class="focus-card__title">{e(f['title'])}</h3>
+        <p class="focus-card__text">{e(f['text'])}</p>
+      </div>"""
+        for f in site.get("focus", [])
+    )
+    focus_block = f"""<div class="grid grid--4" style="margin-top:44px">{focus}</div>""" if focus else ""
+
+    direction = site.get("direction") or {}
+    direction_block = f"""<div class="direction reveal">
+      <p class="direction__k">{e(direction.get('heading', ''))}</p>
+      <p class="direction__v">{e(direction.get('text', ''))}</p>
+    </div>""" if direction else ""
+
     about = f"""<section class="section" id="about">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">About</p>
-      <h2>Two disciplines, one delivery path</h2>
+      <h2>SAP depth, carried through to data and AI</h2>
     </div>
     <div class="grid grid--2" style="align-items:start;gap:32px">
       <div class="reveal">{summary_paras}</div>
@@ -756,6 +817,8 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
         </div>
       </div>
     </div>
+    {focus_block}
+    {direction_block}
   </div>
 </section>"""
 
@@ -868,6 +931,22 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
   </div>
 </section>"""
 
+    blogs = data.get("blogs", [])
+    blogs_section = ""
+    if blogs:
+        b_filters, b_list = blog_groups(blogs)
+        blogs_section = f"""<section class="section section--alt" id="blogs">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Writing</p>
+      <h2>{e(SECTIONS['blogs']['title'])}</h2>
+      <p>{e(SECTIONS['blogs']['blurb'])}</p>
+    </div>
+    <div class="filters" data-filter-group="blogs">{b_filters}</div>
+    {b_list}
+  </div>
+</section>"""
+
     pub = site["publication"]
     award_cards = "".join(award_card(a) for a in awards)
     awards_section = f"""<section class="section section--alt" id="awards">
@@ -925,7 +1004,7 @@ def build_home(site: dict, data: dict, orgs: dict) -> str:
 </style>"""
 
     body = (style_fix + hero + about + exp + skills_section + projects_section
-            + products_section + awards_section + contact)
+            + products_section + blogs_section + awards_section + contact)
     return page(
         site,
         title=f"{site['name']} — {site['role']}",
@@ -984,6 +1063,10 @@ def build_listing(site: dict, section: str, entries: list[Entry], orgs: dict) ->
     elif section == "experience":
         ordered = sorted(entries, key=lambda x: x.sort_key, reverse=True)
         content = '<div class="timeline">' + "".join(timeline_item(x, base) for x in ordered) + "</div>"
+
+    elif section == "blogs":
+        b_filters, b_list = blog_groups(entries, base)
+        content = f'<div class="filters" data-filter-group="blogs">{b_filters}</div>{b_list}'
 
     elif section == "products":
         p_filters, p_blocks = product_groups(entries, base)
@@ -1052,6 +1135,14 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
             ("Period", str(entry.get("period", "—"))),
             ("Location", str(entry.get("location", "—"))),
         ]
+    elif section == "blogs":
+        facts = [
+            ("Published", str(entry.get("date", "—"))),
+            ("Topic", str(entry.get("topic", "—"))),
+            ("Where", str(entry.get("publishedOn", "This site"))),
+            ("Read", f"{entry.reading_time} min"),
+        ]
+
     elif section == "products":
         _, status_label = PRODUCT_STATUS.get(str(entry.get("status", "building")), PRODUCT_STATUS["building"])
         facts = [
@@ -1090,7 +1181,11 @@ def build_detail(site: dict, entry: Entry, siblings: list[Entry], orgs: dict) ->
         )
 
     external = ""
-    if section == "products":
+    if section == "blogs" and entry.get("external"):
+        external = (f'<a class="btn btn--primary" href="{e(entry.get("external"))}" target="_blank" '
+                    f'rel="noopener noreferrer">Read the full article on '
+                    f'{e(entry.get("publishedOn", "the original site"))} {ICONS["arrow"]}</a>')
+    elif section == "products":
         buttons = []
         if entry.get("repo"):
             buttons.append(f'<a class="btn btn--ghost" href="{e(entry.get("repo"))}" target="_blank" '

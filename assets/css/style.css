@@ -418,6 +418,7 @@ blockquote p:last-child { margin-bottom: 0; }
 .hero__meta a { color: var(--ink-muted); }
 .hero__meta a:hover { color: var(--accent-ink); }
 .hero__meta span { display: inline-flex; align-items: center; gap: .4rem; }
+.hero__meta svg { width: 15px; height: 15px; flex: none; opacity: .8; }
 
 .hero__portrait {
   position: relative;
@@ -1017,3 +1018,97 @@ a.card:hover .card__cue svg { transform: translateX(3px); }
 
 /* A product group header carries only a label and a count. */
 .org__head:has(.org__title:empty) { grid-template-columns: auto 1fr auto; }
+
+/* --- Focus pillars & direction -------------------------------------------- */
+
+.focus-card {
+  padding: 22px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  border-top: 3px solid var(--accent);
+}
+.focus-card__icon {
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: .95rem;
+  margin-bottom: .75rem;
+}
+.focus-card__title { font-size: .98rem; font-weight: 700; letter-spacing: -.01em; margin-bottom: .45rem; }
+.focus-card__text { font-size: .86rem; color: var(--ink-muted); line-height: 1.6; margin: 0; }
+
+.direction {
+  margin-top: 28px;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: linear-gradient(120deg, var(--accent-soft), var(--surface) 72%);
+}
+.direction__k {
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: .5rem;
+}
+.direction__v { font-size: 1.02rem; color: var(--ink); margin: 0; max-width: 76ch; line-height: 1.7; }
+
+/* --- Writing / blog list -------------------------------------------------- */
+
+.blog-list { display: grid; gap: 14px; }
+
+.blog-card {
+  display: grid;
+  gap: .5rem;
+  padding: 22px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: inherit;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.blog-card:hover {
+  transform: translateX(3px);
+  box-shadow: var(--shadow);
+  border-color: var(--border-strong);
+  color: inherit;
+}
+
+.blog-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.blog-card__meta .dot { opacity: .5; }
+
+.blog-card__title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  line-height: 1.35;
+}
+.blog-card:hover .blog-card__title { color: var(--accent-ink); }
+
+.blog-card__desc { font-size: .92rem; color: var(--ink-muted); line-height: 1.6; max-width: 80ch; }
+
+.blog-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: .3rem;
+}
+
+@media (max-width: 620px) { .blog-card { padding: 18px; } }

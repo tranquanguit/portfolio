@@ -19,6 +19,7 @@ content/site.json          profile, contact, stats, education, certifications, o
 content/experience/*.md    one file per role      → /experience/<slug>.html
 content/projects/*.md      one file per project   → /projects/<slug>.html
 content/products/*.md      one file per product   → /products/<slug>.html
+content/blogs/*.md         one file per article   → /blogs/<slug>.html
 content/skills/*.md        one file per skill     → /skills/<slug>.html
 content/awards/*.md        one file per award     → /awards/<slug>.html
 ```
@@ -72,6 +73,28 @@ The story goes here, in markdown.
 Then run the build. The project appears on the home page under its organization
 group, in the projects listing, in the filter counts, and as its own page.
 
+### Adding an article
+
+Create `content/blogs/my-article.md`. For something published elsewhere, set
+`external` and `publishedOn` — the page then carries your own framing plus a
+button out to the original:
+
+```markdown
+---
+title: "The article's title"
+slug: my-article
+topic: SAP & ERP
+date: 2026-11-01
+external: https://www.linkedin.com/pulse/...
+publishedOn: LinkedIn
+summary: One or two sentences shown on the card.
+tags: [MDG, Integration]
+---
+```
+
+Leave `external` out for a post written to live on this site. Add
+`status: draft` while it is still being worked on.
+
 ### Adding a new organization group
 
 Add an entry to `organizations` in `content/site.json`:
@@ -108,6 +131,11 @@ order they are listed in `site.json`.
 | `status` | products | `live`, `building`, `private` or `concept` — drives the status pill |
 | `stack`, `role` | products | Shown in the fact bar |
 | `repo`, `demo` | products | Optional links; leave `repo` empty for a private one |
+| `topic` | blogs | Group heading and filter, e.g. `SAP & ERP` |
+| `date` | blogs | Drives ordering, newest first |
+| `external` | blogs | URL of the original post; adds a "read the full article" button |
+| `publishedOn` | blogs | Where it was published, e.g. `LinkedIn` |
+| `status: draft` | blogs | Shows a Draft badge on the card |
 
 ### Linking between pages
 
