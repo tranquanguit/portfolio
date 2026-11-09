@@ -7,9 +7,9 @@ status: building
 period: 2026 – Present
 start: 2026-10
 role: Designer & developer
-stack: Flask · PostgreSQL · JWT · htmx · Docker
-summary: A dropshipping operations platform with transaction-based inventory accounting, bill-of-materials explosion, an explicit order state machine and a documented REST API — built the way an ERP module is built, not the way a store admin panel is.
-tags: [Flask, PostgreSQL, Multi-Tenant, Inventory, BOM, State Machine, REST API, JWT, Docker]
+stack: React 19 · Fastify 5 · TypeScript · PostgreSQL
+summary: Warehouse operations software for dropshipping — reads carrier labels straight out of PDFs, explodes combos, scans packing, hands over to carriers and settles agency debt, all in one flow. Built the way an ERP module is built, not the way a store admin panel is.
+tags: [TypeScript, Fastify, React, PostgreSQL, Multi-Tenant, Metadata-Driven, Inventory, Workflow Engine]
 repo:
 featured: true
 current: true
@@ -47,14 +47,15 @@ The value is in what it forbids. A state machine makes invalid transitions impos
 
 | Piece | Choice |
 | --- | --- |
-| API | REST, with Swagger documentation generated from the schemas |
-| Auth | JWT, with role-based access across four roles |
-| Schema changes | Alembic migrations, versioned |
-| Transport | Jinja2 + Bootstrap + htmx — server-rendered, no SPA |
-| Deployment | Docker Compose, separate dev and production stacks |
+| Front end | React 19 + Ant Design, one shell serving both the company app and the agency portal |
+| API | Node 24 + Fastify 5, TypeScript run directly with no build step |
+| Metadata | DocType definitions drive API validation, list queries, form UI, Excel templates and OpenAPI |
+| Engine | Shared CRUD, a workflow engine defined in the database, numbering, settings, audit and an outbox |
+| Integration | ERP connectors as plugins, plus carrier and marketplace connectors |
+| Deployment | Docker, with the worker runnable inside the API or on its own |
 
-Roughly 18,000 lines of Python across 24 models, with a test suite and a seeding command for a working demo environment.
+**The metadata layer is the point.** Entity definitions live in the database rather than in code, so the API contract, the list filters, the form layout and the Excel import template are all generated from one definition. A customer-specific field is configuration, not a release.
 
-**On htmx rather than a SPA:** the application is forms and tables over a database. A React front end would have doubled the surface area to serve a UI that server-rendered HTML already handles well.
+> **Note:** v2 is a full rewrite. The original Flask application is kept in `legacy/` for reference only.
 
 > **In progress.** This one is still being built — I will add the data model and the API contract as it stabilises.

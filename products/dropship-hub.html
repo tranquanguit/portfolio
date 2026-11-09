@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dropship Hub — Multi-Tenant Dropshipping Platform — Tran Van Quang</title>
-  <meta name="description" content="A dropshipping operations platform with transaction-based inventory accounting, bill-of-materials explosion, an explicit order state machine and a documented REST API — built the way an ERP module is built, not the way a store admin panel is.">
+  <meta name="description" content="Warehouse operations software for dropshipping — reads carrier labels straight out of PDFs, explodes combos, scans packing, hands over to carriers and settles agency debt, all in one flow. Built the way an ERP module is built, not the way a store admin panel is.">
   <meta name="author" content="Tran Van Quang">
   <meta name="theme-color" content="#faf9f6">
   <link rel="canonical" href="https://quangtv.com/products/dropship-hub.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Dropship Hub — Multi-Tenant Dropshipping Platform — Tran Van Quang">
-  <meta property="og:description" content="A dropshipping operations platform with transaction-based inventory accounting, bill-of-materials explosion, an explicit order state machine and a documented REST API — built the way an ERP module is built, not the way a store admin panel is.">
+  <meta property="og:description" content="Warehouse operations software for dropshipping — reads carrier labels straight out of PDFs, explodes combos, scans packing, hands over to carriers and settles agency debt, all in one flow. Built the way an ERP module is built, not the way a store admin panel is.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,9 +60,9 @@
         <span class="pill pill--live">Ongoing</span>
       </div>
       <h1>Dropship Hub — Multi-Tenant Dropshipping Platform</h1>
-      <p class="article-head__lede">A dropshipping operations platform with transaction-based inventory accounting, bill-of-materials explosion, an explicit order state machine and a documented REST API — built the way an ERP module is built, not the way a store admin panel is.</p>
-      <div class="article-head__tags"><div class="tags"><span class="tag">Flask</span><span class="tag">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Inventory</span><span class="tag">BOM</span><span class="tag">State Machine</span><span class="tag">REST API</span><span class="tag">JWT</span><span class="tag">Docker</span></div></div>
-      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">Flask · PostgreSQL · JWT · htmx · Docker</div></div></div>
+      <p class="article-head__lede">Warehouse operations software for dropshipping — reads carrier labels straight out of PDFs, explodes combos, scans packing, hands over to carriers and settles agency debt, all in one flow. Built the way an ERP module is built, not the way a store admin panel is.</p>
+      <div class="article-head__tags"><div class="tags"><span class="tag">TypeScript</span><span class="tag">Fastify</span><span class="tag">React</span><span class="tag">PostgreSQL</span><span class="tag">Multi-Tenant</span><span class="tag">Metadata-Driven</span><span class="tag">Inventory</span><span class="tag">Workflow Engine</span></div></div>
+      <div class="factbar"><div class="fact"><div class="fact__k">Type</div><div class="fact__v">ERP &amp; Business Systems</div></div><div class="fact"><div class="fact__k">Status</div><div class="fact__v">In development</div></div><div class="fact"><div class="fact__k">Role</div><div class="fact__v">Designer &amp; developer</div></div><div class="fact"><div class="fact__k">Stack</div><div class="fact__v">React 19 · Fastify 5 · TypeScript · PostgreSQL</div></div></div>
       
     </div>
   </header>
@@ -84,9 +84,9 @@
 <p><strong>Draft → Confirmed → Packed → Shipped → Delivered.</strong> Written as an explicit state machine rather than a status column that any part of the code can set.</p>
 <p>The value is in what it forbids. A state machine makes invalid transitions impossible by construction, which means the rule lives in one place instead of being re-checked — and eventually forgotten — at every call site.</p>
 <h2>Built as a platform</h2>
-<div class="table-scroll"><table><thead><tr><th>Piece</th><th>Choice</th></tr></thead><tbody><tr><td>API</td><td>REST, with Swagger documentation generated from the schemas</td></tr><tr><td>Auth</td><td>JWT, with role-based access across four roles</td></tr><tr><td>Schema changes</td><td>Alembic migrations, versioned</td></tr><tr><td>Transport</td><td>Jinja2 + Bootstrap + htmx — server-rendered, no SPA</td></tr><tr><td>Deployment</td><td>Docker Compose, separate dev and production stacks</td></tr></tbody></table></div>
-<p>Roughly 18,000 lines of Python across 24 models, with a test suite and a seeding command for a working demo environment.</p>
-<p><strong>On htmx rather than a SPA:</strong> the application is forms and tables over a database. A React front end would have doubled the surface area to serve a UI that server-rendered HTML already handles well.</p>
+<div class="table-scroll"><table><thead><tr><th>Piece</th><th>Choice</th></tr></thead><tbody><tr><td>Front end</td><td>React 19 + Ant Design, one shell serving both the company app and the agency portal</td></tr><tr><td>API</td><td>Node 24 + Fastify 5, TypeScript run directly with no build step</td></tr><tr><td>Metadata</td><td>DocType definitions drive API validation, list queries, form UI, Excel templates and OpenAPI</td></tr><tr><td>Engine</td><td>Shared CRUD, a workflow engine defined in the database, numbering, settings, audit and an outbox</td></tr><tr><td>Integration</td><td>ERP connectors as plugins, plus carrier and marketplace connectors</td></tr><tr><td>Deployment</td><td>Docker, with the worker runnable inside the API or on its own</td></tr></tbody></table></div>
+<p><strong>The metadata layer is the point.</strong> Entity definitions live in the database rather than in code, so the API contract, the list filters, the form layout and the Excel import template are all generated from one definition. A customer-specific field is configuration, not a release.</p>
+<blockquote><p><strong>Note:</strong> v2 is a full rewrite. The original Flask application is kept in <code>legacy/</code> for reference only.</p></blockquote>
 <blockquote><p><strong>In progress.</strong> This one is still being built — I will add the data model and the API contract as it stabilises.</p></blockquote>
       </div>
 
